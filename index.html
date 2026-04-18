@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Invencível voando sobre São Paulo 🌍</title>
+    <title>Invencível voando sobre Tokyo 🌍</title>
     <meta charset="utf-8" />
     <meta
       name="viewport"
@@ -53,7 +53,11 @@
         place-items: center;
         cursor: pointer;
         background:
-          radial-gradient(circle at 50% 34%, rgba(146, 216, 255, 0.16), transparent 28%),
+          radial-gradient(
+            circle at 50% 34%,
+            rgba(146, 216, 255, 0.16),
+            transparent 28%
+          ),
           linear-gradient(180deg, rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.72));
         color: #f4fbff;
         text-align: center;
@@ -119,19 +123,18 @@
           value="12"
           step="0.01"
           style="pointer-events: all; vertical-align: middle"
-        /></label>
+      /></label>
       <div id="hero-status" style="margin-top: 8px; color: #9fd6ff">
         Hero model: trying ./assets/models/fly-hero.glb
       </div>
       <div style="margin-top: 8px; color: #d9f2ff">
-        WASD fly | double W boost | Space up | double Space climb | Shift down | C camera
+        WASD fly | double W boost | Space up | double Space climb | Shift down |
+        C camera
       </div>
       <div id="flight-readout" style="margin-top: 6px; color: #b3e5fc">
         Speed 0 m/s | Alt 0 m
       </div>
-      <div id="fps-readout" style="margin-top: 6px; color: #a7ffcb">
-        FPS --
-      </div>
+      <div id="fps-readout" style="margin-top: 6px; color: #a7ffcb">FPS --</div>
     </div>
 
     <div id="start-overlay">
@@ -216,9 +219,9 @@
         "./assets/models/Parrot.glb",
       ];
       const HERO_SCALE = 70;
-      const HERO_SP_LAT = -23.5505;
-      const HERO_SP_LON = -46.6333;
-      const HERO_SP_HEIGHT = 2200;
+      const HERO_TOKYO_LAT = 35.6812;
+      const HERO_TOKYO_LON = 139.8;
+      const HERO_TOKYO_HEIGHT = 2500;
       const HERO_YAW_OFFSET = Math.PI;
       const INTRO_START_HEIGHT = 180000;
       const INTRO_TARGET_HEIGHT = 1000;
@@ -269,8 +272,8 @@
         frames: 0,
       };
       const flight = {
-        lat: HERO_SP_LAT,
-        lon: HERO_SP_LON,
+        lat: HERO_TOKYO_LAT,
+        lon: HERO_TOKYO_LON,
         height: INTRO_START_HEIGHT,
         heading: 90 * (Math.PI / 180),
         pitch: -24 * (Math.PI / 180),
@@ -316,7 +319,8 @@
       const fpsReadout = document.getElementById("fps-readout");
       const startOverlay = document.getElementById("start-overlay");
       let heroRoot, heroModel, heroMixer, heroTrail;
-      let birdRoot, birdActive = null;
+      let birdRoot,
+        birdActive = null;
       let birdSpawnAt = 0;
       let heroHeadNode = null;
       let heroNeckNode = null;
@@ -399,10 +403,10 @@
         scene.add(birdRoot);
         await loadBirdModels();
 
-        // position camera above Sao Paulo
+        // position camera above Tokyo
         tiles.ellipsoid.getObjectFrame(
-          HERO_SP_LAT * DEG2RAD,
-          HERO_SP_LON * DEG2RAD,
+          HERO_TOKYO_LAT * DEG2RAD,
+          HERO_TOKYO_LON * DEG2RAD,
           8000,
           -90 * DEG2RAD,
           -15 * DEG2RAD,
@@ -443,7 +447,7 @@
 
         // sun direction
         const sunDirection = new THREE.Vector3();
-        const params = { hourUTC: 12 }; // 12:00 UTC = 9:00 AM Sao Paulo
+        const params = { hourUTC: 0 }; // 0:00 UTC = 9:00 AM Tokyo
 
         function updateSunDirection() {
           const ms = params.hourUTC * 3600000;
@@ -635,13 +639,13 @@
         renderer.render(scene, camera);
       }
 
-      function placeHeroAboveSP(target) {
+      function placeHeroAboveTokyo(target) {
         const DEG2RAD = Math.PI / 180;
         const matrix = new THREE.Matrix4();
         tiles.ellipsoid.getObjectFrame(
-          HERO_SP_LAT * DEG2RAD,
-          HERO_SP_LON * DEG2RAD,
-          HERO_SP_HEIGHT,
+          HERO_TOKYO_LAT * DEG2RAD,
+          HERO_TOKYO_LON * DEG2RAD,
+          HERO_TOKYO_HEIGHT,
           90 * DEG2RAD,
           -12 * DEG2RAD,
           0,
@@ -763,7 +767,8 @@
         const latRadians = flight.lat * (Math.PI / 180);
         flight.lat += northMeters / METERS_PER_DEGREE;
         flight.lon +=
-          eastMeters / (METERS_PER_DEGREE * Math.max(Math.cos(latRadians), 0.15));
+          eastMeters /
+          (METERS_PER_DEGREE * Math.max(Math.cos(latRadians), 0.15));
 
         if (progress >= 1) {
           introState.active = false;
@@ -839,7 +844,9 @@
           Number(pressedKeys.has("Space")) -
           Number(pressedKeys.has("ShiftLeft") || pressedKeys.has("ShiftRight"));
 
-        const maxForwardSpeed = boostActive ? SUPERSONIC_SPEED : FLIGHT_MAX_SPEED;
+        const maxForwardSpeed = boostActive
+          ? SUPERSONIC_SPEED
+          : FLIGHT_MAX_SPEED;
         const climbSpeed = climbBoostActive
           ? SUPERSONIC_CLIMB_SPEED
           : FLIGHT_CLIMB_SPEED;
@@ -862,7 +869,8 @@
         const latRadians = flight.lat * (Math.PI / 180);
         flight.lat += northMeters / METERS_PER_DEGREE;
         flight.lon +=
-          eastMeters / (METERS_PER_DEGREE * Math.max(Math.cos(latRadians), 0.15));
+          eastMeters /
+          (METERS_PER_DEGREE * Math.max(Math.cos(latRadians), 0.15));
 
         const speedRatio = THREE.MathUtils.clamp(
           Math.abs(flight.speed) / SUPERSONIC_SPEED,
@@ -932,7 +940,8 @@
 
       function updateHeroHeadPose() {
         const headPitchTarget = THREE.MathUtils.clamp(
-          0.22 + Math.max(-flight.pitch, 0) * 1.35 -
+          0.22 +
+            Math.max(-flight.pitch, 0) * 1.35 -
             Math.max(flight.pitch, 0) * 0.2,
           -0.12,
           0.82,
@@ -966,7 +975,8 @@
         updateCameraBasis();
 
         cameraOrbit.yaw += (cameraOrbit.targetYaw - cameraOrbit.yaw) * 0.14;
-        cameraOrbit.pitch += (cameraOrbit.targetPitch - cameraOrbit.pitch) * 0.14;
+        cameraOrbit.pitch +=
+          (cameraOrbit.targetPitch - cameraOrbit.pitch) * 0.14;
 
         const speedRatio = THREE.MathUtils.clamp(
           Math.abs(flight.speed) / SUPERSONIC_SPEED,
@@ -997,16 +1007,22 @@
         const altitudeCameraScale = introState.controlsEnabled
           ? Math.max(0, flight.height - 2000) * 0.04
           : 0;
-        const orbitOffset = new THREE.Vector3(0, followHeight, followDistance)
-          .applyQuaternion(
-            new THREE.Quaternion().setFromEuler(
-              new THREE.Euler(cameraOrbit.pitch, cameraOrbit.yaw, 0, "YXZ"),
-            ),
-          );
+        const orbitOffset = new THREE.Vector3(
+          0,
+          followHeight,
+          followDistance,
+        ).applyQuaternion(
+          new THREE.Quaternion().setFromEuler(
+            new THREE.Euler(cameraOrbit.pitch, cameraOrbit.yaw, 0, "YXZ"),
+          ),
+        );
         cameraTargetPosition
           .copy(heroRoot.position)
           .addScaledVector(cameraStableRight, orbitOffset.x)
-          .addScaledVector(cameraStableUp, orbitOffset.y + altitudeCameraScale * 0.5)
+          .addScaledVector(
+            cameraStableUp,
+            orbitOffset.y + altitudeCameraScale * 0.5,
+          )
           .addScaledVector(
             cameraStableForward,
             -orbitOffset.z - altitudeCameraScale,
@@ -1078,7 +1094,8 @@
 
           if (birdModels.length > 0) {
             birdSpawnAt =
-              performance.now() + randomRange(BIRD_MIN_SPAWN_DELAY_MS, BIRD_MAX_SPAWN_DELAY_MS);
+              performance.now() +
+              randomRange(BIRD_MIN_SPAWN_DELAY_MS, BIRD_MAX_SPAWN_DELAY_MS);
           } else {
             birdSpawnAt = performance.now() + 10000;
             console.warn("No local bird models found.");
@@ -1118,10 +1135,7 @@
         const distanceFromHero = birdActive.root.position.distanceTo(
           heroRoot.position,
         );
-        if (
-          now >= birdActive.dieAt ||
-          distanceFromHero > 15000
-        ) {
+        if (now >= birdActive.dieAt || distanceFromHero > 15000) {
           birdRoot.remove(birdActive.root);
           birdActive = null;
           birdSpawnAt =
@@ -1132,7 +1146,8 @@
       function spawnBird() {
         if (!birdModels.length || !heroRoot || !birdRoot) return;
 
-        const template = birdModels[Math.floor(Math.random() * birdModels.length)];
+        const template =
+          birdModels[Math.floor(Math.random() * birdModels.length)];
         const bird = skeletonClone(template.scene);
         bird.traverse((child) => {
           if (child.isMesh) {
@@ -1149,7 +1164,10 @@
         bird.scale.setScalar(scale);
 
         const side = Math.random() < 0.5 ? -1 : 1;
-        const sideOffset = randomRange(BIRD_SIDE_OFFSET_MIN, BIRD_SIDE_OFFSET_MAX);
+        const sideOffset = randomRange(
+          BIRD_SIDE_OFFSET_MIN,
+          BIRD_SIDE_OFFSET_MAX,
+        );
         const forwardOffset = randomRange(
           BIRD_FORWARD_OFFSET_MIN,
           BIRD_FORWARD_OFFSET_MAX,
@@ -1202,7 +1220,8 @@
           phase: Math.random() * Math.PI * 2,
         };
         birdSpawnAt =
-          performance.now() + randomRange(BIRD_MIN_SPAWN_DELAY_MS, BIRD_MAX_SPAWN_DELAY_MS);
+          performance.now() +
+          randomRange(BIRD_MIN_SPAWN_DELAY_MS, BIRD_MAX_SPAWN_DELAY_MS);
       }
 
       function randomRange(min, max) {
@@ -1386,7 +1405,10 @@
             .offsetHSL(0, HERO_SATURATION_BOOST, 0);
         }
         if ("roughness" in nextMaterial) {
-          nextMaterial.roughness = Math.min(nextMaterial.roughness ?? 0.65, 0.62);
+          nextMaterial.roughness = Math.min(
+            nextMaterial.roughness ?? 0.65,
+            0.62,
+          );
         }
         if ("metalness" in nextMaterial) {
           nextMaterial.metalness = Math.min(nextMaterial.metalness ?? 0, 0.08);
