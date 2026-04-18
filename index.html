@@ -120,7 +120,7 @@
           type="range"
           min="0"
           max="24"
-          value="12"
+          value="0"
           step="0.01"
           style="pointer-events: all; vertical-align: middle"
       /></label>
@@ -218,10 +218,11 @@
         "./assets/models/Stork.glb",
         "./assets/models/Parrot.glb",
       ];
-      const HERO_SCALE = 70;
+      const HERO_SCALE = 18;
       const HERO_TOKYO_LAT = 35.6812;
       const HERO_TOKYO_LON = 139.8;
       const HERO_TOKYO_HEIGHT = 2500;
+      const HERO_TOKYO_GROUND_HEIGHT = 40;
       const HERO_YAW_OFFSET = Math.PI;
       const INTRO_START_HEIGHT = 180000;
       const INTRO_TARGET_HEIGHT = 1000;
@@ -234,7 +235,8 @@
       const FLIGHT_CLIMB_SPEED = 260;
       const SUPERSONIC_CLIMB_SPEED = 2800;
       const HERO_SATURATION_BOOST = 0.18;
-      const FLIGHT_MIN_HEIGHT = 100;
+      const FLIGHT_MIN_AGL = 100;
+      const FLIGHT_MIN_HEIGHT = HERO_TOKYO_GROUND_HEIGHT + FLIGHT_MIN_AGL;
       const FLIGHT_MAX_HEIGHT = 250000;
       const DOUBLE_TAP_WINDOW_MS = 280;
       const BOOST_DURATION_MS = 2600;
@@ -897,7 +899,13 @@
             : "";
         flightReadout.textContent = `Speed ${Math.round(
           Math.abs(flight.speed),
-        )} m/s | Alt ${Math.round(flight.height)} m${boostLabel}`;
+        )} m/s | Alt ${Math.round(flight.height)} m | AGL ${Math.round(
+          getFlightAgl(),
+        )} m${boostLabel}`;
+      }
+
+      function getFlightAgl() {
+        return Math.max(0, flight.height - HERO_TOKYO_GROUND_HEIGHT);
       }
 
       function updateHeroFrame() {
