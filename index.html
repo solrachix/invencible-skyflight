@@ -234,6 +234,49 @@
         letter-spacing: 0;
       }
 
+      #loading-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 8px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(164, 224, 255, 0.22);
+        background: rgba(6, 18, 28, 0.58);
+        color: #d4f3ff;
+        font-size: 12px;
+        line-height: 1;
+        letter-spacing: 0.02em;
+        backdrop-filter: blur(8px);
+      }
+
+      #loading-badge::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border-radius: 999px;
+        background: #8ee8ff;
+        box-shadow: 0 0 10px rgba(142, 232, 255, 0.55);
+        animation: loadingPulse 1.2s ease-in-out infinite;
+      }
+
+      #loading-badge.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      @keyframes loadingPulse {
+        0%,
+        100% {
+          transform: scale(0.8);
+          opacity: 0.45;
+        }
+        50% {
+          transform: scale(1.08);
+          opacity: 1;
+        }
+      }
+
       img {
         height: 25px;
         margin-right: 0px;
@@ -294,6 +337,7 @@
         Speed 0 m/s | Alt 0 m
       </div>
       <div id="fps-readout" style="margin-top: 6px; color: #a7ffcb">FPS --</div>
+      <div id="loading-badge">Carregando mundo...</div>
     </div>
 
     <div id="compass" aria-label="Compass">
@@ -567,6 +611,7 @@
       const hourControl = document.getElementById("hour");
       const flightReadout = document.getElementById("flight-readout");
       const fpsReadout = document.getElementById("fps-readout");
+      const loadingBadge = document.getElementById("loading-badge");
       const compassNeedle = document.getElementById("compass-needle");
       const startOverlay = document.getElementById("start-overlay");
       const startOverlayTitle = startOverlay.querySelector("h1");
@@ -580,6 +625,11 @@
       const heroHeadBaseQuaternion = new THREE.Quaternion();
       const heroNeckBaseQuaternion = new THREE.Quaternion();
       let windAudioStarted = false;
+      const loadingState = {
+        startedAt: performance.now(),
+        lastTileActivityAt: performance.now(),
+        ready: false,
+      };
       let _prevTime = 0,
         _deltaTime = 0;
 
@@ -642,6 +692,9 @@
         tiles.registerPlugin(new UpdateOnChangePlugin());
         tiles.setCamera(camera);
         tiles.setResolutionFromRenderer(camera, renderer);
+        tiles.addEventListener("load-tileset", markLoadingActivity);
+        tiles.addEventListener("load-model", markLoadingActivity);
+        tiles.addEventListener("load-content", markLoadingActivity);
 
         scene.add(tiles.group);
 
@@ -897,8 +950,33 @@
         controls.update();
         updateChaseCamera();
         tiles.update();
+        updateLoadingBadge(time);
 
         renderer.render(scene, camera);
+      }
+
+      function markLoadingActivity() {
+        loadingState.lastTileActivityAt = performance.now();
+        loadingState.ready = false;
+        if (loadingBadge) {
+          loadingBadge.classList.remove("hidden");
+          loadingBadge.textContent = "Carregando mundo...";
+        }
+      }
+
+      function updateLoadingBadge(time) {
+        if (!loadingBadge || loadingState.ready) return;
+
+        const minimumVisibleMs = 3200;
+        const quietWindowMs = 1800;
+        const hasBeenVisibleLongEnough = time - loadingState.startedAt > minimumVisibleMs;
+        const hasBeenQuietLongEnough =
+          time - loadingState.lastTileActivityAt > quietWindowMs;
+
+        if (!hasBeenVisibleLongEnough || !hasBeenQuietLongEnough) return;
+
+        loadingState.ready = true;
+        loadingBadge.classList.add("hidden");
       }
 
       function placeHeroAboveTokyo(target) {

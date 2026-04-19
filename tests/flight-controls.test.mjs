@@ -26,6 +26,7 @@ assert.match(html, /id="compass"/);
 assert.match(html, /id="compass-needle"/);
 assert.match(html, /id="credits"/);
 assert.match(html, /id="city-readout"/);
+assert.match(html, /id="loading-badge"/);
 assert.match(html, /id="hour"[\s\S]*?value="0"/);
 assert.match(html, /const INTRO_START_HEIGHT = 180000;/);
 assert.match(html, /const INTRO_TARGET_HEIGHT = 1000;/);
@@ -38,6 +39,8 @@ assert.match(html, /document\.title = `Invencível voando sobre \$\{activeCityPr
 assert.match(html, /function updateCityReadout\(\)/);
 assert.match(html, /const cityReadout = document\.getElementById\("city-readout"\);/);
 assert.match(html, /const params = \{ hourUTC: activeCityPreset\.sunHourUTC \};/);
+assert.match(html, /const loadingBadge = document\.getElementById\("loading-badge"\);/);
+assert.match(html, /const loadingState = \{/);
 assert.match(html, /const INTRO_CAMERA_START_DISTANCE = 50;/);
 assert.match(html, /const INTRO_CAMERA_END_DISTANCE = 170;/);
 assert.match(html, /const INTRO_CAMERA_START_HEIGHT = 68;/);
@@ -54,6 +57,8 @@ assert.match(
 assert.match(html, /function requestMouseCapture\(\)/);
 assert.match(html, /function updateIntroFlight\(delta\)/);
 assert.match(html, /function updateFpsReadout\(time\)/);
+assert.match(html, /function markLoadingActivity\(\)/);
+assert.match(html, /function updateLoadingBadge\(time\)/);
 assert.match(
   html,
   /startOverlay\.addEventListener\("click", handleStartOverlayClick\);/,
@@ -62,6 +67,11 @@ assert.match(html, /renderer\.domElement\.addEventListener\("click", handleCanva
 assert.match(html, /document\.addEventListener\("pointerlockchange", handlePointerLockChange\);/);
 assert.match(html, /const startOverlayTitle = startOverlay\.querySelector\("h1"\);/);
 assert.match(html, /mouseCaptured: false,/);
+assert.match(html, /tiles\.addEventListener\("load-tileset", markLoadingActivity\);/);
+assert.match(html, /tiles\.addEventListener\("load-model", markLoadingActivity\);/);
+assert.match(html, /tiles\.addEventListener\("load-content", markLoadingActivity\);/);
+assert.match(html, /loadingState\.ready = false;/);
+assert.match(html, /loadingBadge\.classList\.add\("hidden"\);/);
 assert.match(html, /function handleStartOverlayClick\(\)/);
 assert.match(html, /function handleCanvasClick\(\)/);
 assert.match(html, /function handlePointerLockChange\(\)/);
