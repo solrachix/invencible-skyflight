@@ -26,7 +26,7 @@
         position: absolute;
         top: 10px;
         left: 10px;
-        z-index: 2;
+        z-index: 99;
         max-width: 430px;
         padding: 12px 14px;
         border: 1px solid rgba(255, 255, 255, 0.18);
@@ -57,6 +57,7 @@
         color: #d9f2ff;
         text-decoration: underline;
         pointer-events: all;
+        z-index: 99;
       }
 
       #compass {
@@ -356,7 +357,10 @@
 
     <div id="credits">
       Feito com ♥ por
-      <a href="https://www.instagram.com/solrachix" target="_blank" rel="noopener"
+      <a
+        href="https://www.instagram.com/solrachix"
+        target="_blank"
+        rel="noopener"
         >@solrachix</a
       >
       – Fan project
@@ -474,7 +478,9 @@
       };
       const DEFAULT_CITY_KEY = "tk";
       function resolveCityPresetKey(value) {
-        const normalized = String(value ?? "").trim().toLowerCase();
+        const normalized = String(value ?? "")
+          .trim()
+          .toLowerCase();
         if (!normalized) return DEFAULT_CITY_KEY;
         if (normalized in CITY_PRESETS) return normalized;
         if (normalized === "tokyo") return "tk";
@@ -971,7 +977,8 @@
 
         const minimumVisibleMs = 3200;
         const quietWindowMs = 1800;
-        const hasBeenVisibleLongEnough = time - loadingState.startedAt > minimumVisibleMs;
+        const hasBeenVisibleLongEnough =
+          time - loadingState.startedAt > minimumVisibleMs;
         const hasBeenQuietLongEnough =
           time - loadingState.lastTileActivityAt > quietWindowMs;
 
