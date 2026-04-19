@@ -234,12 +234,12 @@
       const FLIGHT_MAX_SPEED = 420;
       const SUPERSONIC_SPEED = 2400;
       const SUPERSONIC_LOCK_ALTITUDE = 8000;
-      const SUPERSONIC_SPEED_RAMP_PER_SECOND = 80;
-      const SUPERSONIC_SPEED_RAMP_MAX = 700;
+      const SUPERSONIC_SPEED_RAMP_PER_SECOND = 800;
+      const SUPERSONIC_SPEED_RAMP_MAX = 70000;
       const FLIGHT_TURN_RATE = 1.25;
       const FLIGHT_CLIMB_SPEED = 260;
       const SUPERSONIC_CLIMB_SPEED = 2800;
-      const HERO_SATURATION_BOOST = 0.18;
+      const HERO_SATURATION_BOOST = 1.18;
       const FLIGHT_MIN_AGL = 100;
       const FLIGHT_MIN_HEIGHT = HERO_TOKYO_GROUND_HEIGHT + FLIGHT_MIN_AGL;
       const FLIGHT_MAX_HEIGHT = 250000;
@@ -1058,7 +1058,7 @@
               introCameraProgress,
             );
         const altitudeCameraScale = introState.controlsEnabled
-          ? Math.max(0, flight.height - 2000) * 0.04
+          ? Math.min(Math.max(0, flight.height - 2000) * 0.0006, 30)
           : 0;
         const orbitOffset = new THREE.Vector3(
           0,
