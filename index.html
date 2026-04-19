@@ -227,8 +227,8 @@
       const INTRO_START_HEIGHT = 180000;
       const INTRO_TARGET_HEIGHT = 1000;
       const INTRO_DURATION_SECONDS = 7.5;
-      const INTRO_CAMERA_START_DISTANCE = 260;
-      const INTRO_CAMERA_END_DISTANCE = 760;
+      const INTRO_CAMERA_START_DISTANCE = 150;
+      const INTRO_CAMERA_END_DISTANCE = 430;
       const FLIGHT_MAX_SPEED = 420;
       const SUPERSONIC_SPEED = 2400;
       const FLIGHT_TURN_RATE = 1.25;
@@ -240,9 +240,9 @@
       const FLIGHT_MAX_HEIGHT = 250000;
       const DOUBLE_TAP_WINDOW_MS = 280;
       const BOOST_DURATION_MS = 2600;
-      const CAMERA_FOLLOW_DISTANCE = 650;
-      const CAMERA_FOLLOW_HEIGHT = 220;
-      const CAMERA_LOOK_AHEAD = 620;
+      const CAMERA_FOLLOW_DISTANCE = 360;
+      const CAMERA_FOLLOW_HEIGHT = 130;
+      const CAMERA_LOOK_AHEAD = 340;
       const INTRO_CAMERA_LOOK_AHEAD = 120;
       const MOUSE_CAMERA_SENSITIVITY = 0.0028;
       const CAMERA_MOUSE_PITCH_MIN = -0.32;
@@ -993,12 +993,12 @@
         );
         const normalFollowDistance = THREE.MathUtils.lerp(
           CAMERA_FOLLOW_DISTANCE,
-          1400,
+          900,
           speedRatio,
         );
         const normalFollowHeight = THREE.MathUtils.lerp(
           CAMERA_FOLLOW_HEIGHT,
-          420,
+          300,
           speedRatio,
         );
         const introCameraProgress = easeOutCubic(introState.progress);
