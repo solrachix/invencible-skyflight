@@ -227,8 +227,10 @@
       const INTRO_START_HEIGHT = 180000;
       const INTRO_TARGET_HEIGHT = 1000;
       const INTRO_DURATION_SECONDS = 7.5;
-      const INTRO_CAMERA_START_DISTANCE = 150;
-      const INTRO_CAMERA_END_DISTANCE = 430;
+      const INTRO_CAMERA_START_DISTANCE = 75;
+      const INTRO_CAMERA_END_DISTANCE = 260;
+      const INTRO_CAMERA_START_HEIGHT = 42;
+      const INTRO_CAMERA_END_HEIGHT = 86;
       const FLIGHT_MAX_SPEED = 420;
       const SUPERSONIC_SPEED = 2400;
       const FLIGHT_TURN_RATE = 1.25;
@@ -240,10 +242,10 @@
       const FLIGHT_MAX_HEIGHT = 250000;
       const DOUBLE_TAP_WINDOW_MS = 280;
       const BOOST_DURATION_MS = 2600;
-      const CAMERA_FOLLOW_DISTANCE = 360;
-      const CAMERA_FOLLOW_HEIGHT = 130;
-      const CAMERA_LOOK_AHEAD = 340;
-      const INTRO_CAMERA_LOOK_AHEAD = 120;
+      const CAMERA_FOLLOW_DISTANCE = 240;
+      const CAMERA_FOLLOW_HEIGHT = 86;
+      const CAMERA_LOOK_AHEAD = 230;
+      const INTRO_CAMERA_LOOK_AHEAD = 70;
       const MOUSE_CAMERA_SENSITIVITY = 0.0028;
       const CAMERA_MOUSE_PITCH_MIN = -0.32;
       const CAMERA_MOUSE_PITCH_MAX = 0.24;
@@ -993,12 +995,12 @@
         );
         const normalFollowDistance = THREE.MathUtils.lerp(
           CAMERA_FOLLOW_DISTANCE,
-          900,
+          650,
           speedRatio,
         );
         const normalFollowHeight = THREE.MathUtils.lerp(
           CAMERA_FOLLOW_HEIGHT,
-          300,
+          210,
           speedRatio,
         );
         const introCameraProgress = easeOutCubic(introState.progress);
@@ -1011,7 +1013,11 @@
             );
         const followHeight = introState.controlsEnabled
           ? normalFollowHeight
-          : THREE.MathUtils.lerp(85, CAMERA_FOLLOW_HEIGHT, introCameraProgress);
+          : THREE.MathUtils.lerp(
+              INTRO_CAMERA_START_HEIGHT,
+              INTRO_CAMERA_END_HEIGHT,
+              introCameraProgress,
+            );
         const altitudeCameraScale = introState.controlsEnabled
           ? Math.max(0, flight.height - 2000) * 0.04
           : 0;
