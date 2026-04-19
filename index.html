@@ -227,12 +227,15 @@
       const INTRO_START_HEIGHT = 180000;
       const INTRO_TARGET_HEIGHT = 1000;
       const INTRO_DURATION_SECONDS = 7.5;
-      const INTRO_CAMERA_START_DISTANCE = 75;
-      const INTRO_CAMERA_END_DISTANCE = 260;
-      const INTRO_CAMERA_START_HEIGHT = 42;
-      const INTRO_CAMERA_END_HEIGHT = 86;
+      const INTRO_CAMERA_START_DISTANCE = 50;
+      const INTRO_CAMERA_END_DISTANCE = 170;
+      const INTRO_CAMERA_START_HEIGHT = 68;
+      const INTRO_CAMERA_END_HEIGHT = 62;
       const FLIGHT_MAX_SPEED = 420;
       const SUPERSONIC_SPEED = 2400;
+      const SUPERSONIC_LOCK_ALTITUDE = 8000;
+      const SUPERSONIC_SPEED_RAMP_PER_SECOND = 80;
+      const SUPERSONIC_SPEED_RAMP_MAX = 700;
       const FLIGHT_TURN_RATE = 1.25;
       const FLIGHT_CLIMB_SPEED = 260;
       const SUPERSONIC_CLIMB_SPEED = 2800;
@@ -242,10 +245,10 @@
       const FLIGHT_MAX_HEIGHT = 250000;
       const DOUBLE_TAP_WINDOW_MS = 280;
       const BOOST_DURATION_MS = 2600;
-      const CAMERA_FOLLOW_DISTANCE = 240;
-      const CAMERA_FOLLOW_HEIGHT = 86;
-      const CAMERA_LOOK_AHEAD = 230;
-      const INTRO_CAMERA_LOOK_AHEAD = 70;
+      const CAMERA_FOLLOW_DISTANCE = 160;
+      const CAMERA_FOLLOW_HEIGHT = 60;
+      const CAMERA_LOOK_AHEAD = 155;
+      const INTRO_CAMERA_LOOK_AHEAD = 35;
       const MOUSE_CAMERA_SENSITIVITY = 0.0028;
       const CAMERA_MOUSE_PITCH_MIN = -0.32;
       const CAMERA_MOUSE_PITCH_MAX = 0.24;
@@ -285,7 +288,9 @@
         speed: 0,
         followCamera: true,
         boostUntil: 0,
+        boostStartedAt: 0,
         climbBoostUntil: 0,
+        climbBoostStartedAt: 0,
       };
       const heroFrameMatrix = new THREE.Matrix4();
       const heroForward = new THREE.Vector3();
@@ -328,6 +333,7 @@
       let birdSpawnAt = 0;
       let heroHeadNode = null;
       let heroNeckNode = null;
+      let introHeroLight = null;
       const heroHeadBaseQuaternion = new THREE.Quaternion();
       const heroNeckBaseQuaternion = new THREE.Quaternion();
       let windAudioStarted = false;
@@ -631,6 +637,9 @@
 
         updateHeroFrame();
         updateHeroHeadPose();
+        if (introHeroLight) {
+          introHeroLight.intensity = introState.controlsEnabled ? 0.3 : 2.0;
+        }
         updateBirds(_deltaTime);
         updateFlightTrail();
         updateFlightReadout();
@@ -738,6 +747,8 @@
         flight.climbBoostUntil = 0;
         flight.speed = 3200;
         resetCameraOrbit();
+        updateHeroFrame();
+        updateChaseCamera(true);
       }
 
       function updateIntroFlight(delta) {
@@ -826,9 +837,11 @@
         if (now - previousTap <= DOUBLE_TAP_WINDOW_MS) {
           if (code === "KeyW") {
             flight.boostUntil = now + BOOST_DURATION_MS;
+            flight.boostStartedAt = now;
           }
           if (code === "Space") {
             flight.climbBoostUntil = now + BOOST_DURATION_MS;
+            flight.climbBoostStartedAt = now;
           }
         }
         lastTapTimes.set(code, now);
@@ -838,8 +851,22 @@
         if (!introState.controlsEnabled) return;
 
         const now = performance.now();
+        if (flight.height >= SUPERSONIC_LOCK_ALTITUDE) {
+          if (flight.boostStartedAt > 0) {
+            flight.boostUntil = Infinity;
+          }
+          if (flight.climbBoostStartedAt > 0) {
+            flight.climbBoostUntil = Infinity;
+          }
+        }
         const boostActive = now < flight.boostUntil;
         const climbBoostActive = now < flight.climbBoostUntil;
+        const boostStartedAt = flight.boostStartedAt || 0;
+        const climbBoostStartedAt = flight.climbBoostStartedAt || 0;
+        const boostAgeSeconds =
+          boostStartedAt > 0 ? (now - boostStartedAt) / 1000 : 0;
+        const climbBoostAgeSeconds =
+          climbBoostStartedAt > 0 ? (now - climbBoostStartedAt) / 1000 : 0;
         const forwardInput =
           Number(pressedKeys.has("KeyW")) - Number(pressedKeys.has("KeyS"));
         const turnInput =
@@ -848,11 +875,23 @@
           Number(pressedKeys.has("Space")) -
           Number(pressedKeys.has("ShiftLeft") || pressedKeys.has("ShiftRight"));
 
+        const supersonicSpeedBonus = boostActive
+          ? Math.min(
+              boostAgeSeconds * SUPERSONIC_SPEED_RAMP_PER_SECOND,
+              SUPERSONIC_SPEED_RAMP_MAX,
+            )
+          : 0;
+        const supersonicClimbSpeedBonus = climbBoostActive
+          ? Math.min(
+              climbBoostAgeSeconds * SUPERSONIC_SPEED_RAMP_PER_SECOND,
+              SUPERSONIC_SPEED_RAMP_MAX,
+            )
+          : 0;
         const maxForwardSpeed = boostActive
-          ? SUPERSONIC_SPEED
+          ? SUPERSONIC_SPEED + supersonicSpeedBonus
           : FLIGHT_MAX_SPEED;
         const climbSpeed = climbBoostActive
-          ? SUPERSONIC_CLIMB_SPEED
+          ? SUPERSONIC_CLIMB_SPEED + supersonicClimbSpeedBonus
           : FLIGHT_CLIMB_SPEED;
         const speedTarget = forwardInput * maxForwardSpeed;
         const damping = 1 - Math.exp(-delta * 3.8);
@@ -979,7 +1018,7 @@
         }
       }
 
-      function updateChaseCamera() {
+      function updateChaseCamera(snapToTarget = false) {
         if (!flight.followCamera) return;
 
         updateCameraBasis();
@@ -995,12 +1034,12 @@
         );
         const normalFollowDistance = THREE.MathUtils.lerp(
           CAMERA_FOLLOW_DISTANCE,
-          650,
+          450,
           speedRatio,
         );
         const normalFollowHeight = THREE.MathUtils.lerp(
           CAMERA_FOLLOW_HEIGHT,
-          210,
+          150,
           speedRatio,
         );
         const introCameraProgress = easeOutCubic(introState.progress);
@@ -1041,7 +1080,11 @@
             cameraStableForward,
             -orbitOffset.z - altitudeCameraScale,
           );
-        camera.position.lerp(cameraTargetPosition, 0.09);
+        if (snapToTarget) {
+          camera.position.copy(cameraTargetPosition);
+        } else {
+          camera.position.lerp(cameraTargetPosition, 0.09);
+        }
 
         const lookAheadDistance = introState.controlsEnabled
           ? CAMERA_LOOK_AHEAD
@@ -1344,6 +1387,9 @@
         const keyLight = new THREE.PointLight(0xffffff, 4, 9000);
         keyLight.position.set(240, 360, 520);
         heroRoot.add(keyLight);
+
+        introHeroLight = new THREE.PointLight(0xffffff, 2.0, 1200, 2);
+        camera.add(introHeroLight);
 
         const fillLight = new THREE.PointLight(0x8ee8ff, 2.2, 6500);
         fillLight.position.set(-420, 160, -360);
