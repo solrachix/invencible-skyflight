@@ -39,10 +39,24 @@
       }
 
       #credits {
-        pointer-events: none;
-        position: absolute;
-        left: 10px;
-        bottom: 5px;
+        position: fixed;
+        right: 14px;
+        bottom: 14px;
+        z-index: 4;
+        padding: 8px 10px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 999px;
+        background: rgba(0, 0, 0, 0.48);
+        color: rgba(238, 248, 255, 0.88);
+        font-size: 12px;
+        line-height: 1.3;
+        backdrop-filter: blur(10px);
+      }
+
+      #credits a {
+        color: #d9f2ff;
+        text-decoration: underline;
+        pointer-events: all;
       }
 
       #compass {
@@ -76,14 +90,13 @@
         height: 76px;
         border-radius: 50%;
         border: 1px solid rgba(173, 228, 255, 0.6);
-        background:
-          radial-gradient(
-            circle at 50% 50%,
-            rgba(157, 214, 255, 0.12),
-            rgba(0, 0, 0, 0.1) 54%,
-            rgba(255, 255, 255, 0.05) 55%,
-            rgba(255, 255, 255, 0.02) 100%
-          );
+        background: radial-gradient(
+          circle at 50% 50%,
+          rgba(157, 214, 255, 0.12),
+          rgba(0, 0, 0, 0.1) 54%,
+          rgba(255, 255, 255, 0.05) 55%,
+          rgba(255, 255, 255, 0.02) 100%
+        );
         overflow: hidden;
       }
 
@@ -294,6 +307,14 @@
       </div>
     </div>
 
+    <div id="credits">
+      Feito com ♥ por
+      <a href="https://www.instagram.com/solrachix" target="_blank" rel="noopener"
+        >@solrachix</a
+      >
+      – Fan project
+    </div>
+
     <div id="start-overlay">
       <div>
         <h1>Clique em qualquer canto para iniciar</h1>
@@ -376,10 +397,64 @@
         "./assets/models/Parrot.glb",
       ];
       const HERO_SCALE = 18;
-      const HERO_TOKYO_LAT = 35.6812;
-      const HERO_TOKYO_LON = 139.8;
-      const HERO_TOKYO_HEIGHT = 2500;
-      const HERO_TOKYO_GROUND_HEIGHT = 40;
+      const CITY_PRESETS = {
+        tk: {
+          label: "Tokyo",
+          lat: 35.6812,
+          lon: 139.8,
+          height: 2500,
+          groundHeight: 40,
+          sunHourUTC: 0,
+        },
+        sp: {
+          label: "São Paulo",
+          lat: -23.5505,
+          lon: -46.6333,
+          height: 2200,
+          groundHeight: 760,
+          sunHourUTC: 15,
+        },
+        ny: {
+          label: "New York",
+          lat: 40.7128,
+          lon: -74.006,
+          height: 2200,
+          groundHeight: 10,
+          sunHourUTC: 16,
+        },
+      };
+      const DEFAULT_CITY_KEY = "tk";
+      function resolveCityPresetKey(value) {
+        const normalized = String(value ?? "").trim().toLowerCase();
+        if (!normalized) return DEFAULT_CITY_KEY;
+        if (normalized in CITY_PRESETS) return normalized;
+        if (normalized === "tokyo") return "tk";
+        if (
+          normalized === "sp" ||
+          normalized === "sao paulo" ||
+          normalized === "sao-paulo"
+        ) {
+          return "sp";
+        }
+        if (
+          normalized === "ny" ||
+          normalized === "new york" ||
+          normalized === "new-york"
+        ) {
+          return "ny";
+        }
+        return DEFAULT_CITY_KEY;
+      }
+      function getInitialCityPreset() {
+        const searchParams = new URLSearchParams(window.location.search);
+        const key = resolveCityPresetKey(searchParams.get("city"));
+        return CITY_PRESETS[key] ?? CITY_PRESETS[DEFAULT_CITY_KEY];
+      }
+      const activeCityPreset = getInitialCityPreset();
+      const HERO_TOKYO_LAT = CITY_PRESETS.tk.lat;
+      const HERO_TOKYO_LON = CITY_PRESETS.tk.lon;
+      const HERO_TOKYO_HEIGHT = CITY_PRESETS.tk.height;
+      const HERO_TOKYO_GROUND_HEIGHT = CITY_PRESETS.tk.groundHeight;
       const HERO_YAW_OFFSET = Math.PI;
       const INTRO_START_HEIGHT = 180000;
       const INTRO_TARGET_HEIGHT = 1000;
@@ -398,7 +473,7 @@
       const SUPERSONIC_CLIMB_SPEED = 2800;
       const HERO_SATURATION_BOOST = 1.18;
       const FLIGHT_MIN_AGL = 100;
-      const FLIGHT_MIN_HEIGHT = HERO_TOKYO_GROUND_HEIGHT + FLIGHT_MIN_AGL;
+      const FLIGHT_MIN_HEIGHT = activeCityPreset.groundHeight + FLIGHT_MIN_AGL;
       const FLIGHT_MAX_HEIGHT = 250000;
       const DOUBLE_TAP_WINDOW_MS = 280;
       const BOOST_DURATION_MS = 2600;
@@ -436,9 +511,10 @@
         frames: 0,
       };
       const flight = {
-        lat: HERO_TOKYO_LAT,
-        lon: HERO_TOKYO_LON,
+        lat: activeCityPreset.lat,
+        lon: activeCityPreset.lon,
         height: INTRO_START_HEIGHT,
+        groundHeight: activeCityPreset.groundHeight,
         heading: 90 * (Math.PI / 180),
         pitch: -24 * (Math.PI / 180),
         roll: 0,
@@ -480,6 +556,7 @@
       let camera, scene, renderer;
       let tiles, controls;
       let clouds, aerialPerspective;
+      const hourControl = document.getElementById("hour");
       const flightReadout = document.getElementById("flight-readout");
       const fpsReadout = document.getElementById("fps-readout");
       const compassNeedle = document.getElementById("compass-needle");
@@ -520,6 +597,7 @@
         renderer.toneMapping = THREE.AgXToneMapping;
         renderer.toneMappingExposure = 10;
         document.body.appendChild(renderer.domElement);
+        document.title = `Invencível voando sobre ${activeCityPreset.label} 🌍`;
 
         // loader
         const dracoLoader = new DRACOLoader();
@@ -570,10 +648,10 @@
         scene.add(birdRoot);
         await loadBirdModels();
 
-        // position camera above Tokyo
+        // position camera above selected city
         tiles.ellipsoid.getObjectFrame(
-          HERO_TOKYO_LAT * DEG2RAD,
-          HERO_TOKYO_LON * DEG2RAD,
+          activeCityPreset.lat * DEG2RAD,
+          activeCityPreset.lon * DEG2RAD,
           8000,
           -90 * DEG2RAD,
           -15 * DEG2RAD,
@@ -614,7 +692,7 @@
 
         // sun direction
         const sunDirection = new THREE.Vector3();
-        const params = { hourUTC: 0 }; // 0:00 UTC = 9:00 AM Tokyo
+        const params = { hourUTC: activeCityPreset.sunHourUTC };
 
         function updateSunDirection() {
           const ms = params.hourUTC * 3600000;
@@ -760,7 +838,8 @@
         // initial sun position
         updateSunDirection();
 
-        document.getElementById("hour").addEventListener("input", (e) => {
+        hourControl.value = String(params.hourUTC);
+        hourControl.addEventListener("input", (e) => {
           params.hourUTC = parseFloat(e.target.value);
           updateSunDirection();
         });
@@ -814,9 +893,9 @@
         const DEG2RAD = Math.PI / 180;
         const matrix = new THREE.Matrix4();
         tiles.ellipsoid.getObjectFrame(
-          HERO_TOKYO_LAT * DEG2RAD,
-          HERO_TOKYO_LON * DEG2RAD,
-          HERO_TOKYO_HEIGHT,
+          activeCityPreset.lat * DEG2RAD,
+          activeCityPreset.lon * DEG2RAD,
+          activeCityPreset.height,
           90 * DEG2RAD,
           -12 * DEG2RAD,
           0,
@@ -1129,7 +1208,7 @@
       }
 
       function getFlightAgl() {
-        return Math.max(0, flight.height - HERO_TOKYO_GROUND_HEIGHT);
+        return Math.max(0, flight.height - flight.groundHeight);
       }
 
       function updateHeroFrame() {

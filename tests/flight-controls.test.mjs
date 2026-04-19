@@ -24,9 +24,17 @@ assert.match(html, /id="start-overlay"/);
 assert.match(html, /id="fps-readout"/);
 assert.match(html, /id="compass"/);
 assert.match(html, /id="compass-needle"/);
+assert.match(html, /id="credits"/);
 assert.match(html, /id="hour"[\s\S]*?value="0"/);
 assert.match(html, /const INTRO_START_HEIGHT = 180000;/);
 assert.match(html, /const INTRO_TARGET_HEIGHT = 1000;/);
+assert.match(html, /const CITY_PRESETS = \{/);
+assert.match(html, /const DEFAULT_CITY_KEY = "tk";/);
+assert.match(html, /function resolveCityPresetKey\(value\)/);
+assert.match(html, /function getInitialCityPreset\(\)/);
+assert.match(html, /const activeCityPreset = getInitialCityPreset\(\);/);
+assert.match(html, /document\.title = `Invencível voando sobre \$\{activeCityPreset\.label\} 🌍`;/);
+assert.match(html, /const params = \{ hourUTC: activeCityPreset\.sunHourUTC \};/);
 assert.match(html, /const INTRO_CAMERA_START_DISTANCE = 50;/);
 assert.match(html, /const INTRO_CAMERA_END_DISTANCE = 170;/);
 assert.match(html, /const INTRO_CAMERA_START_HEIGHT = 68;/);
@@ -49,15 +57,19 @@ assert.match(
 );
 assert.match(html, /if \(!introState\.controlsEnabled\) return;/);
 assert.doesNotMatch(html, /Ele comeca fora da Terra/);
+assert.match(html, /<a href="https:\/\/www\.instagram\.com\/solrachix"/);
+assert.match(html, /Feito com/);
+assert.match(html, /Fan project/);
 assert.match(html, /const BIRD_MODEL_CANDIDATES = \[/);
 assert.match(html, /\.\/assets\/models\/fly-hero\.glb/);
 assert.match(html, /\.\/assets\/models\/Flamingo\.glb/);
 assert.match(html, /\.\/assets\/models\/Stork\.glb/);
 assert.match(html, /\.\/assets\/models\/Parrot\.glb/);
-assert.match(html, /const HERO_TOKYO_LAT = 35\.6812;/);
-assert.match(html, /const HERO_TOKYO_LON = 139\.8;/);
-assert.match(html, /const HERO_TOKYO_HEIGHT = 2500;/);
-assert.match(html, /const HERO_TOKYO_GROUND_HEIGHT = 40;/);
+assert.match(html, /const HERO_TOKYO_LAT = CITY_PRESETS\.tk\.lat;/);
+assert.match(html, /const HERO_TOKYO_LON = CITY_PRESETS\.tk\.lon;/);
+assert.match(html, /const HERO_TOKYO_HEIGHT = CITY_PRESETS\.tk\.height;/);
+assert.match(html, /const HERO_TOKYO_GROUND_HEIGHT = CITY_PRESETS\.tk\.groundHeight;/);
+assert.match(html, /function placeHeroAboveTokyo\(target\)/);
 assert.match(html, /function loadBirdModels\(\)/);
 assert.match(html, /function spawnBird\(\)/);
 assert.match(html, /function updateBirds\(delta\)/);
@@ -94,7 +106,7 @@ assert.match(html, /const SUPERSONIC_SPEED_RAMP_MAX = 70000;/);
 assert.match(html, /const FLIGHT_MIN_AGL = 100;/);
 assert.match(
   html,
-  /const FLIGHT_MIN_HEIGHT = HERO_TOKYO_GROUND_HEIGHT \+ FLIGHT_MIN_AGL;/,
+  /const FLIGHT_MIN_HEIGHT = activeCityPreset\.groundHeight \+ FLIGHT_MIN_AGL;/,
 );
 assert.match(html, /function getFlightAgl\(\)/);
 assert.match(html, /const FLIGHT_MAX_HEIGHT = 250000;/);
@@ -140,10 +152,10 @@ assert.match(html, /heroModel\.rotation\.y = HERO_YAW_OFFSET;/);
 assert.match(html, /Head_06/);
 assert.match(html, /NEck_05/);
 assert.match(html, /placeHeroAboveTokyo/);
-assert.match(html, /position camera above Tokyo/);
+assert.match(html, /position camera above selected city/);
 assert.match(
   html,
-  /const params = \{ hourUTC: 0 \}; \/\/ 0:00 UTC = 9:00 AM Tokyo/,
+  /const params = \{ hourUTC: activeCityPreset\.sunHourUTC \};/,
 );
 assert.match(
   html,
