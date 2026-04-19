@@ -468,6 +468,8 @@
           height: 2200,
           groundHeight: 10,
           sunHourUTC: 16,
+          introLat: 40.7725,
+          introLon: -73.984,
         },
       };
       const DEFAULT_CITY_KEY = "tk";
@@ -982,9 +984,11 @@
       function placeHeroAboveTokyo(target) {
         const DEG2RAD = Math.PI / 180;
         const matrix = new THREE.Matrix4();
+        const introLat = activeCityPreset.introLat ?? activeCityPreset.lat;
+        const introLon = activeCityPreset.introLon ?? activeCityPreset.lon;
         tiles.ellipsoid.getObjectFrame(
-          activeCityPreset.lat * DEG2RAD,
-          activeCityPreset.lon * DEG2RAD,
+          introLat * DEG2RAD,
+          introLon * DEG2RAD,
           activeCityPreset.height,
           90 * DEG2RAD,
           -12 * DEG2RAD,

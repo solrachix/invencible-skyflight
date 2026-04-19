@@ -94,6 +94,8 @@ assert.match(html, /const HERO_TOKYO_LON = CITY_PRESETS\.tk\.lon;/);
 assert.match(html, /const HERO_TOKYO_HEIGHT = CITY_PRESETS\.tk\.height;/);
 assert.match(html, /const HERO_TOKYO_GROUND_HEIGHT = CITY_PRESETS\.tk\.groundHeight;/);
 assert.match(html, /function placeHeroAboveTokyo\(target\)/);
+assert.match(html, /const introLat = activeCityPreset\.introLat \?\? activeCityPreset\.lat;/);
+assert.match(html, /const introLon = activeCityPreset\.introLon \?\? activeCityPreset\.lon;/);
 assert.match(html, /function loadBirdModels\(\)/);
 assert.match(html, /function spawnBird\(\)/);
 assert.match(html, /function updateBirds\(delta\)/);
