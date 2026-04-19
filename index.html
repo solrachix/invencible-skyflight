@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Invencível voando sobre Tokyo 🌍</title>
+    <title>Invencível voando sobre o mundo 🌍</title>
     <meta charset="utf-8" />
     <meta
       name="viewport"
@@ -279,6 +279,9 @@
           step="0.01"
           style="pointer-events: all; vertical-align: middle"
       /></label>
+      <div id="city-readout" style="margin-top: 8px; color: #b8f0ff">
+        Cidade: Tokyo (?city=tk) — Troque com tk / sp / ny
+      </div>
       <div style="margin-top: 8px; color: #d9f2ff">
         <div>WASD fly</div>
         <div>double W boost</div>
@@ -450,6 +453,9 @@
         const key = resolveCityPresetKey(searchParams.get("city"));
         return CITY_PRESETS[key] ?? CITY_PRESETS[DEFAULT_CITY_KEY];
       }
+      const activeCityKey = resolveCityPresetKey(
+        new URLSearchParams(window.location.search).get("city"),
+      );
       const activeCityPreset = getInitialCityPreset();
       const HERO_TOKYO_LAT = CITY_PRESETS.tk.lat;
       const HERO_TOKYO_LON = CITY_PRESETS.tk.lon;
@@ -505,6 +511,7 @@
         elapsed: 0,
         progress: 0,
         controlsEnabled: false,
+        mouseCaptured: false,
       };
       const fpsState = {
         lastSampleTime: 0,
@@ -556,11 +563,13 @@
       let camera, scene, renderer;
       let tiles, controls;
       let clouds, aerialPerspective;
+      const cityReadout = document.getElementById("city-readout");
       const hourControl = document.getElementById("hour");
       const flightReadout = document.getElementById("flight-readout");
       const fpsReadout = document.getElementById("fps-readout");
       const compassNeedle = document.getElementById("compass-needle");
       const startOverlay = document.getElementById("start-overlay");
+      const startOverlayTitle = startOverlay.querySelector("h1");
       let heroRoot, heroModel, heroMixer, heroTrail;
       let birdRoot,
         birdActive = null;
@@ -685,10 +694,12 @@
 
         renderer.domElement.addEventListener("pointerdown", enableAdjustHeight);
         renderer.domElement.addEventListener("wheel", enableAdjustHeight);
+        renderer.domElement.addEventListener("click", handleCanvasClick);
         renderer.domElement.addEventListener("mousemove", handlePointerMove);
         window.addEventListener("keydown", handleKeyDown);
         window.addEventListener("keyup", handleKeyUp);
-        startOverlay.addEventListener("click", startIntroFlight);
+        startOverlay.addEventListener("click", handleStartOverlayClick);
+        document.addEventListener("pointerlockchange", handlePointerLockChange);
 
         // sun direction
         const sunDirection = new THREE.Vector3();
@@ -837,6 +848,7 @@
 
         // initial sun position
         updateSunDirection();
+        updateCityReadout();
 
         hourControl.value = String(params.hourUTC);
         hourControl.addEventListener("input", (e) => {
@@ -989,9 +1001,26 @@
         requestMouseCapture();
       }
 
+      function handleStartOverlayClick() {
+        if (introState.controlsEnabled) {
+          requestMouseCapture();
+          return;
+        }
+
+        startIntroFlight();
+      }
+
+      function handleCanvasClick() {
+        if (!introState.controlsEnabled) return;
+        if (document.pointerLockElement === renderer?.domElement) return;
+
+        requestMouseCapture();
+      }
+
       function requestMouseCapture() {
         const element = renderer?.domElement;
         if (!element?.requestPointerLock) return;
+        if (document.pointerLockElement === element) return;
 
         try {
           const result = element.requestPointerLock();
@@ -1002,6 +1031,21 @@
           }
         } catch {
           // Keep the demo working even if pointer lock is not available.
+        }
+      }
+
+      function handlePointerLockChange() {
+        const element = renderer?.domElement;
+        introState.mouseCaptured = document.pointerLockElement === element;
+
+        if (startOverlayTitle) {
+          startOverlayTitle.textContent = introState.controlsEnabled
+            ? "Clique em qualquer canto para recapturar o mouse"
+            : "Clique em qualquer canto para iniciar";
+        }
+
+        if (introState.controlsEnabled) {
+          startOverlay.classList.toggle("hidden", introState.mouseCaptured);
         }
       }
 
@@ -1205,6 +1249,12 @@
         const headingDegrees =
           (THREE.MathUtils.radToDeg(flight.heading) + 360) % 360;
         compassNeedle.style.transform = `translate(-50%, -100%) rotate(${headingDegrees}deg)`;
+      }
+
+      function updateCityReadout() {
+        if (!cityReadout) return;
+
+        cityReadout.textContent = `Cidade: ${activeCityPreset.label} (?city=${activeCityKey}) — Troque com tk / sp / ny`;
       }
 
       function getFlightAgl() {

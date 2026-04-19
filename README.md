@@ -2,9 +2,16 @@
 
 Demo standalone em `three.js` com Google Photorealistic 3D Tiles via Cesium Ion, nuvens, atmosfera, audio de vento, passarinhos ocasionais e um heroi voavel com teclado e mouse.
 
-![Intro fora da Terra](assets/screenshots/intro-space.jpeg)
-
-![Voo sobre Sao Paulo](assets/screenshots/flight-sao-paulo.jpeg)
+<table>
+  <tr>
+    <td><img src="assets/screenshots/intro-space.jpeg" alt="Intro fora da Terra"></td>
+    <td><img src="assets/screenshots/flight-sao-paulo.jpeg" alt="Voo sobre Sao Paulo"></td>
+  </tr>
+  <tr>
+    <td><img src="assets/screenshots/intro-new-york.jpeg" alt="Intro em New York"></td>
+    <td><img src="assets/screenshots/flight-new-york.jpeg" alt="Voo sobre New York"></td>
+  </tr>
+</table>
 
 ## Como rodar
 
@@ -46,7 +53,9 @@ http://127.0.0.1:8001/index.html
 |   |   +-- Stork.glb
 |   |   +-- fly-hero.glb
 |   +-- screenshots/
+|       +-- flight-new-york.jpeg
 |       +-- flight-sao-paulo.jpeg
+|       +-- intro-new-york.jpeg
 |       +-- intro-space.jpeg
 +-- index.html
 +-- tests/
