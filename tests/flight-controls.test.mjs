@@ -35,8 +35,9 @@ assert.match(html, /const introState = \{/);
 assert.match(html, /function startIntroFlight\(\)/);
 assert.match(
   html,
-  /function startIntroFlight\(\)[\s\S]*?updateHeroFrame\(\);[\s\S]*?updateChaseCamera\(true\);/,
+  /function startIntroFlight\(\)[\s\S]*?updateHeroFrame\(\);[\s\S]*?updateChaseCamera\(true\);[\s\S]*?requestMouseCapture\(\);/,
 );
+assert.match(html, /function requestMouseCapture\(\)/);
 assert.match(html, /function updateIntroFlight\(delta\)/);
 assert.match(html, /function updateFpsReadout\(time\)/);
 assert.match(
@@ -67,7 +68,8 @@ assert.match(
 assert.match(html, /windAudio\.loop = true;/);
 assert.match(html, /function startWindAudio\(\)/);
 assert.match(html, /function handlePointerMove\(event\)/);
-assert.match(html, /pointermove/);
+assert.match(html, /mousemove/);
+assert.match(html, /requestPointerLock/);
 assert.match(html, /cameraOrbit/);
 assert.match(html, /cameraStableUp/);
 assert.match(html, /camera\.up\.copy\(cameraStableUp\);/);
@@ -120,7 +122,7 @@ assert.match(
 );
 assert.match(html, /function brightenHeroModel\(model\)/);
 assert.match(html, /const HERO_SCALE = 18;/);
-assert.match(html, /const HERO_SATURATION_BOOST = 0\.18;/);
+assert.match(html, /const HERO_SATURATION_BOOST = 1\.18;/);
 assert.match(html, /new THREE\.PointLight\(0xffffff, 4, 9000\)/);
 assert.match(html, /emissiveIntensity/);
 assert.match(html, /const HERO_YAW_OFFSET = Math\.PI;/);

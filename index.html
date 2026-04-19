@@ -450,7 +450,7 @@
 
         renderer.domElement.addEventListener("pointerdown", enableAdjustHeight);
         renderer.domElement.addEventListener("wheel", enableAdjustHeight);
-        renderer.domElement.addEventListener("pointermove", handlePointerMove);
+        renderer.domElement.addEventListener("mousemove", handlePointerMove);
         window.addEventListener("keydown", handleKeyDown);
         window.addEventListener("keyup", handleKeyUp);
         startOverlay.addEventListener("click", startIntroFlight);
@@ -749,6 +749,23 @@
         resetCameraOrbit();
         updateHeroFrame();
         updateChaseCamera(true);
+        requestMouseCapture();
+      }
+
+      function requestMouseCapture() {
+        const element = renderer?.domElement;
+        if (!element?.requestPointerLock) return;
+
+        try {
+          const result = element.requestPointerLock();
+          if (result && typeof result.catch === "function") {
+            result.catch(() => {
+              // Pointer lock can still be denied by browser policy.
+            });
+          }
+        } catch {
+          // Keep the demo working even if pointer lock is not available.
+        }
       }
 
       function updateIntroFlight(delta) {
