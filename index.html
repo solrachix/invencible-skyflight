@@ -45,6 +45,148 @@
         bottom: 5px;
       }
 
+      #compass {
+        position: fixed;
+        left: 18px;
+        bottom: 18px;
+        z-index: 4;
+        width: 108px;
+        padding: 10px 10px 8px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 14px;
+        background: rgba(0, 0, 0, 0.52);
+        color: #eef8ff;
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
+        backdrop-filter: blur(10px);
+        pointer-events: none;
+      }
+
+      #compass .compass-label {
+        font-size: 11px;
+        letter-spacing: 0.24em;
+        text-align: center;
+        text-transform: uppercase;
+        color: rgba(238, 248, 255, 0.72);
+      }
+
+      #compass .compass-ring {
+        position: relative;
+        margin: 6px auto 4px;
+        width: 76px;
+        height: 76px;
+        border-radius: 50%;
+        border: 1px solid rgba(173, 228, 255, 0.6);
+        background:
+          radial-gradient(
+            circle at 50% 50%,
+            rgba(157, 214, 255, 0.12),
+            rgba(0, 0, 0, 0.1) 54%,
+            rgba(255, 255, 255, 0.05) 55%,
+            rgba(255, 255, 255, 0.02) 100%
+          );
+        overflow: hidden;
+      }
+
+      #compass .compass-ring::before {
+        content: "";
+        position: absolute;
+        inset: 8px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      #compass .compass-center {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 8px;
+        height: 8px;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        background: #d7f3ff;
+        box-shadow: 0 0 12px rgba(168, 228, 255, 0.7);
+      }
+
+      #compass .compass-needle {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 4px;
+        height: 28px;
+        transform-origin: 50% 100%;
+        transform: translate(-50%, -100%) rotate(0rad);
+        background: linear-gradient(
+          180deg,
+          #ff6b6b 0%,
+          #ffe7e7 48%,
+          #8ee8ff 48%,
+          #8ee8ff 100%
+        );
+        border-radius: 999px;
+        box-shadow:
+          0 0 10px rgba(142, 232, 255, 0.45),
+          0 0 8px rgba(255, 107, 107, 0.25);
+      }
+
+      #compass .compass-needle::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: -9px;
+        transform: translateX(-50%);
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-bottom: 10px solid #ff7c7c;
+      }
+
+      #compass .compass-needle::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: -6px;
+        transform: translateX(-50%);
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 8px solid #8ee8ff;
+      }
+
+      #compass .compass-cardinal {
+        position: absolute;
+        inset: 0;
+        font-size: 11px;
+        font-weight: 700;
+        color: rgba(244, 251, 255, 0.9);
+      }
+
+      #compass .compass-cardinal span {
+        position: absolute;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75);
+      }
+
+      #compass .north {
+        top: 2px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      #compass .east {
+        top: 50%;
+        right: 4px;
+        transform: translateY(-50%);
+      }
+
+      #compass .south {
+        bottom: 1px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      #compass .west {
+        top: 50%;
+        left: 4px;
+        transform: translateY(-50%);
+      }
+
       #start-overlay {
         position: fixed;
         inset: 0;
@@ -124,17 +266,32 @@
           step="0.01"
           style="pointer-events: all; vertical-align: middle"
       /></label>
-      <div id="hero-status" style="margin-top: 8px; color: #9fd6ff">
-        Hero model: trying ./assets/models/fly-hero.glb
-      </div>
       <div style="margin-top: 8px; color: #d9f2ff">
-        WASD fly | double W boost | Space up | double Space climb | Shift down |
-        C camera
+        <div>WASD fly</div>
+        <div>double W boost</div>
+        <div>Space up</div>
+        <div>double Space climb</div>
+        <div>Shift down</div>
+        <div>C camera</div>
       </div>
       <div id="flight-readout" style="margin-top: 6px; color: #b3e5fc">
         Speed 0 m/s | Alt 0 m
       </div>
       <div id="fps-readout" style="margin-top: 6px; color: #a7ffcb">FPS --</div>
+    </div>
+
+    <div id="compass" aria-label="Compass">
+      <div class="compass-label">Compass</div>
+      <div class="compass-ring">
+        <div class="compass-cardinal" aria-hidden="true">
+          <span class="north">N</span>
+          <span class="east">E</span>
+          <span class="south">S</span>
+          <span class="west">W</span>
+        </div>
+        <div class="compass-needle" id="compass-needle"></div>
+        <div class="compass-center"></div>
+      </div>
     </div>
 
     <div id="start-overlay">
@@ -323,9 +480,9 @@
       let camera, scene, renderer;
       let tiles, controls;
       let clouds, aerialPerspective;
-      const heroStatus = document.getElementById("hero-status");
       const flightReadout = document.getElementById("flight-readout");
       const fpsReadout = document.getElementById("fps-readout");
+      const compassNeedle = document.getElementById("compass-needle");
       const startOverlay = document.getElementById("start-overlay");
       let heroRoot, heroModel, heroMixer, heroTrail;
       let birdRoot,
@@ -643,6 +800,7 @@
         updateBirds(_deltaTime);
         updateFlightTrail();
         updateFlightReadout();
+        updateCompass();
 
         controls.enabled = !flight.followCamera;
         controls.update();
@@ -960,6 +1118,14 @@
         )} m/s | Alt ${Math.round(flight.height)} m | AGL ${Math.round(
           getFlightAgl(),
         )} m${boostLabel}`;
+      }
+
+      function updateCompass() {
+        if (!compassNeedle) return;
+
+        const headingDegrees =
+          (THREE.MathUtils.radToDeg(flight.heading) + 360) % 360;
+        compassNeedle.style.transform = `translate(-50%, -100%) rotate(${headingDegrees}deg)`;
       }
 
       function getFlightAgl() {
@@ -1511,8 +1677,6 @@
           if (index >= HERO_MODEL_CANDIDATES.length) {
             heroModel = createFallbackHero();
             heroRoot.add(heroModel);
-            heroStatus.textContent =
-              "Hero model not found locally. Using procedural fallback.";
             console.warn(
               "No local hero model found. Using fallback procedural hero.",
             );
@@ -1535,7 +1699,6 @@
                 heroMixer.clipAction(gltf.animations[0]).play();
               }
 
-              heroStatus.textContent = `Hero model loaded from ${url}`;
               console.log(`Hero model loaded from ${url}`);
             },
             undefined,
