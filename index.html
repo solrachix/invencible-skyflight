@@ -1,345 +1,379 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <title>Invencível voando sobre o mundo 🌍</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+    <style>
+      body {
+        margin: 0;
+        background-color: #000;
+        color: #eee;
+        overflow: hidden;
+        font-family: system-ui, sans-serif;
+      }
 
-<head>
-  <title>Invencível voando sobre o mundo 🌍</title>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-  <style>
-    body {
-      margin: 0;
-      background-color: #000;
-      color: #eee;
-      overflow: hidden;
-      font-family: system-ui, sans-serif;
-    }
+      a {
+        color: #b3e5fc;
+        text-decoration: underline;
+        pointer-events: all;
+      }
 
-    a {
-      color: #b3e5fc;
-      text-decoration: underline;
-      pointer-events: all;
-    }
+      #info {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 99;
+        max-width: 430px;
+        padding: 12px 14px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 8px;
+        background: rgba(0, 0, 0, 0.62);
+        color: #eef8ff;
+        font-size: 13px;
+        line-height: 1.45;
+        backdrop-filter: blur(10px);
+      }
 
-    #info {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      z-index: 99;
-      max-width: 430px;
-      padding: 12px 14px;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 8px;
-      background: rgba(0, 0, 0, 0.62);
-      color: #eef8ff;
-      font-size: 13px;
-      line-height: 1.45;
-      backdrop-filter: blur(10px);
-    }
+      #credits {
+        position: fixed;
+        right: 14px;
+        bottom: 14px;
+        z-index: 99;
+        padding: 8px 10px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 999px;
+        background: rgba(0, 0, 0, 0.48);
+        color: rgba(238, 248, 255, 0.88);
+        font-size: 12px;
+        line-height: 1.3;
+        backdrop-filter: blur(10px);
+      }
 
-    #credits {
-      position: fixed;
-      right: 14px;
-      bottom: 14px;
-      z-index: 4;
-      padding: 8px 10px;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      border-radius: 999px;
-      background: rgba(0, 0, 0, 0.48);
-      color: rgba(238, 248, 255, 0.88);
-      font-size: 12px;
-      line-height: 1.3;
-      backdrop-filter: blur(10px);
-    }
+      #credits a {
+        color: #d9f2ff;
+        text-decoration: underline;
+        pointer-events: all;
+      }
 
-    #credits a {
-      color: #d9f2ff;
-      text-decoration: underline;
-      pointer-events: all;
-      z-index: 99;
-    }
+      #compass {
+        position: fixed;
+        left: 18px;
+        bottom: 18px;
+        z-index: 4;
+        width: 108px;
+        padding: 10px 10px 8px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 14px;
+        background: rgba(0, 0, 0, 0.52);
+        color: #eef8ff;
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
+        backdrop-filter: blur(10px);
+        pointer-events: none;
+      }
 
-    #compass {
-      position: fixed;
-      left: 18px;
-      bottom: 18px;
-      z-index: 4;
-      width: 108px;
-      padding: 10px 10px 8px;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 14px;
-      background: rgba(0, 0, 0, 0.52);
-      color: #eef8ff;
-      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
-      backdrop-filter: blur(10px);
-      pointer-events: none;
-    }
+      #compass .compass-label {
+        font-size: 11px;
+        letter-spacing: 0.24em;
+        text-align: center;
+        text-transform: uppercase;
+        color: rgba(238, 248, 255, 0.72);
+      }
 
-    #compass .compass-label {
-      font-size: 11px;
-      letter-spacing: 0.24em;
-      text-align: center;
-      text-transform: uppercase;
-      color: rgba(238, 248, 255, 0.72);
-    }
-
-    #compass .compass-ring {
-      position: relative;
-      margin: 6px auto 4px;
-      width: 76px;
-      height: 76px;
-      border-radius: 50%;
-      border: 1px solid rgba(173, 228, 255, 0.6);
-      background: radial-gradient(circle at 50% 50%,
+      #compass .compass-ring {
+        position: relative;
+        margin: 6px auto 4px;
+        width: 76px;
+        height: 76px;
+        border-radius: 50%;
+        border: 1px solid rgba(173, 228, 255, 0.6);
+        background: radial-gradient(
+          circle at 50% 50%,
           rgba(157, 214, 255, 0.12),
           rgba(0, 0, 0, 0.1) 54%,
           rgba(255, 255, 255, 0.05) 55%,
-          rgba(255, 255, 255, 0.02) 100%);
-      overflow: hidden;
-    }
+          rgba(255, 255, 255, 0.02) 100%
+        );
+        overflow: hidden;
+      }
 
-    #compass .compass-ring::before {
-      content: "";
-      position: absolute;
-      inset: 8px;
-      border-radius: 50%;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-    }
+      #compass .compass-ring::before {
+        content: "";
+        position: absolute;
+        inset: 8px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+      }
 
-    #compass .compass-center {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 8px;
-      height: 8px;
-      transform: translate(-50%, -50%);
-      border-radius: 50%;
-      background: #d7f3ff;
-      box-shadow: 0 0 12px rgba(168, 228, 255, 0.7);
-    }
+      #compass .compass-center {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 8px;
+        height: 8px;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        background: #d7f3ff;
+        box-shadow: 0 0 12px rgba(168, 228, 255, 0.7);
+      }
 
-    #compass .compass-needle {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 4px;
-      height: 28px;
-      transform-origin: 50% 100%;
-      transform: translate(-50%, -100%) rotate(0rad);
-      background: linear-gradient(180deg,
+      #compass .compass-needle {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 4px;
+        height: 28px;
+        transform-origin: 50% 100%;
+        transform: translate(-50%, -100%) rotate(0rad);
+        background: linear-gradient(
+          180deg,
           #ff6b6b 0%,
           #ffe7e7 48%,
           #8ee8ff 48%,
-          #8ee8ff 100%);
-      border-radius: 999px;
-      box-shadow:
-        0 0 10px rgba(142, 232, 255, 0.45),
-        0 0 8px rgba(255, 107, 107, 0.25);
-    }
-
-    #compass .compass-needle::before {
-      content: "";
-      position: absolute;
-      left: 50%;
-      top: -9px;
-      transform: translateX(-50%);
-      border-left: 6px solid transparent;
-      border-right: 6px solid transparent;
-      border-bottom: 10px solid #ff7c7c;
-    }
-
-    #compass .compass-needle::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      bottom: -6px;
-      transform: translateX(-50%);
-      border-left: 5px solid transparent;
-      border-right: 5px solid transparent;
-      border-top: 8px solid #8ee8ff;
-    }
-
-    #compass .compass-cardinal {
-      position: absolute;
-      inset: 0;
-      font-size: 11px;
-      font-weight: 700;
-      color: rgba(244, 251, 255, 0.9);
-    }
-
-    #compass .compass-cardinal span {
-      position: absolute;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75);
-    }
-
-    #compass .north {
-      top: 2px;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    #compass .east {
-      top: 50%;
-      right: 4px;
-      transform: translateY(-50%);
-    }
-
-    #compass .south {
-      bottom: 1px;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    #compass .west {
-      top: 50%;
-      left: 4px;
-      transform: translateY(-50%);
-    }
-
-    #start-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 5;
-      display: grid;
-      place-items: center;
-      cursor: pointer;
-      background:
-        radial-gradient(circle at 50% 34%,
-          rgba(146, 216, 255, 0.16),
-          transparent 28%),
-        linear-gradient(180deg, rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.72));
-      color: #f4fbff;
-      text-align: center;
-      transition:
-        opacity 520ms ease,
-        visibility 520ms ease;
-    }
-
-    #start-overlay.hidden {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-
-    #start-overlay h1 {
-      margin: 0 0 10px;
-      font-size: 28px;
-      font-weight: 700;
-      letter-spacing: 0;
-    }
-
-    #loading-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 8px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(164, 224, 255, 0.22);
-      background: rgba(6, 18, 28, 0.58);
-      color: #d4f3ff;
-      font-size: 12px;
-      line-height: 1;
-      letter-spacing: 0.02em;
-      backdrop-filter: blur(8px);
-    }
-
-    #loading-badge::before {
-      content: "";
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: #8ee8ff;
-      box-shadow: 0 0 10px rgba(142, 232, 255, 0.55);
-      animation: loadingPulse 1.2s ease-in-out infinite;
-    }
-
-    #loading-badge.hidden {
-      opacity: 0;
-      visibility: hidden;
-    }
-
-    @keyframes loadingPulse {
-
-      0%,
-      100% {
-        transform: scale(0.8);
-        opacity: 0.45;
+          #8ee8ff 100%
+        );
+        border-radius: 999px;
+        box-shadow:
+          0 0 10px rgba(142, 232, 255, 0.45),
+          0 0 8px rgba(255, 107, 107, 0.25);
       }
 
-      50% {
-        transform: scale(1.08);
-        opacity: 1;
+      #compass .compass-needle::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: -9px;
+        transform: translateX(-50%);
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-bottom: 10px solid #ff7c7c;
       }
-    }
 
-    img {
-      height: 25px;
-      margin-right: 0px;
-    }
-  </style>
-</head>
+      #compass .compass-needle::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: -6px;
+        transform: translateX(-50%);
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 8px solid #8ee8ff;
+      }
 
-<body>
-  <div id="info">
-    <a href="https://threejs.org" target="_blank" rel="noopener">three.js</a>
-    -
-    <a href="https://github.com/NASA-AMMOS/3DTilesRendererJS" target="_blank" rel="noopener">3d-tiles-renderer</a>
-    +
-    <a href="https://github.com/takram-design-engineering/three-geospatial" target="_blank"
-      rel="noopener">three-clouds</a><br />
-    <a href="https://developers.google.com/maps/documentation/tile/3d-tiles" target="_blank" rel="noopener">Google
-      Photorealistic Tiles</a>
-    token courtesy of
-    <a href="https://ion.cesium.com/" target="_blank" rel="noopener">Cesium Ion</a>.<br />
-    <label>time of day:
-      <input id="hour" type="range" min="0" max="24" value="0" step="0.01"
-        style="pointer-events: all; vertical-align: middle" /></label>
-    <div id="city-readout" style="margin-top: 8px; color: #b8f0ff">
-      Cidade: Tokyo (?city=tk) — Troque com tk / sp / ny
-    </div>
-    <div style="margin-top: 8px; color: #d9f2ff">
-      <div>Mouse steer</div>
-      <div>W thrust / double W boost</div>
-      <div>A/D barrel roll</div>
-      <div>Space up / double Space climb</div>
-      <div>Shift down</div>
-      <div>C camera</div>
-    </div>
-    <div id="flight-readout" style="margin-top: 6px; color: #b3e5fc">
-      Speed 0 m/s | Alt 0 m
-    </div>
-    <div id="fps-readout" style="margin-top: 6px; color: #a7ffcb">FPS --</div>
-    <div id="loading-badge">Carregando mundo...</div>
-  </div>
+      #compass .compass-cardinal {
+        position: absolute;
+        inset: 0;
+        font-size: 11px;
+        font-weight: 700;
+        color: rgba(244, 251, 255, 0.9);
+      }
 
-  <div id="compass" aria-label="Compass">
-    <div class="compass-label">Compass</div>
-    <div class="compass-ring">
-      <div class="compass-cardinal" aria-hidden="true">
-        <span class="north">N</span>
-        <span class="east">E</span>
-        <span class="south">S</span>
-        <span class="west">W</span>
+      #compass .compass-cardinal span {
+        position: absolute;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75);
+      }
+
+      #compass .north {
+        top: 2px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      #compass .east {
+        top: 50%;
+        right: 4px;
+        transform: translateY(-50%);
+      }
+
+      #compass .south {
+        bottom: 1px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      #compass .west {
+        top: 50%;
+        left: 4px;
+        transform: translateY(-50%);
+      }
+
+      #start-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 5;
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        background:
+          radial-gradient(
+            circle at 50% 34%,
+            rgba(146, 216, 255, 0.16),
+            transparent 28%
+          ),
+          linear-gradient(180deg, rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.72));
+        color: #f4fbff;
+        text-align: center;
+        transition:
+          opacity 520ms ease,
+          visibility 520ms ease;
+      }
+
+      #start-overlay.hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      #start-overlay h1 {
+        margin: 0 0 10px;
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: 0;
+      }
+
+      #loading-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 8px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(164, 224, 255, 0.22);
+        background: rgba(6, 18, 28, 0.58);
+        color: #d4f3ff;
+        font-size: 12px;
+        line-height: 1;
+        letter-spacing: 0.02em;
+        backdrop-filter: blur(8px);
+      }
+
+      #loading-badge::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border-radius: 999px;
+        background: #8ee8ff;
+        box-shadow: 0 0 10px rgba(142, 232, 255, 0.55);
+        animation: loadingPulse 1.2s ease-in-out infinite;
+      }
+
+      #loading-badge.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      @keyframes loadingPulse {
+        0%,
+        100% {
+          transform: scale(0.8);
+          opacity: 0.45;
+        }
+
+        50% {
+          transform: scale(1.08);
+          opacity: 1;
+        }
+      }
+
+      img {
+        height: 25px;
+        margin-right: 0px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="info">
+      <a href="https://threejs.org" target="_blank" rel="noopener">three.js</a>
+      -
+      <a
+        href="https://github.com/NASA-AMMOS/3DTilesRendererJS"
+        target="_blank"
+        rel="noopener"
+        >3d-tiles-renderer</a
+      >
+      +
+      <a
+        href="https://github.com/takram-design-engineering/three-geospatial"
+        target="_blank"
+        rel="noopener"
+        >three-clouds</a
+      ><br />
+      <a
+        href="https://developers.google.com/maps/documentation/tile/3d-tiles"
+        target="_blank"
+        rel="noopener"
+        >Google Photorealistic Tiles</a
+      >
+      token courtesy of
+      <a href="https://ion.cesium.com/" target="_blank" rel="noopener"
+        >Cesium Ion</a
+      >.<br />
+      <label
+        >time of day:
+        <input
+          id="hour"
+          type="range"
+          min="0"
+          max="24"
+          value="0"
+          step="0.01"
+          style="pointer-events: all; vertical-align: middle"
+      /></label>
+      <div id="city-readout" style="margin-top: 8px; color: #b8f0ff">
+        Cidade: Tokyo (?city=tk) — Troque com tk / sp / ny
       </div>
-      <div class="compass-needle" id="compass-needle"></div>
-      <div class="compass-center"></div>
+      <div style="margin-top: 8px; color: #d9f2ff">
+        <div>Mouse steer</div>
+        <div>W thrust / double W boost</div>
+        <div>A/D barrel roll</div>
+        <div>Space up / double Space climb</div>
+        <div>Shift down</div>
+        <div>C camera</div>
+      </div>
+      <div id="flight-readout" style="margin-top: 6px; color: #b3e5fc">
+        Speed 0 m/s | Alt 0 m
+      </div>
+      <div id="fps-readout" style="margin-top: 6px; color: #a7ffcb">FPS --</div>
+      <div id="loading-badge">Carregando mundo...</div>
     </div>
-  </div>
 
-  <div id="credits">
-    Feito com ♥ por
-    <a href="https://www.instagram.com/solrachix" target="_blank" rel="noopener">@solrachix</a>
-    – Fan project
-  </div>
-
-  <div id="start-overlay">
-    <div>
-      <h1>Clique em qualquer canto para iniciar</h1>
+    <div id="compass" aria-label="Compass">
+      <div class="compass-label">Compass</div>
+      <div class="compass-ring">
+        <div class="compass-cardinal" aria-hidden="true">
+          <span class="north">N</span>
+          <span class="east">E</span>
+          <span class="south">S</span>
+          <span class="west">W</span>
+        </div>
+        <div class="compass-needle" id="compass-needle"></div>
+        <div class="compass-center"></div>
+      </div>
     </div>
-  </div>
 
-  <!-- CDN import map so the example runs standalone outside the three.js repo -->
-  <script type="importmap">
+    <div id="credits">
+      Feito com ♥ por
+      <a
+        href="https://www.instagram.com/solrachix"
+        target="_blank"
+        rel="noopener"
+        >@solrachix</a
+      >
+      – Fan project
+    </div>
+
+    <div id="start-overlay">
+      <div>
+        <h1>Clique em qualquer canto para iniciar</h1>
+      </div>
+    </div>
+
+    <!-- CDN import map so the example runs standalone outside the three.js repo -->
+    <script type="importmap">
       {
         "imports": {
           "three": "https://cdn.jsdelivr.net/npm/three@0.184.0/build/three.module.js",
@@ -359,2037 +393,2044 @@
       }
     </script>
 
-  <script type="module">
-    import * as THREE from "three";
-    import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-    import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
-    import { clone as skeletonClone } from "three/addons/utils/SkeletonUtils.js";
-    import { toCreasedNormals } from "three/addons/utils/BufferGeometryUtils.js";
-    import {
-      TilesRenderer,
-      GlobeControls,
-      CAMERA_FRAME,
-    } from "3d-tiles-renderer";
-    import { CesiumIonAuthPlugin } from "3d-tiles-renderer/core/plugins";
-    import {
-      GLTFExtensionsPlugin,
-      TilesFadePlugin,
-      UpdateOnChangePlugin,
-    } from "3d-tiles-renderer/three/plugins";
-
-    import {
-      EffectMaterial,
-      EffectPass,
-      NormalPass,
-      SMAAEffect,
-    } from "postprocessing";
-    import {
-      CloudsEffect,
-      CLOUD_SHAPE_TEXTURE_SIZE,
-      CLOUD_SHAPE_DETAIL_TEXTURE_SIZE,
-      DEFAULT_LOCAL_WEATHER_URL,
-      DEFAULT_SHAPE_URL,
-      DEFAULT_SHAPE_DETAIL_URL,
-      DEFAULT_TURBULENCE_URL,
-    } from "@takram/three-clouds";
-    import {
-      AerialPerspectiveEffect,
-      PrecomputedTexturesGenerator,
-      getSunDirectionECEF,
-    } from "@takram/three-atmosphere";
-    import { STBNLoader, DEFAULT_STBN_URL } from "@takram/three-geospatial";
-    import {
-      DitheringEffect,
-      LensFlareEffect,
-    } from "@takram/three-geospatial-effects";
-
-    // Ion key provided by Cesium for use on threejs.org
-    // A personal Cesium Ion key can be used for development.
-    const ION_KEY =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0NTQ5YTZjZi1iOGZlLTRlNmQtYjA4MC00NWMyYTU2YThkYTYiLCJpZCI6Mjc4Mjc3LCJpYXQiOjE3NzY1MzQ2NzR9.PKJa0Bi3cVKbw1dgBn7576ECsqaU6a0Gw74u3PAjiIA";
-    const HERO_MODEL_CANDIDATES = ["./assets/models/fly-hero.glb"];
-    const BIRD_MODEL_CANDIDATES = [
-      "./assets/models/Flamingo.glb",
-      "./assets/models/Stork.glb",
-      "./assets/models/Parrot.glb",
-    ];
-    const HERO_SCALE = 18;
-    const CITY_PRESETS = {
-      tk: {
-        label: "Tokyo",
-        lat: 35.6812,
-        lon: 139.8,
-        height: 2500,
-        groundHeight: 40,
-        sunHourUTC: 0,
-      },
-      sp: {
-        label: "São Paulo",
-        lat: -23.5505,
-        lon: -46.6333,
-        height: 2200,
-        groundHeight: 760,
-        sunHourUTC: 15,
-      },
-      ny: {
-        label: "New York",
-        lat: 40.7128,
-        lon: -74.006,
-        height: 2200,
-        groundHeight: 10,
-        sunHourUTC: 16,
-        introLat: 40.7725,
-        introLon: -73.984,
-      },
-    };
-    const DEFAULT_CITY_KEY = "tk";
-    function resolveCityPresetKey(value) {
-      const normalized = String(value ?? "")
-        .trim()
-        .toLowerCase();
-      if (!normalized) return DEFAULT_CITY_KEY;
-      if (normalized in CITY_PRESETS) return normalized;
-      if (normalized === "tokyo") return "tk";
-      if (
-        normalized === "sp" ||
-        normalized === "sao paulo" ||
-        normalized === "sao-paulo"
-      ) {
-        return "sp";
-      }
-      if (
-        normalized === "ny" ||
-        normalized === "new york" ||
-        normalized === "new-york"
-      ) {
-        return "ny";
-      }
-      return DEFAULT_CITY_KEY;
-    }
-    function getInitialCityPreset() {
-      const searchParams = new URLSearchParams(window.location.search);
-      const key = resolveCityPresetKey(searchParams.get("city"));
-      return CITY_PRESETS[key] ?? CITY_PRESETS[DEFAULT_CITY_KEY];
-    }
-    function getInitialAppMode() {
-      const searchParams = new URLSearchParams(window.location.search);
-      const normalized = String(searchParams.get("mode") ?? "")
-        .trim()
-        .toLowerCase();
-      return normalized === "hero-only" ? "hero-only" : "world";
-    }
-    const activeCityKey = resolveCityPresetKey(
-      new URLSearchParams(window.location.search).get("city"),
-    );
-    const activeCityPreset = getInitialCityPreset();
-    const activeAppMode = getInitialAppMode();
-    const HERO_TOKYO_LAT = CITY_PRESETS.tk.lat;
-    const HERO_TOKYO_LON = CITY_PRESETS.tk.lon;
-    const HERO_TOKYO_HEIGHT = CITY_PRESETS.tk.height;
-    const HERO_TOKYO_GROUND_HEIGHT = CITY_PRESETS.tk.groundHeight;
-    const HERO_YAW_OFFSET = Math.PI;
-    const INTRO_START_HEIGHT = 180000;
-    const INTRO_TARGET_HEIGHT = 1000;
-    const INTRO_DURATION_SECONDS = 7.5;
-    const INTRO_CAMERA_START_DISTANCE = 50;
-    const INTRO_CAMERA_END_DISTANCE = 170;
-    const INTRO_CAMERA_START_HEIGHT = 68;
-    const INTRO_CAMERA_END_HEIGHT = 62;
-    const FLIGHT_MAX_SPEED = 420;
-    const SUPERSONIC_SPEED = 2400;
-    const SUPERSONIC_LOCK_ALTITUDE = 8000;
-    const SUPERSONIC_SPEED_RAMP_PER_SECOND = 800;
-    const SUPERSONIC_SPEED_RAMP_MAX = 70000;
-    const FLIGHT_TURN_RATE = 1.25;
-    const FLIGHT_CLIMB_SPEED = 260;
-    const SUPERSONIC_CLIMB_SPEED = 2800;
-    const HERO_SATURATION_BOOST = 1.18;
-    const FLIGHT_MIN_AGL = 100;
-    const FLIGHT_MIN_HEIGHT = activeCityPreset.groundHeight + FLIGHT_MIN_AGL;
-    const FLIGHT_MAX_HEIGHT = 250000;
-    const DOUBLE_TAP_WINDOW_MS = 280;
-    const BOOST_DURATION_MS = 2600;
-    const CAMERA_FOLLOW_DISTANCE = 160;
-    const CAMERA_FOLLOW_HEIGHT = 8;
-    const CAMERA_LOOK_AHEAD = 155;
-    const INTRO_CAMERA_LOOK_AHEAD = 35;
-    const MOUSE_CAMERA_SENSITIVITY = 0.0028;
-    const CAMERA_MOUSE_PITCH_MIN = -0.32;
-    const CAMERA_MOUSE_PITCH_MAX = 0.24;
-    const STEER_CURSOR_SENSITIVITY_X = 0.0022;
-    const STEER_CURSOR_SENSITIVITY_Y = 0.0018;
-    const STEER_CURSOR_MAX_X = 0.85;
-    const STEER_CURSOR_MAX_Y = 0.75;
-    const STEER_CURSOR_RECENTER_RATE = 1.8;
-    const STEER_CURSOR_RESPONSE = 6.0;
-    const STEER_DEADZONE_X = 0.12;
-    const STEER_DEADZONE_Y = 0.10;
-    const HERO_TURN_RATE = 1.8;
-    const HERO_GLIDE_TURN_FACTOR = 0.45;
-    const HERO_PITCH_RANGE_UP = 2.82;
-    const HERO_PITCH_RANGE_DOWN = 2.15;
-    const HERO_PITCH_RESPONSE = 6.2;
-    const HERO_AUTO_LEVEL_RESPONSE = 3.2;
-    const HERO_VISUAL_BANK_FROM_STEER = 0.35;
-    const HERO_BANK_RESPONSE = 3.8;
-    const BARREL_ROLL_SPEED = Math.PI * 2.35;
-    const BARREL_ROLL_RETURN_RATE = 4.4;
-    const MANUAL_CLIMB_ASSIST_SPEED = 110;
-    const CAMERA_STEER_OFFSET_X = 45;
-    const CAMERA_STEER_OFFSET_Y = 25;
-    const CAMERA_LOOK_STEER_X = 35;
-    const CAMERA_LOOK_STEER_Y = 40;
-    const BIRD_MIN_SPAWN_DELAY_MS = 18000;
-    const BIRD_MAX_SPAWN_DELAY_MS = 42000;
-    const BIRD_LIFETIME_MS = 16000;
-    const BIRD_SPEED_MIN = 240;
-    const BIRD_SPEED_MAX = 420;
-    const BIRD_SIDE_OFFSET_MIN = 900;
-    const BIRD_SIDE_OFFSET_MAX = 1800;
-    const BIRD_FORWARD_OFFSET_MIN = 300;
-    const BIRD_FORWARD_OFFSET_MAX = 1200;
-    const BIRD_HEIGHT_OFFSET_MIN = 120;
-    const BIRD_HEIGHT_OFFSET_MAX = 420;
-    const BIRD_TARGET_SIZE = 28;
-    const BIRD_MODEL_YAW_OFFSET = Math.PI / 2;
-    const METERS_PER_DEGREE = 111320;
-    const pressedKeys = new Set();
-    const lastTapTimes = new Map();
-    const introState = {
-      active: false,
-      elapsed: 0,
-      progress: 0,
-      controlsEnabled: false,
-      mouseCaptured: false,
-    };
-    const fpsState = {
-      lastSampleTime: 0,
-      frames: 0,
-    };
-    const flight = {
-      lat: activeCityPreset.lat,
-      lon: activeCityPreset.lon,
-      height: INTRO_START_HEIGHT,
-      groundHeight: activeCityPreset.groundHeight,
-      heading: 90 * (Math.PI / 180),
-      pitch: -24 * (Math.PI / 180),
-      roll: 0,
-      speed: 0,
-      followCamera: true,
-      boostUntil: 0,
-      boostStartedAt: 0,
-      climbBoostUntil: 0,
-      climbBoostStartedAt: 0,
-      barrelRollAngle: 0,
-      currentLean: 0,  // Inclinação suavizada do corpo para frente
-    };
-    const heroFrameMatrix = new THREE.Matrix4();
-    const heroForward = new THREE.Vector3();
-    const heroUp = new THREE.Vector3();
-    const heroRight = new THREE.Vector3();
-    const cameraStableUp = new THREE.Vector3();
-    const cameraStableForward = new THREE.Vector3();
-    const cameraStableRight = new THREE.Vector3();
-    const birdSpawnPosition = new THREE.Vector3();
-    const birdSpawnTarget = new THREE.Vector3();
-    const birdVelocity = new THREE.Vector3();
-    const birdLookTarget = new THREE.Vector3();
-    const heroHeadOffsetQuaternion = new THREE.Quaternion();
-    const heroNeckOffsetQuaternion = new THREE.Quaternion();
-    const cameraTargetPosition = new THREE.Vector3();
-    const cameraLookTarget = new THREE.Vector3();
-    const trailPositions = [];
-    const birdModels = [];
-    const windAudio = new Audio("./assets/audio/vento.wav");
-    windAudio.loop = true;
-    windAudio.preload = "auto";
-    windAudio.volume = 0.35;
-    const cameraOrbit = {
-      yaw: 0,
-      pitch: 0,
-      targetYaw: 0,
-      targetPitch: 0,
-    };
-    const steeringState = {
-      targetX: 0,
-      targetY: 0,
-      x: 0,
-      y: 0,
-      lastMoveAt: 0,
-    };
-
-    let camera, scene, renderer;
-    let heroScene, heroCamera, heroRenderer;
-    let tiles, controls;
-    let clouds, aerialPerspective;
-    const cityReadout = document.getElementById("city-readout");
-    const hourControl = document.getElementById("hour");
-    const flightReadout = document.getElementById("flight-readout");
-    const fpsReadout = document.getElementById("fps-readout");
-    const loadingBadge = document.getElementById("loading-badge");
-    const compassNeedle = document.getElementById("compass-needle");
-    const startOverlay = document.getElementById("start-overlay");
-    const startOverlayTitle = startOverlay.querySelector("h1");
-    let heroRoot,
-      heroRenderRoot,
-      heroPoseRoot,
-      heroBarrelRoot,
-      heroTorsoNode,
-      heroShoulderNode,
-      heroModel,
-      heroMixer,
-      heroTrail;
-    let birdRoot,
-      birdActive = null;
-    let birdSpawnAt = 0;
-    let heroHeadNode = null;
-    let heroNeckNode = null;
-    let introHeroLight = null;
-    const heroHeadBaseQuaternion = new THREE.Quaternion();
-    const heroNeckBaseQuaternion = new THREE.Quaternion();
-    const heroTorsoBaseQuaternion = new THREE.Quaternion();
-    let windAudioStarted = false;
-    const loadingState = {
-      startedAt: performance.now(),
-      lastTileActivityAt: performance.now(),
-      ready: false,
-    };
-    let _prevTime = 0,
-      _deltaTime = 0;
-
-    init();
-
-    async function init() {
-      // camera
-      camera = new THREE.PerspectiveCamera(
-        75,
-        window.innerWidth / window.innerHeight,
-        10,
-        1e6,
-      );
-
-      // scene
-      scene = new THREE.Scene();
-
-      // renderer
-      renderer = new THREE.WebGLRenderer({
-        antialias: true,
-        logarithmicDepthBuffer: true,
-        outputBufferType: THREE.HalfFloatType,
-      });
-
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 7.15; // Saturação boost geral para destacar as cores do mundo
-      document.body.appendChild(renderer.domElement);
-      document.title = `Invencível voando sobre ${activeCityPreset.label} 🌍`;
-
-      initHeroRenderScene();
-
-      if (activeAppMode === "hero-only") {
-        renderer.domElement.style.display = "none";
-        await initHeroOnlyMode();
-        heroRenderer.setAnimationLoop(animateHeroOnly);
-        window.addEventListener("resize", onWindowResize);
-        onWindowResize();
-        return;
-      }
-
-      // loader
-      const dracoLoader = new DRACOLoader();
-      dracoLoader.setDecoderPath(
-        "https://cdn.jsdelivr.net/npm/three@0.184.0/examples/jsm/libs/draco/gltf/",
-      );
-      dracoLoader.setDecoderConfig({ type: "js" });
-
-      const DEG2RAD = Math.PI / 180;
-
-      // tiles
-      class TileCreasedNormalsPlugin {
-        processTileModel(scene) {
-          scene.traverse((mesh) => {
-            if (mesh.geometry) {
-              mesh.geometry = toCreasedNormals(mesh.geometry, 30 * DEG2RAD);
-            }
-          });
-        }
-      }
-
-      tiles = new TilesRenderer();
-      tiles.registerPlugin(
-        new CesiumIonAuthPlugin({
-          apiToken: ION_KEY,
-          assetId: "2275207",
-          autoRefreshToken: true,
-        }),
-      );
-      tiles.registerPlugin(new GLTFExtensionsPlugin({ dracoLoader }));
-      tiles.registerPlugin(new TileCreasedNormalsPlugin());
-      tiles.registerPlugin(new TilesFadePlugin());
-      tiles.registerPlugin(new UpdateOnChangePlugin());
-      tiles.setCamera(camera);
-      tiles.setResolutionFromRenderer(camera, renderer);
-      tiles.addEventListener("load-tileset", markLoadingActivity);
-      tiles.addEventListener("load-model", markLoadingActivity);
-      tiles.addEventListener("load-content", markLoadingActivity);
-
-      scene.add(tiles.group);
-
-      heroRoot = new THREE.Group();
-      scene.add(heroRoot);
-      updateHeroFrame();
-      heroTrail = createFlightTrail();
-      scene.add(heroTrail);
-      loadHeroModel();
-      birdRoot = new THREE.Group();
-      addBirdLighting();
-      scene.add(birdRoot);
-      await loadBirdModels();
-
-      // position camera above selected city
-      tiles.ellipsoid.getObjectFrame(
-        activeCityPreset.lat * DEG2RAD,
-        activeCityPreset.lon * DEG2RAD,
-        8000,
-        -90 * DEG2RAD,
-        -15 * DEG2RAD,
-        0,
-        camera.matrix,
+    <script type="module">
+      import * as THREE from "three";
+      import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+      import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
+      import { clone as skeletonClone } from "three/addons/utils/SkeletonUtils.js";
+      import { toCreasedNormals } from "three/addons/utils/BufferGeometryUtils.js";
+      import {
+        TilesRenderer,
+        GlobeControls,
         CAMERA_FRAME,
+      } from "3d-tiles-renderer";
+      import { CesiumIonAuthPlugin } from "3d-tiles-renderer/core/plugins";
+      import {
+        GLTFExtensionsPlugin,
+        TilesFadePlugin,
+        UpdateOnChangePlugin,
+      } from "3d-tiles-renderer/three/plugins";
+
+      import {
+        EffectMaterial,
+        EffectPass,
+        NormalPass,
+        SMAAEffect,
+      } from "postprocessing";
+      import {
+        CloudsEffect,
+        CLOUD_SHAPE_TEXTURE_SIZE,
+        CLOUD_SHAPE_DETAIL_TEXTURE_SIZE,
+        DEFAULT_LOCAL_WEATHER_URL,
+        DEFAULT_SHAPE_URL,
+        DEFAULT_SHAPE_DETAIL_URL,
+        DEFAULT_TURBULENCE_URL,
+      } from "@takram/three-clouds";
+      import {
+        AerialPerspectiveEffect,
+        PrecomputedTexturesGenerator,
+        getSunDirectionECEF,
+      } from "@takram/three-atmosphere";
+      import { STBNLoader, DEFAULT_STBN_URL } from "@takram/three-geospatial";
+      import {
+        DitheringEffect,
+        LensFlareEffect,
+      } from "@takram/three-geospatial-effects";
+
+      // Ion key provided by Cesium for use on threejs.org
+      // A personal Cesium Ion key can be used for development.
+      const ION_KEY =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0NTQ5YTZjZi1iOGZlLTRlNmQtYjA4MC00NWMyYTU2YThkYTYiLCJpZCI6Mjc4Mjc3LCJpYXQiOjE3NzY1MzQ2NzR9.PKJa0Bi3cVKbw1dgBn7576ECsqaU6a0Gw74u3PAjiIA";
+      const HERO_MODEL_CANDIDATES = ["./assets/models/fly-hero.glb"];
+      const BIRD_MODEL_CANDIDATES = [
+        "./assets/models/Flamingo.glb",
+        "./assets/models/Stork.glb",
+        "./assets/models/Parrot.glb",
+      ];
+      const HERO_SCALE = 18;
+      const CITY_PRESETS = {
+        tk: {
+          label: "Tokyo",
+          lat: 35.6812,
+          lon: 139.8,
+          height: 2500,
+          groundHeight: 40,
+          sunHourUTC: 0,
+        },
+        sp: {
+          label: "São Paulo",
+          lat: -23.5505,
+          lon: -46.6333,
+          height: 2200,
+          groundHeight: 760,
+          sunHourUTC: 15,
+        },
+        ny: {
+          label: "New York",
+          lat: 40.7128,
+          lon: -74.006,
+          height: 2200,
+          groundHeight: 10,
+          sunHourUTC: 16,
+          introLat: 40.7725,
+          introLon: -73.984,
+        },
+      };
+      const DEFAULT_CITY_KEY = "tk";
+      function resolveCityPresetKey(value) {
+        const normalized = String(value ?? "")
+          .trim()
+          .toLowerCase();
+        if (!normalized) return DEFAULT_CITY_KEY;
+        if (normalized in CITY_PRESETS) return normalized;
+        if (normalized === "tokyo") return "tk";
+        if (
+          normalized === "sp" ||
+          normalized === "sao paulo" ||
+          normalized === "sao-paulo"
+        ) {
+          return "sp";
+        }
+        if (
+          normalized === "ny" ||
+          normalized === "new york" ||
+          normalized === "new-york"
+        ) {
+          return "ny";
+        }
+        return DEFAULT_CITY_KEY;
+      }
+      function getInitialCityPreset() {
+        const searchParams = new URLSearchParams(window.location.search);
+        const key = resolveCityPresetKey(searchParams.get("city"));
+        return CITY_PRESETS[key] ?? CITY_PRESETS[DEFAULT_CITY_KEY];
+      }
+      function getInitialAppMode() {
+        const searchParams = new URLSearchParams(window.location.search);
+        const normalized = String(searchParams.get("mode") ?? "")
+          .trim()
+          .toLowerCase();
+        return normalized === "hero-only" ? "hero-only" : "world";
+      }
+      const activeCityKey = resolveCityPresetKey(
+        new URLSearchParams(window.location.search).get("city"),
       );
-      camera.matrix.decompose(
-        camera.position,
-        camera.quaternion,
-        camera.scale,
-      );
+      const activeCityPreset = getInitialCityPreset();
+      const activeAppMode = getInitialAppMode();
+      const HERO_TOKYO_LAT = CITY_PRESETS.tk.lat;
+      const HERO_TOKYO_LON = CITY_PRESETS.tk.lon;
+      const HERO_TOKYO_HEIGHT = CITY_PRESETS.tk.height;
+      const HERO_TOKYO_GROUND_HEIGHT = CITY_PRESETS.tk.groundHeight;
+      const HERO_YAW_OFFSET = Math.PI;
+      const INTRO_START_HEIGHT = 180000;
+      const INTRO_TARGET_HEIGHT = 1000;
+      const INTRO_DURATION_SECONDS = 7.5;
+      const INTRO_CAMERA_START_DISTANCE = 50;
+      const INTRO_CAMERA_END_DISTANCE = 170;
+      const INTRO_CAMERA_START_HEIGHT = 68;
+      const INTRO_CAMERA_END_HEIGHT = 62;
+      const FLIGHT_MAX_SPEED = 420;
+      const SUPERSONIC_SPEED = 2400;
+      const SUPERSONIC_LOCK_ALTITUDE = 8000;
+      const SUPERSONIC_SPEED_RAMP_PER_SECOND = 800;
+      const SUPERSONIC_SPEED_RAMP_MAX = 70000;
+      const FLIGHT_TURN_RATE = 1.25;
+      const FLIGHT_CLIMB_SPEED = 260;
+      const SUPERSONIC_CLIMB_SPEED = 2800;
+      const HERO_SATURATION_BOOST = 1.18;
+      const FLIGHT_MIN_AGL = 100;
+      const FLIGHT_MIN_HEIGHT = activeCityPreset.groundHeight + FLIGHT_MIN_AGL;
+      const FLIGHT_MAX_HEIGHT = 250000;
+      const DOUBLE_TAP_WINDOW_MS = 280;
+      const BOOST_DURATION_MS = 2600;
+      const CAMERA_FOLLOW_DISTANCE = 160;
+      const CAMERA_FOLLOW_HEIGHT = 8;
+      const CAMERA_LOOK_AHEAD = 155;
+      const INTRO_CAMERA_LOOK_AHEAD = 35;
+      const MOUSE_CAMERA_SENSITIVITY = 0.0028;
+      const CAMERA_MOUSE_PITCH_MIN = -0.32;
+      const CAMERA_MOUSE_PITCH_MAX = 0.24;
+      const STEER_CURSOR_SENSITIVITY_X = 0.0022;
+      const STEER_CURSOR_SENSITIVITY_Y = 0.0018;
+      const STEER_CURSOR_MAX_X = 0.85;
+      const STEER_CURSOR_MAX_Y = 0.75;
+      const STEER_CURSOR_RECENTER_RATE = 1.8;
+      const STEER_CURSOR_RESPONSE = 6.0;
+      const STEER_DEADZONE_X = 0.12;
+      const STEER_DEADZONE_Y = 0.1;
+      const HERO_TURN_RATE = 1.8;
+      const HERO_GLIDE_TURN_FACTOR = 0.45;
+      const HERO_PITCH_RANGE_UP = 2.82;
+      const HERO_PITCH_RANGE_DOWN = 2.15;
+      const HERO_PITCH_RESPONSE = 6.2;
+      const HERO_AUTO_LEVEL_RESPONSE = 3.2;
+      const HERO_VISUAL_BANK_FROM_STEER = 0.35;
+      const HERO_BANK_RESPONSE = 3.8;
+      const BARREL_ROLL_SPEED = Math.PI * 2.35;
+      const BARREL_ROLL_RETURN_RATE = 4.4;
+      const MANUAL_CLIMB_ASSIST_SPEED = 110;
+      const CAMERA_STEER_OFFSET_X = 45;
+      const CAMERA_STEER_OFFSET_Y = 25;
+      const CAMERA_LOOK_STEER_X = 35;
+      const CAMERA_LOOK_STEER_Y = 40;
+      const BIRD_MIN_SPAWN_DELAY_MS = 18000;
+      const BIRD_MAX_SPAWN_DELAY_MS = 42000;
+      const BIRD_LIFETIME_MS = 16000;
+      const BIRD_SPEED_MIN = 240;
+      const BIRD_SPEED_MAX = 420;
+      const BIRD_SIDE_OFFSET_MIN = 900;
+      const BIRD_SIDE_OFFSET_MAX = 1800;
+      const BIRD_FORWARD_OFFSET_MIN = 300;
+      const BIRD_FORWARD_OFFSET_MAX = 1200;
+      const BIRD_HEIGHT_OFFSET_MIN = 120;
+      const BIRD_HEIGHT_OFFSET_MAX = 420;
+      const BIRD_TARGET_SIZE = 28;
+      const BIRD_MODEL_YAW_OFFSET = Math.PI / 2;
+      const METERS_PER_DEGREE = 111320;
+      const pressedKeys = new Set();
+      const lastTapTimes = new Map();
+      const introState = {
+        active: false,
+        elapsed: 0,
+        progress: 0,
+        controlsEnabled: false,
+        mouseCaptured: false,
+      };
+      const fpsState = {
+        lastSampleTime: 0,
+        frames: 0,
+      };
+      const flight = {
+        lat: activeCityPreset.lat,
+        lon: activeCityPreset.lon,
+        height: INTRO_START_HEIGHT,
+        groundHeight: activeCityPreset.groundHeight,
+        heading: 90 * (Math.PI / 180),
+        pitch: -24 * (Math.PI / 180),
+        roll: 0,
+        speed: 0,
+        followCamera: true,
+        boostUntil: 0,
+        boostStartedAt: 0,
+        climbBoostUntil: 0,
+        climbBoostStartedAt: 0,
+        barrelRollAngle: 0,
+        currentLean: 0, // Inclinação suavizada do corpo para frente
+      };
+      const heroFrameMatrix = new THREE.Matrix4();
+      const heroForward = new THREE.Vector3();
+      const heroUp = new THREE.Vector3();
+      const heroRight = new THREE.Vector3();
+      const cameraStableUp = new THREE.Vector3();
+      const cameraStableForward = new THREE.Vector3();
+      const cameraStableRight = new THREE.Vector3();
+      const birdSpawnPosition = new THREE.Vector3();
+      const birdSpawnTarget = new THREE.Vector3();
+      const birdVelocity = new THREE.Vector3();
+      const birdLookTarget = new THREE.Vector3();
+      const heroHeadOffsetQuaternion = new THREE.Quaternion();
+      const heroNeckOffsetQuaternion = new THREE.Quaternion();
+      const cameraTargetPosition = new THREE.Vector3();
+      const cameraLookTarget = new THREE.Vector3();
+      const trailPositions = [];
+      const birdModels = [];
+      const windAudio = new Audio("./assets/audio/vento.wav");
+      windAudio.loop = true;
+      windAudio.preload = "auto";
+      windAudio.volume = 0.35;
+      const cameraOrbit = {
+        yaw: 0,
+        pitch: 0,
+        targetYaw: 0,
+        targetPitch: 0,
+      };
+      const steeringState = {
+        targetX: 0,
+        targetY: 0,
+        x: 0,
+        y: 0,
+        lastMoveAt: 0,
+      };
 
-      // controls
-      controls = new GlobeControls(scene, camera, renderer.domElement);
-      controls.setEllipsoid(tiles.ellipsoid, tiles.group);
-      controls.enableDamping = true;
+      let camera, scene, renderer;
+      let heroScene, heroCamera, heroRenderer;
+      let tiles, controls;
+      let clouds, aerialPerspective;
+      const cityReadout = document.getElementById("city-readout");
+      const hourControl = document.getElementById("hour");
+      const flightReadout = document.getElementById("flight-readout");
+      const fpsReadout = document.getElementById("fps-readout");
+      const loadingBadge = document.getElementById("loading-badge");
+      const compassNeedle = document.getElementById("compass-needle");
+      const startOverlay = document.getElementById("start-overlay");
+      const startOverlayTitle = startOverlay.querySelector("h1");
+      let heroRoot,
+        heroRenderRoot,
+        heroPoseRoot,
+        heroBarrelRoot,
+        heroTorsoNode,
+        heroShoulderNode,
+        heroModel,
+        heroMixer,
+        heroTrail;
+      let birdRoot,
+        birdActive = null;
+      let birdSpawnAt = 0;
+      let heroHeadNode = null;
+      let heroNeckNode = null;
+      let introHeroLight = null;
+      const heroHeadBaseQuaternion = new THREE.Quaternion();
+      const heroNeckBaseQuaternion = new THREE.Quaternion();
+      const heroTorsoBaseQuaternion = new THREE.Quaternion();
+      let windAudioStarted = false;
+      const loadingState = {
+        startedAt: performance.now(),
+        lastTileActivityAt: performance.now(),
+        ready: false,
+      };
+      let _prevTime = 0,
+        _deltaTime = 0;
 
-      // Workaround: adjustHeight causes camera drift as tiles load.
-      // Disable until first user interaction.
-      controls.adjustHeight = false;
+      init();
 
-      function enableAdjustHeight() {
-        controls.adjustHeight = true;
-        renderer.domElement.removeEventListener(
-          "pointerdown",
-          enableAdjustHeight,
+      async function init() {
+        // camera
+        camera = new THREE.PerspectiveCamera(
+          75,
+          window.innerWidth / window.innerHeight,
+          10,
+          1e6,
         );
-        renderer.domElement.removeEventListener("wheel", enableAdjustHeight);
-      }
 
-      renderer.domElement.addEventListener("pointerdown", enableAdjustHeight);
-      renderer.domElement.addEventListener("wheel", enableAdjustHeight);
-      renderer.domElement.addEventListener("click", handleCanvasClick);
-      renderer.domElement.addEventListener("mousemove", handlePointerMove);
-      window.addEventListener("keydown", handleKeyDown);
-      window.addEventListener("keyup", handleKeyUp);
-      startOverlay.addEventListener("click", handleStartOverlayClick);
-      document.addEventListener("pointerlockchange", handlePointerLockChange);
+        // scene
+        scene = new THREE.Scene();
 
-      // sun direction
-      const sunDirection = new THREE.Vector3();
-      const params = { hourUTC: activeCityPreset.sunHourUTC };
+        // renderer
+        renderer = new THREE.WebGLRenderer({
+          antialias: true,
+          logarithmicDepthBuffer: true,
+          outputBufferType: THREE.HalfFloatType,
+        });
 
-      function updateSunDirection() {
-        const ms = params.hourUTC * 3600000;
-        const date = new Date(Date.UTC(2024, 2, 1) + ms);
-        getSunDirectionECEF(date, sunDirection);
-        aerialPerspective.sunDirection.copy(sunDirection);
-        clouds.sunDirection.copy(sunDirection);
-      }
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 7.15; // Saturação boost geral para destacar as cores do mundo
+        document.body.appendChild(renderer.domElement);
+        document.title = `Invencível voando sobre ${activeCityPreset.label} 🌍`;
 
-      // aerial perspective (sky + atmosphere + deferred lighting)
-      aerialPerspective = new AerialPerspectiveEffect(camera);
-      aerialPerspective.sky = true;
-      aerialPerspective.sunLight = true;
-      aerialPerspective.skyLight = true;
+        initHeroRenderScene();
 
-      const normalPass = new NormalPass(scene, camera);
-      aerialPerspective.normalBuffer = normalPass.texture;
-
-      // clouds
-      clouds = new CloudsEffect(camera);
-      clouds.coverage = 0.3;
-      clouds.localWeatherVelocity.set(0.001, 0);
-      clouds.shadow.farScale = 0.25;
-      clouds.shadow.maxFar = 1e5;
-      clouds.shadow.cascadeCount = 2;
-      clouds.shadow.mapSize.set(512, 512);
-      clouds.shadow.splitMode = "practical";
-      clouds.shadow.splitLambda = 0.71;
-
-      // sync cloud shadows to atmosphere
-      clouds.events.addEventListener("change", (event) => {
-        if (event.property === "atmosphereOverlay")
-          aerialPerspective.overlay = clouds.atmosphereOverlay;
-        if (event.property === "atmosphereShadow")
-          aerialPerspective.shadow = clouds.atmosphereShadow;
-        if (event.property === "atmosphereShadowLength")
-          aerialPerspective.shadowLength = clouds.atmosphereShadowLength;
-      });
-
-      // adapter: bridges pmndrs postprocessing passes to renderer.setEffects()
-
-      class EffectPassAdapter {
-        constructor(pass) {
-          this.pass = pass;
-          this.needsSwap = pass.needsSwap !== false;
-          this.enabled = true;
-          this._initialized = false;
+        if (activeAppMode === "hero-only") {
+          renderer.domElement.style.display = "none";
+          await initHeroOnlyMode();
+          heroRenderer.setAnimationLoop(animateHeroOnly);
+          window.addEventListener("resize", onWindowResize);
+          onWindowResize();
+          return;
         }
 
-        render(renderer, writeBuffer, readBuffer) {
-          if (!this._initialized) {
-            this.pass.initialize(renderer, false, THREE.HalfFloatType);
-            this.pass.setSize(readBuffer.width, readBuffer.height);
+        // loader
+        const dracoLoader = new DRACOLoader();
+        dracoLoader.setDecoderPath(
+          "https://cdn.jsdelivr.net/npm/three@0.184.0/examples/jsm/libs/draco/gltf/",
+        );
+        dracoLoader.setDecoderConfig({ type: "js" });
 
-            if (readBuffer.depthTexture && this.pass.setDepthTexture) {
-              this.pass.setDepthTexture(readBuffer.depthTexture);
+        const DEG2RAD = Math.PI / 180;
+
+        // tiles
+        class TileCreasedNormalsPlugin {
+          processTileModel(scene) {
+            scene.traverse((mesh) => {
+              if (mesh.geometry) {
+                mesh.geometry = toCreasedNormals(mesh.geometry, 30 * DEG2RAD);
+              }
+            });
+          }
+        }
+
+        tiles = new TilesRenderer();
+        tiles.registerPlugin(
+          new CesiumIonAuthPlugin({
+            apiToken: ION_KEY,
+            assetId: "2275207",
+            autoRefreshToken: true,
+          }),
+        );
+        tiles.registerPlugin(new GLTFExtensionsPlugin({ dracoLoader }));
+        tiles.registerPlugin(new TileCreasedNormalsPlugin());
+        tiles.registerPlugin(new TilesFadePlugin());
+        tiles.registerPlugin(new UpdateOnChangePlugin());
+        tiles.setCamera(camera);
+        tiles.setResolutionFromRenderer(camera, renderer);
+        tiles.addEventListener("load-tileset", markLoadingActivity);
+        tiles.addEventListener("load-model", markLoadingActivity);
+        tiles.addEventListener("load-content", markLoadingActivity);
+
+        scene.add(tiles.group);
+
+        heroRoot = new THREE.Group();
+        scene.add(heroRoot);
+        updateHeroFrame();
+        heroTrail = createFlightTrail();
+        scene.add(heroTrail);
+        loadHeroModel();
+        birdRoot = new THREE.Group();
+        addBirdLighting();
+        scene.add(birdRoot);
+        await loadBirdModels();
+
+        // position camera above selected city
+        tiles.ellipsoid.getObjectFrame(
+          activeCityPreset.lat * DEG2RAD,
+          activeCityPreset.lon * DEG2RAD,
+          8000,
+          -90 * DEG2RAD,
+          -15 * DEG2RAD,
+          0,
+          camera.matrix,
+          CAMERA_FRAME,
+        );
+        camera.matrix.decompose(
+          camera.position,
+          camera.quaternion,
+          camera.scale,
+        );
+
+        // controls
+        controls = new GlobeControls(scene, camera, renderer.domElement);
+        controls.setEllipsoid(tiles.ellipsoid, tiles.group);
+        controls.enableDamping = true;
+
+        // Workaround: adjustHeight causes camera drift as tiles load.
+        // Disable until first user interaction.
+        controls.adjustHeight = false;
+
+        function enableAdjustHeight() {
+          controls.adjustHeight = true;
+          renderer.domElement.removeEventListener(
+            "pointerdown",
+            enableAdjustHeight,
+          );
+          renderer.domElement.removeEventListener("wheel", enableAdjustHeight);
+        }
+
+        renderer.domElement.addEventListener("pointerdown", enableAdjustHeight);
+        renderer.domElement.addEventListener("wheel", enableAdjustHeight);
+        renderer.domElement.addEventListener("click", handleCanvasClick);
+        renderer.domElement.addEventListener("mousemove", handlePointerMove);
+        window.addEventListener("keydown", handleKeyDown);
+        window.addEventListener("keyup", handleKeyUp);
+        startOverlay.addEventListener("click", handleStartOverlayClick);
+        document.addEventListener("pointerlockchange", handlePointerLockChange);
+
+        // sun direction
+        const sunDirection = new THREE.Vector3();
+        const params = { hourUTC: activeCityPreset.sunHourUTC };
+
+        function updateSunDirection() {
+          const ms = params.hourUTC * 3600000;
+          const date = new Date(Date.UTC(2024, 2, 1) + ms);
+          getSunDirectionECEF(date, sunDirection);
+          aerialPerspective.sunDirection.copy(sunDirection);
+          clouds.sunDirection.copy(sunDirection);
+        }
+
+        // aerial perspective (sky + atmosphere + deferred lighting)
+        aerialPerspective = new AerialPerspectiveEffect(camera);
+        aerialPerspective.sky = true;
+        aerialPerspective.sunLight = true;
+        aerialPerspective.skyLight = true;
+
+        const normalPass = new NormalPass(scene, camera);
+        aerialPerspective.normalBuffer = normalPass.texture;
+
+        // clouds
+        clouds = new CloudsEffect(camera);
+        clouds.coverage = 0.3;
+        clouds.localWeatherVelocity.set(0.001, 0);
+        clouds.shadow.farScale = 0.25;
+        clouds.shadow.maxFar = 1e5;
+        clouds.shadow.cascadeCount = 2;
+        clouds.shadow.mapSize.set(512, 512);
+        clouds.shadow.splitMode = "practical";
+        clouds.shadow.splitLambda = 0.71;
+
+        // sync cloud shadows to atmosphere
+        clouds.events.addEventListener("change", (event) => {
+          if (event.property === "atmosphereOverlay")
+            aerialPerspective.overlay = clouds.atmosphereOverlay;
+          if (event.property === "atmosphereShadow")
+            aerialPerspective.shadow = clouds.atmosphereShadow;
+          if (event.property === "atmosphereShadowLength")
+            aerialPerspective.shadowLength = clouds.atmosphereShadowLength;
+        });
+
+        // adapter: bridges pmndrs postprocessing passes to renderer.setEffects()
+
+        class EffectPassAdapter {
+          constructor(pass) {
+            this.pass = pass;
+            this.needsSwap = pass.needsSwap !== false;
+            this.enabled = true;
+            this._initialized = false;
+          }
+
+          render(renderer, writeBuffer, readBuffer) {
+            if (!this._initialized) {
+              this.pass.initialize(renderer, false, THREE.HalfFloatType);
+              this.pass.setSize(readBuffer.width, readBuffer.height);
+
+              if (readBuffer.depthTexture && this.pass.setDepthTexture) {
+                this.pass.setDepthTexture(readBuffer.depthTexture);
+              }
+
+              this._initialized = true;
             }
 
-            this._initialized = true;
+            if (this.pass.fullscreenMaterial instanceof EffectMaterial) {
+              this.pass.fullscreenMaterial.adoptCameraSettings(camera);
+            }
+
+            this.pass.render(renderer, readBuffer, writeBuffer, _deltaTime);
           }
 
-          if (this.pass.fullscreenMaterial instanceof EffectMaterial) {
-            this.pass.fullscreenMaterial.adoptCameraSettings(camera);
+          setSize(width, height) {
+            if (this._initialized) this.pass.setSize(width, height);
           }
-
-          this.pass.render(renderer, readBuffer, writeBuffer, _deltaTime);
         }
 
-        setSize(width, height) {
-          if (this._initialized) this.pass.setSize(width, height);
-        }
-      }
+        // postprocessing
+        renderer.setEffects([
+          new EffectPassAdapter(normalPass),
+          new EffectPassAdapter(
+            new EffectPass(camera, clouds, aerialPerspective),
+          ),
+          new EffectPassAdapter(new EffectPass(camera, new LensFlareEffect())),
+          new EffectPassAdapter(new EffectPass(camera, new SMAAEffect())),
+          new EffectPassAdapter(new EffectPass(camera, new DitheringEffect())),
+        ]);
 
-      // postprocessing
-      renderer.setEffects([
-        new EffectPassAdapter(normalPass),
-        new EffectPassAdapter(
-          new EffectPass(camera, clouds, aerialPerspective),
-        ),
-        new EffectPassAdapter(new EffectPass(camera, new LensFlareEffect())),
-        new EffectPassAdapter(new EffectPass(camera, new SMAAEffect())),
-        new EffectPassAdapter(new EffectPass(camera, new DitheringEffect())),
-      ]);
+        // generate precomputed atmosphere textures on GPU
+        const texturesGenerator = new PrecomputedTexturesGenerator(renderer);
+        const textures = await texturesGenerator.update();
+        Object.assign(aerialPerspective, textures);
+        Object.assign(clouds, textures);
 
-      // generate precomputed atmosphere textures on GPU
-      const texturesGenerator = new PrecomputedTexturesGenerator(renderer);
-      const textures = await texturesGenerator.update();
-      Object.assign(aerialPerspective, textures);
-      Object.assign(clouds, textures);
+        // load cloud textures
+        const textureLoader = new THREE.TextureLoader();
 
-      // load cloud textures
-      const textureLoader = new THREE.TextureLoader();
-
-      function loadCloudTexture(url, property) {
-        textureLoader.load(url, (texture) => {
-          texture.minFilter = THREE.LinearMipMapLinearFilter;
-          texture.magFilter = THREE.LinearFilter;
-          texture.wrapS = THREE.RepeatWrapping;
-          texture.wrapT = THREE.RepeatWrapping;
-          texture.colorSpace = THREE.NoColorSpace;
-          texture.needsUpdate = true;
-          clouds[property] = texture;
-        });
-      }
-
-      loadCloudTexture(DEFAULT_LOCAL_WEATHER_URL, "localWeatherTexture");
-      loadCloudTexture(DEFAULT_TURBULENCE_URL, "turbulenceTexture");
-
-      function loadData3DTexture(url, size, property) {
-        fetch(url)
-          .then((res) => res.arrayBuffer())
-          .then((buffer) => {
-            const data = new Uint8Array(buffer);
-            const texture = new THREE.Data3DTexture(data, size, size, size);
-            texture.format = THREE.RedFormat;
-            texture.minFilter = THREE.LinearFilter;
+        function loadCloudTexture(url, property) {
+          textureLoader.load(url, (texture) => {
+            texture.minFilter = THREE.LinearMipMapLinearFilter;
             texture.magFilter = THREE.LinearFilter;
             texture.wrapS = THREE.RepeatWrapping;
             texture.wrapT = THREE.RepeatWrapping;
-            texture.wrapR = THREE.RepeatWrapping;
             texture.colorSpace = THREE.NoColorSpace;
             texture.needsUpdate = true;
             clouds[property] = texture;
           });
-      }
+        }
 
-      loadData3DTexture(
-        DEFAULT_SHAPE_URL,
-        CLOUD_SHAPE_TEXTURE_SIZE,
-        "shapeTexture",
-      );
-      loadData3DTexture(
-        DEFAULT_SHAPE_DETAIL_URL,
-        CLOUD_SHAPE_DETAIL_TEXTURE_SIZE,
-        "shapeDetailTexture",
-      );
+        loadCloudTexture(DEFAULT_LOCAL_WEATHER_URL, "localWeatherTexture");
+        loadCloudTexture(DEFAULT_TURBULENCE_URL, "turbulenceTexture");
 
-      new STBNLoader().load(DEFAULT_STBN_URL, (texture) => {
-        clouds.stbnTexture = texture;
-        aerialPerspective.stbnTexture = texture;
-      });
+        function loadData3DTexture(url, size, property) {
+          fetch(url)
+            .then((res) => res.arrayBuffer())
+            .then((buffer) => {
+              const data = new Uint8Array(buffer);
+              const texture = new THREE.Data3DTexture(data, size, size, size);
+              texture.format = THREE.RedFormat;
+              texture.minFilter = THREE.LinearFilter;
+              texture.magFilter = THREE.LinearFilter;
+              texture.wrapS = THREE.RepeatWrapping;
+              texture.wrapT = THREE.RepeatWrapping;
+              texture.wrapR = THREE.RepeatWrapping;
+              texture.colorSpace = THREE.NoColorSpace;
+              texture.needsUpdate = true;
+              clouds[property] = texture;
+            });
+        }
 
-      // initial sun position
-      updateSunDirection();
-      updateCityReadout();
+        loadData3DTexture(
+          DEFAULT_SHAPE_URL,
+          CLOUD_SHAPE_TEXTURE_SIZE,
+          "shapeTexture",
+        );
+        loadData3DTexture(
+          DEFAULT_SHAPE_DETAIL_URL,
+          CLOUD_SHAPE_DETAIL_TEXTURE_SIZE,
+          "shapeDetailTexture",
+        );
 
-      hourControl.value = String(params.hourUTC);
-      hourControl.addEventListener("input", (e) => {
-        params.hourUTC = parseFloat(e.target.value);
+        new STBNLoader().load(DEFAULT_STBN_URL, (texture) => {
+          clouds.stbnTexture = texture;
+          aerialPerspective.stbnTexture = texture;
+        });
+
+        // initial sun position
         updateSunDirection();
-      });
+        updateCityReadout();
 
-      // start rendering
-      renderer.setAnimationLoop(animate);
+        hourControl.value = String(params.hourUTC);
+        hourControl.addEventListener("input", (e) => {
+          params.hourUTC = parseFloat(e.target.value);
+          updateSunDirection();
+        });
 
-      window.addEventListener("resize", onWindowResize);
-      onWindowResize();
-    }
+        // start rendering
+        renderer.setAnimationLoop(animate);
 
-    function onWindowResize() {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
+        window.addEventListener("resize", onWindowResize);
+        onWindowResize();
+      }
 
-      renderer.setSize(window.innerWidth, window.innerHeight);
+      function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
 
-      if (heroCamera && heroRenderer) {
-        heroCamera.aspect = window.innerWidth / window.innerHeight;
-        heroCamera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        if (heroCamera && heroRenderer) {
+          heroCamera.aspect = window.innerWidth / window.innerHeight;
+          heroCamera.updateProjectionMatrix();
+          heroRenderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        if (tiles) {
+          tiles.setResolutionFromRenderer(camera, renderer);
+        }
+      }
+
+      function animate(time) {
+        _deltaTime = _prevTime === 0 ? 0 : (time - _prevTime) / 1000;
+        _prevTime = time;
+
+        updateFpsReadout(time);
+        updateIntroFlight(_deltaTime);
+        updateFlightControls(_deltaTime);
+        if (heroMixer) {
+          heroMixer.update(_deltaTime);
+        }
+
+        updateHeroFrame();
+        updateHeroHeadPose();
+        updateHeroRenderPose();
+        updateHeroRenderCamera();
+        if (introHeroLight) {
+          introHeroLight.intensity = introState.controlsEnabled ? 0.35 : 2.2;
+        }
+        updateBirds(_deltaTime);
+        updateFlightTrail();
+        updateFlightReadout();
+        updateCompass();
+
+        controls.enabled = !flight.followCamera;
+        controls.update();
+        updateChaseCamera();
+        tiles.update();
+        updateLoadingBadge(time);
+
+        renderer.render(scene, camera);
+        heroRenderer.render(heroScene, heroCamera);
+      }
+
+      function animateHeroOnly(time) {
+        _deltaTime = _prevTime === 0 ? 0 : (time - _prevTime) / 1000;
+        _prevTime = time;
+
+        updateFpsReadout(time);
+        if (heroMixer) {
+          heroMixer.update(_deltaTime);
+        }
+
+        updateHeroRenderPose();
+        updateHeroRenderCamera(true);
+        heroRenderer.render(heroScene, heroCamera);
+      }
+
+      async function initHeroOnlyMode() {
+        loadingBadge.textContent = "Carregando heroi...";
+        startOverlay.classList.add("hidden");
+        heroRoot = new THREE.Group();
+        introState.controlsEnabled = false;
+        resetCameraOrbit();
+        loadHeroModel();
+      }
+
+      function initHeroRenderScene() {
+        heroScene = new THREE.Scene();
+        heroRenderRoot = new THREE.Group();
+        heroPoseRoot = new THREE.Group();
+        heroBarrelRoot = new THREE.Group();
+        heroRenderRoot.add(heroPoseRoot);
+        heroPoseRoot.add(heroBarrelRoot);
+        heroScene.add(heroRenderRoot);
+
+        heroCamera = new THREE.PerspectiveCamera(
+          50,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          4000,
+        );
+        heroScene.add(heroCamera);
+
+        heroRenderer = new THREE.WebGLRenderer({
+          antialias: true,
+          alpha: true,
+        });
+        heroRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         heroRenderer.setSize(window.innerWidth, window.innerHeight);
+        heroRenderer.outputColorSpace = THREE.SRGBColorSpace;
+        heroRenderer.toneMapping = THREE.ACESFilmicToneMapping;
+        heroRenderer.toneMappingExposure = 1.0;
+        heroRenderer.domElement.style.position = "fixed";
+        heroRenderer.domElement.style.inset = "0";
+        heroRenderer.domElement.style.zIndex = "2";
+        heroRenderer.domElement.style.pointerEvents = "none";
+        heroRenderer.domElement.style.background = "transparent";
+        document.body.appendChild(heroRenderer.domElement);
+
+        addHeroLighting(heroRenderRoot, heroCamera);
       }
 
-      if (tiles) {
-        tiles.setResolutionFromRenderer(camera, renderer);
-      }
-    }
-
-    function animate(time) {
-      _deltaTime = _prevTime === 0 ? 0 : (time - _prevTime) / 1000;
-      _prevTime = time;
-
-      updateFpsReadout(time);
-      updateIntroFlight(_deltaTime);
-      updateFlightControls(_deltaTime);
-      if (heroMixer) {
-        heroMixer.update(_deltaTime);
-      }
-
-      updateHeroFrame();
-      updateHeroHeadPose();
-      updateHeroRenderPose();
-      updateHeroRenderCamera();
-      if (introHeroLight) {
-        introHeroLight.intensity = introState.controlsEnabled ? 0.35 : 2.2;
-      }
-      updateBirds(_deltaTime);
-      updateFlightTrail();
-      updateFlightReadout();
-      updateCompass();
-
-      controls.enabled = !flight.followCamera;
-      controls.update();
-      updateChaseCamera();
-      tiles.update();
-      updateLoadingBadge(time);
-
-      renderer.render(scene, camera);
-      heroRenderer.render(heroScene, heroCamera);
-    }
-
-    function animateHeroOnly(time) {
-      _deltaTime = _prevTime === 0 ? 0 : (time - _prevTime) / 1000;
-      _prevTime = time;
-
-      updateFpsReadout(time);
-      if (heroMixer) {
-        heroMixer.update(_deltaTime);
-      }
-
-      updateHeroRenderPose();
-      updateHeroRenderCamera(true);
-      heroRenderer.render(heroScene, heroCamera);
-    }
-
-    async function initHeroOnlyMode() {
-      loadingBadge.textContent = "Carregando heroi...";
-      startOverlay.classList.add("hidden");
-      heroRoot = new THREE.Group();
-      introState.controlsEnabled = false;
-      resetCameraOrbit();
-      loadHeroModel();
-    }
-
-    function initHeroRenderScene() {
-      heroScene = new THREE.Scene();
-      heroRenderRoot = new THREE.Group();
-      heroPoseRoot = new THREE.Group();
-      heroBarrelRoot = new THREE.Group();
-      heroRenderRoot.add(heroPoseRoot);
-      heroPoseRoot.add(heroBarrelRoot);
-      heroScene.add(heroRenderRoot);
-
-      heroCamera = new THREE.PerspectiveCamera(
-        50,
-        window.innerWidth / window.innerHeight,
-        0.1,
-        4000,
-      );
-      heroScene.add(heroCamera);
-
-      heroRenderer = new THREE.WebGLRenderer({
-        antialias: true,
-        alpha: true,
-      });
-      heroRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      heroRenderer.setSize(window.innerWidth, window.innerHeight);
-      heroRenderer.outputColorSpace = THREE.SRGBColorSpace;
-      heroRenderer.toneMapping = THREE.ACESFilmicToneMapping;
-      heroRenderer.toneMappingExposure = 1.0;
-      heroRenderer.domElement.style.position = "fixed";
-      heroRenderer.domElement.style.inset = "0";
-      heroRenderer.domElement.style.zIndex = "2";
-      heroRenderer.domElement.style.pointerEvents = "none";
-      heroRenderer.domElement.style.background = "transparent";
-      document.body.appendChild(heroRenderer.domElement);
-
-      addHeroLighting(heroRenderRoot, heroCamera);
-    }
-
-    function markLoadingActivity() {
-      loadingState.lastTileActivityAt = performance.now();
-      loadingState.ready = false;
-      if (loadingBadge) {
-        loadingBadge.classList.remove("hidden");
-        loadingBadge.textContent = "Carregando mundo...";
-      }
-    }
-
-    function markHeroReady() {
-      if (activeAppMode !== "hero-only") return;
-      loadingState.ready = true;
-      loadingBadge.classList.add("hidden");
-    }
-
-    function updateLoadingBadge(time) {
-      if (!loadingBadge || loadingState.ready) return;
-
-      const minimumVisibleMs = 3200;
-      const quietWindowMs = 1800;
-      const hasBeenVisibleLongEnough =
-        time - loadingState.startedAt > minimumVisibleMs;
-      const hasBeenQuietLongEnough =
-        time - loadingState.lastTileActivityAt > quietWindowMs;
-
-      if (!hasBeenVisibleLongEnough || !hasBeenQuietLongEnough) return;
-
-      loadingState.ready = true;
-      loadingBadge.classList.add("hidden");
-    }
-
-    function placeHeroAboveTokyo(target) {
-      const DEG2RAD = Math.PI / 180;
-      const matrix = new THREE.Matrix4();
-      const introLat = activeCityPreset.introLat ?? activeCityPreset.lat;
-      const introLon = activeCityPreset.introLon ?? activeCityPreset.lon;
-      tiles.ellipsoid.getObjectFrame(
-        introLat * DEG2RAD,
-        introLon * DEG2RAD,
-        activeCityPreset.height,
-        90 * DEG2RAD,
-        -12 * DEG2RAD,
-        0,
-        matrix,
-        CAMERA_FRAME,
-      );
-      matrix.decompose(target.position, target.quaternion, target.scale);
-    }
-
-    function handleKeyDown(event) {
-      startWindAudio();
-
-      if (!introState.controlsEnabled) return;
-
-      if (isFlightKey(event.code)) {
-        event.preventDefault();
-        if (!event.repeat) {
-          triggerBoost(event.code);
-        }
-        pressedKeys.add(event.code);
-      }
-
-      if (event.code === "KeyC" && !event.repeat) {
-        flight.followCamera = !flight.followCamera;
-        if (flight.followCamera) {
-          resetCameraOrbit();
-        }
-      }
-    }
-
-    function handleKeyUp(event) {
-      if (isFlightKey(event.code)) {
-        event.preventDefault();
-        pressedKeys.delete(event.code);
-      }
-    }
-
-    function handlePointerMove(event) {
-      startWindAudio();
-
-      if (!flight.followCamera || !introState.controlsEnabled) return;
-
-      const dx = event.movementX ?? 0;
-      const dy = event.movementY ?? 0;
-
-      steeringState.targetX = THREE.MathUtils.clamp(
-        steeringState.targetX + dx * STEER_CURSOR_SENSITIVITY_X,
-        -STEER_CURSOR_MAX_X,
-        STEER_CURSOR_MAX_X,
-      );
-      steeringState.targetY = THREE.MathUtils.clamp(
-        steeringState.targetY + dy * STEER_CURSOR_SENSITIVITY_Y,
-        -STEER_CURSOR_MAX_Y,
-        STEER_CURSOR_MAX_Y,
-      );
-      steeringState.lastMoveAt = performance.now();
-    }
-
-    function startWindAudio() {
-      if (windAudioStarted) return;
-
-      windAudio
-        .play()
-        .then(() => {
-          windAudioStarted = true;
-        })
-        .catch(() => {
-          // Autoplay can still be blocked until the browser grants audio.
-        });
-    }
-
-    function resetCameraOrbit() {
-      cameraOrbit.yaw = 0;
-      cameraOrbit.pitch = 0;
-      cameraOrbit.targetYaw = 0;
-      cameraOrbit.targetPitch = 0;
-      steeringState.targetX = 0;
-      steeringState.targetY = 0;
-      steeringState.x = 0;
-      steeringState.y = 0;
-      steeringState.lastMoveAt = 0;
-    }
-
-    function startIntroFlight() {
-      if (introState.active || introState.controlsEnabled) return;
-
-      startWindAudio();
-      startOverlay.classList.add("hidden");
-      introState.active = true;
-      introState.elapsed = 0;
-      flight.boostUntil = 0;
-      flight.climbBoostUntil = 0;
-      flight.speed = 3200;
-      resetCameraOrbit();
-      updateHeroFrame();
-      updateChaseCamera(true);
-      requestMouseCapture();
-    }
-
-    function handleStartOverlayClick() {
-      if (introState.controlsEnabled) {
-        requestMouseCapture();
-        return;
-      }
-
-      startIntroFlight();
-    }
-
-    function handleCanvasClick() {
-      if (!introState.controlsEnabled) return;
-      if (document.pointerLockElement === renderer?.domElement) return;
-
-      requestMouseCapture();
-    }
-
-    function requestMouseCapture() {
-      const element = renderer?.domElement;
-      if (!element?.requestPointerLock) return;
-      if (document.pointerLockElement === element) return;
-
-      try {
-        const result = element.requestPointerLock();
-        if (result && typeof result.catch === "function") {
-          result.catch(() => {
-            // Pointer lock can still be denied by browser policy.
-          });
-        }
-      } catch {
-        // Keep the demo working even if pointer lock is not available.
-      }
-    }
-
-    function handlePointerLockChange() {
-      const element = renderer?.domElement;
-      introState.mouseCaptured = document.pointerLockElement === element;
-
-      if (startOverlayTitle) {
-        startOverlayTitle.textContent = introState.controlsEnabled
-          ? "Clique em qualquer canto para recapturar o mouse"
-          : "Clique em qualquer canto para iniciar";
-      }
-
-      if (introState.controlsEnabled) {
-        startOverlay.classList.toggle("hidden", introState.mouseCaptured);
-      }
-    }
-
-    function updateIntroFlight(delta) {
-      if (!introState.active) return;
-
-      introState.elapsed += delta;
-      const progress = THREE.MathUtils.clamp(
-        introState.elapsed / INTRO_DURATION_SECONDS,
-        0,
-        1,
-      );
-      introState.progress = progress;
-      const easedProgress = easeOutCubic(progress);
-
-      flight.height = THREE.MathUtils.lerp(
-        INTRO_START_HEIGHT,
-        INTRO_TARGET_HEIGHT,
-        easedProgress,
-      );
-      flight.speed = THREE.MathUtils.lerp(3200, 180, easedProgress);
-      flight.pitch = THREE.MathUtils.lerp(
-        -24 * (Math.PI / 180),
-        -8 * (Math.PI / 180),
-        easedProgress,
-      );
-      flight.roll *= 1 - Math.min(delta * 6, 1);
-
-      const traveledMeters = flight.speed * delta;
-      const northMeters = Math.cos(flight.heading) * traveledMeters;
-      const eastMeters = Math.sin(flight.heading) * traveledMeters;
-      const latRadians = flight.lat * (Math.PI / 180);
-      flight.lat += northMeters / METERS_PER_DEGREE;
-      flight.lon +=
-        eastMeters /
-        (METERS_PER_DEGREE * Math.max(Math.cos(latRadians), 0.15));
-
-      if (progress >= 1) {
-        introState.active = false;
-        introState.controlsEnabled = true;
-        introState.progress = 1;
-        flight.height = INTRO_TARGET_HEIGHT;
-        flight.speed = 180;
-        flight.pitch = -8 * (Math.PI / 180);
-        flight.roll = 0;
-      }
-    }
-
-    function updateFpsReadout(time) {
-      fpsState.frames += 1;
-
-      if (fpsState.lastSampleTime === 0) {
-        fpsState.lastSampleTime = time;
-        return;
-      }
-
-      const elapsed = time - fpsState.lastSampleTime;
-      if (elapsed < 500) return;
-
-      const fps = Math.round((fpsState.frames * 1000) / elapsed);
-      fpsReadout.textContent = `FPS ${fps}`;
-      fpsState.frames = 0;
-      fpsState.lastSampleTime = time;
-    }
-
-    function easeOutCubic(value) {
-      return 1 - Math.pow(1 - value, 3);
-    }
-
-    function normalizeAngle(angle) {
-      return Math.atan2(Math.sin(angle), Math.cos(angle));
-    }
-
-    function dampAngle(current, target, lambda, delta) {
-      const difference = normalizeAngle(target - current);
-      return normalizeAngle(
-        current + difference * (1 - Math.exp(-lambda * delta)),
-      );
-    }
-
-    function applyDeadzone(value, deadzone) {
-      const magnitude = Math.abs(value);
-      if (magnitude <= deadzone) return 0;
-      const normalized = (magnitude - deadzone) / (1 - deadzone);
-      return Math.sign(value) * THREE.MathUtils.clamp(normalized, 0, 1);
-    }
-
-    function updateSteeringState(delta) {
-      const recenterAlpha = 1 - Math.exp(-STEER_CURSOR_RECENTER_RATE * delta);
-      steeringState.targetX += (0 - steeringState.targetX) * recenterAlpha;
-      steeringState.targetY += (0 - steeringState.targetY) * recenterAlpha;
-
-      const responseAlpha = 1 - Math.exp(-STEER_CURSOR_RESPONSE * delta);
-      steeringState.x +=
-        (steeringState.targetX - steeringState.x) * responseAlpha;
-      steeringState.y +=
-        (steeringState.targetY - steeringState.y) * responseAlpha;
-
-      cameraOrbit.targetYaw = THREE.MathUtils.clamp(
-        -steeringState.x * 0.38,
-        -0.38,
-        0.38,
-      );
-      cameraOrbit.targetPitch = THREE.MathUtils.clamp(
-        steeringState.y * 0.32,
-        -0.32,
-        0.32,
-      );
-    }
-
-    function getSteerInputX() {
-      return applyDeadzone(steeringState.x, STEER_DEADZONE_X);
-    }
-
-    function getSteerInputY() {
-      return applyDeadzone(steeringState.y, STEER_DEADZONE_Y);
-    }
-
-    function isFlightKey(code) {
-      return (
-        code === "KeyW" ||
-        code === "KeyA" ||
-        code === "KeyS" ||
-        code === "KeyD" ||
-        code === "Space" ||
-        code === "ShiftLeft" ||
-        code === "ShiftRight"
-      );
-    }
-
-    function triggerBoost(code) {
-      if (code !== "KeyW" && code !== "Space") return;
-
-      const now = performance.now();
-      const previousTap = lastTapTimes.get(code) || 0;
-      if (now - previousTap <= DOUBLE_TAP_WINDOW_MS) {
-        if (code === "KeyW") {
-          flight.boostUntil = now + BOOST_DURATION_MS;
-          flight.boostStartedAt = now;
-        }
-        if (code === "Space") {
-          flight.climbBoostUntil = now + BOOST_DURATION_MS;
-          flight.climbBoostStartedAt = now;
-        }
-      }
-      lastTapTimes.set(code, now);
-    }
-
-    function updateFlightControls(delta) {
-      if (!introState.controlsEnabled) return;
-
-      updateSteeringState(delta);
-
-      const now = performance.now();
-      const forwardHeld = pressedKeys.has("KeyW");
-      const reverseHeld = pressedKeys.has("KeyS");
-      const upwardHeld = pressedKeys.has("Space");
-      const downwardHeld =
-        pressedKeys.has("ShiftLeft") || pressedKeys.has("ShiftRight");
-      const forwardInput = Number(forwardHeld) - Number(reverseHeld);
-      const verticalInput = Number(upwardHeld) - Number(downwardHeld);
-      const rollInput =
-        Number(pressedKeys.has("KeyD")) - Number(pressedKeys.has("KeyA"));
-      const steerX = getSteerInputX();
-      const steerY = getSteerInputY();
-      const sustainSupersonic = flight.height >= SUPERSONIC_LOCK_ALTITUDE;
-
-      const timedBoostActive =
-        flight.boostUntil > 0 && now < flight.boostUntil;
-      const timedClimbBoostActive =
-        flight.climbBoostUntil > 0 && now < flight.climbBoostUntil;
-      const boostActive =
-        timedBoostActive ||
-        (sustainSupersonic && forwardHeld && flight.boostStartedAt > 0);
-      const climbBoostActive =
-        timedClimbBoostActive ||
-        (sustainSupersonic && upwardHeld && flight.climbBoostStartedAt > 0);
-
-      if (!boostActive) {
-        flight.boostUntil = 0;
-        if (!sustainSupersonic) {
-          flight.boostStartedAt = 0;
-        }
-      }
-      if (!climbBoostActive) {
-        flight.climbBoostUntil = 0;
-        if (!sustainSupersonic) {
-          flight.climbBoostStartedAt = 0;
+      function markLoadingActivity() {
+        loadingState.lastTileActivityAt = performance.now();
+        loadingState.ready = false;
+        if (loadingBadge) {
+          loadingBadge.classList.remove("hidden");
+          loadingBadge.textContent = "Carregando mundo...";
         }
       }
 
-      const boostStartedAt = flight.boostStartedAt || 0;
-      const climbBoostStartedAt = flight.climbBoostStartedAt || 0;
-      const boostAgeSeconds =
-        boostActive && boostStartedAt > 0 ? (now - boostStartedAt) / 1000 : 0;
-      const climbBoostAgeSeconds =
-        climbBoostActive && climbBoostStartedAt > 0
-          ? (now - climbBoostStartedAt) / 1000
-          : 0;
-
-      const supersonicSpeedBonus = boostActive
-        ? Math.min(
-          boostAgeSeconds * SUPERSONIC_SPEED_RAMP_PER_SECOND,
-          SUPERSONIC_SPEED_RAMP_MAX,
-        )
-        : 0;
-      const supersonicClimbSpeedBonus = climbBoostActive
-        ? Math.min(
-          climbBoostAgeSeconds * SUPERSONIC_SPEED_RAMP_PER_SECOND,
-          SUPERSONIC_SPEED_RAMP_MAX,
-        )
-        : 0;
-      const maxForwardSpeed = boostActive
-        ? SUPERSONIC_SPEED + supersonicSpeedBonus
-        : FLIGHT_MAX_SPEED;
-      const climbAssistSpeed = climbBoostActive
-        ? SUPERSONIC_CLIMB_SPEED + supersonicClimbSpeedBonus
-        : FLIGHT_CLIMB_SPEED;
-
-      const speedTarget = forwardInput * maxForwardSpeed;
-      const speedDamping = 1 - Math.exp(-delta * (boostActive ? 3.4 : 4.2));
-      flight.speed += (speedTarget - flight.speed) * speedDamping;
-
-      if (!boostActive && !climbBoostActive) {
-        flight.speed = THREE.MathUtils.clamp(
-          flight.speed,
-          -FLIGHT_MAX_SPEED,
-          FLIGHT_MAX_SPEED,
-        );
+      function markHeroReady() {
+        if (activeAppMode !== "hero-only") return;
+        loadingState.ready = true;
+        loadingBadge.classList.add("hidden");
       }
 
-      const speedRatio = THREE.MathUtils.clamp(
-        Math.abs(flight.speed) / Math.max(FLIGHT_MAX_SPEED, 1),
-        0,
-        1,
-      );
-      const steeringAuthority = forwardHeld
-        ? 1
-        : THREE.MathUtils.lerp(HERO_GLIDE_TURN_FACTOR, 1, speedRatio);
+      function updateLoadingBadge(time) {
+        if (!loadingBadge || loadingState.ready) return;
 
-      // Slightly reduced turn rate at extreme dive to avoid nausea
-      const divePenalty = THREE.MathUtils.lerp(
-        1,
-        0.7,
-        THREE.MathUtils.clamp(-flight.pitch * 0.8, 0, 1),
-      );
-      const turnRate =
-        HERO_TURN_RATE *
-        THREE.MathUtils.lerp(0.55, 1.25, speedRatio) *
-        (boostActive ? 0.75 : 1.0) *
-        divePenalty;
+        const minimumVisibleMs = 3200;
+        const quietWindowMs = 1800;
+        const hasBeenVisibleLongEnough =
+          time - loadingState.startedAt > minimumVisibleMs;
+        const hasBeenQuietLongEnough =
+          time - loadingState.lastTileActivityAt > quietWindowMs;
 
-      flight.heading = normalizeAngle(
-        flight.heading + steerX * turnRate * steeringAuthority * delta,
-      );
+        if (!hasBeenVisibleLongEnough || !hasBeenQuietLongEnough) return;
 
-      const targetPitch = THREE.MathUtils.clamp(
-        (steerY >= 0
-          ? -steerY * HERO_PITCH_RANGE_DOWN
-          : -steerY * HERO_PITCH_RANGE_UP) +
-        verticalInput * 0.42,
-        -HERO_PITCH_RANGE_DOWN,
-        HERO_PITCH_RANGE_UP,
-      );
-      const pitchResponseScale = targetPitch < flight.pitch ? 1.4 : 1.0;
-      const pitchResponse = forwardHeld
-        ? HERO_PITCH_RESPONSE * (boostActive ? 0.85 : 1) * pitchResponseScale
-        : HERO_AUTO_LEVEL_RESPONSE;
-      flight.pitch +=
-        (targetPitch - flight.pitch) * (1 - Math.exp(-pitchResponse * delta));
+        loadingState.ready = true;
+        loadingBadge.classList.add("hidden");
+      }
 
-      const bankTarget = THREE.MathUtils.clamp(
-        steerX * HERO_VISUAL_BANK_FROM_STEER * (1 + speedRatio * 0.6),
-        -1.3,
-        1.3,
-      );
-      flight.roll +=
-        (bankTarget - flight.roll) *
-        (1 - Math.exp(-HERO_BANK_RESPONSE * delta));
-
-      if (rollInput !== 0) {
-        flight.barrelRollAngle = normalizeAngle(
-          flight.barrelRollAngle + rollInput * BARREL_ROLL_SPEED * delta,
-        );
-      } else {
-        flight.barrelRollAngle = dampAngle(
-          flight.barrelRollAngle,
+      function placeHeroAboveTokyo(target) {
+        const DEG2RAD = Math.PI / 180;
+        const matrix = new THREE.Matrix4();
+        const introLat = activeCityPreset.introLat ?? activeCityPreset.lat;
+        const introLon = activeCityPreset.introLon ?? activeCityPreset.lon;
+        tiles.ellipsoid.getObjectFrame(
+          introLat * DEG2RAD,
+          introLon * DEG2RAD,
+          activeCityPreset.height,
+          90 * DEG2RAD,
+          -12 * DEG2RAD,
           0,
-          BARREL_ROLL_RETURN_RATE,
-          delta,
+          matrix,
+          CAMERA_FRAME,
         );
+        matrix.decompose(target.position, target.quaternion, target.scale);
       }
 
-      const traveledMeters = flight.speed * delta;
-      const horizontalMeters = Math.cos(flight.pitch) * traveledMeters;
-      const verticalMeters = Math.sin(flight.pitch) * traveledMeters;
-      const northMeters = Math.cos(flight.heading) * horizontalMeters;
-      const eastMeters = Math.sin(flight.heading) * horizontalMeters;
-      const latRadians = flight.lat * (Math.PI / 180);
-      flight.lat += northMeters / METERS_PER_DEGREE;
-      flight.lon +=
-        eastMeters /
-        (METERS_PER_DEGREE * Math.max(Math.cos(latRadians), 0.15));
+      function handleKeyDown(event) {
+        startWindAudio();
 
-      flight.height = THREE.MathUtils.clamp(
-        flight.height +
-        verticalMeters +
-        verticalInput * MANUAL_CLIMB_ASSIST_SPEED * delta +
-        verticalInput * climbAssistSpeed * delta * 0.08,
-        FLIGHT_MIN_HEIGHT,
-        FLIGHT_MAX_HEIGHT,
-      );
-    }
+        if (!introState.controlsEnabled) return;
 
-    function updateFlightReadout() {
-      const now = performance.now();
-      const sustainBoost =
-        flight.height >= SUPERSONIC_LOCK_ALTITUDE &&
-        pressedKeys.has("KeyW") &&
-        flight.boostStartedAt > 0;
-      const sustainClimbBoost =
-        flight.height >= SUPERSONIC_LOCK_ALTITUDE &&
-        pressedKeys.has("Space") &&
-        flight.climbBoostStartedAt > 0;
-      const boostLabel =
-        now < flight.boostUntil ||
-          now < flight.climbBoostUntil ||
-          sustainBoost ||
-          sustainClimbBoost
-          ? " | BOOST"
-          : "";
-      flightReadout.textContent = `Speed ${Math.round(
-        Math.abs(flight.speed),
-      )} m/s | Alt ${Math.round(flight.height)} m | AGL ${Math.round(
-        getFlightAgl(),
-      )} m${boostLabel}`;
-    }
-
-    function updateCompass() {
-      if (!compassNeedle) return;
-
-      const headingDegrees =
-        (THREE.MathUtils.radToDeg(flight.heading) + 360) % 360;
-      compassNeedle.style.transform = `translate(-50%, -100%) rotate(${headingDegrees}deg)`;
-    }
-
-    function updateCityReadout() {
-      if (!cityReadout) return;
-
-      cityReadout.textContent = `Cidade: ${activeCityPreset.label} (?city=${activeCityKey}) — Troque com tk / sp / ny`;
-    }
-
-    function getFlightAgl() {
-      return Math.max(0, flight.height - flight.groundHeight);
-    }
-
-    function updateHeroFrame() {
-      tiles.ellipsoid.getObjectFrame(
-        flight.lat * (Math.PI / 180),
-        flight.lon * (Math.PI / 180),
-        flight.height,
-        flight.heading,
-        flight.pitch,
-        flight.roll,
-        heroFrameMatrix,
-        CAMERA_FRAME,
-      );
-      heroFrameMatrix.decompose(
-        heroRoot.position,
-        heroRoot.quaternion,
-        heroRoot.scale,
-      );
-      heroForward.set(0, 0, -1).applyQuaternion(heroRoot.quaternion);
-      heroUp.set(0, 1, 0).applyQuaternion(heroRoot.quaternion);
-      heroRight.set(1, 0, 0).applyQuaternion(heroRoot.quaternion);
-    }
-
-    function updateCameraBasis() {
-      cameraStableUp.copy(heroRoot.position).normalize();
-      if (cameraStableUp.lengthSq() < 0.5) {
-        cameraStableUp.copy(heroUp).normalize();
-      }
-
-      cameraStableForward.copy(heroForward);
-      cameraStableForward.projectOnPlane(cameraStableUp);
-      if (cameraStableForward.lengthSq() < 0.0001) {
-        cameraStableForward.crossVectors(cameraStableUp, heroRight);
-      }
-      cameraStableForward.normalize();
-      cameraStableRight
-        .crossVectors(cameraStableForward, cameraStableUp)
-        .normalize();
-    }
-
-    function updateHeroHeadPose() {
-      const steerX = getSteerInputX();
-
-      // Usa o currentLean já suavizado do flight state
-      // Como currentLean é negativo (barriga pro chão), a cabeça precisa
-      // compensar levantando (valor positivo) para continuar olhando para frente
-      const headPitchTarget = THREE.MathUtils.clamp(
-        -flight.currentLean * 0.65 + Math.max(-flight.pitch, 0) * 0.1,
-        -0.2,
-        0.95,  // Permite levantar bastante a cabeça no boost
-      );
-      const neckPitchTarget = headPitchTarget * 0.5;
-
-      // Yaw da cabeça segue mais o mouse lateral
-      const headYawTarget = THREE.MathUtils.clamp(
-        -steerX * 0.28 - flight.roll * 0.06,
-        -0.35,
-        0.35,
-      );
-      const neckYawTarget = headYawTarget * 0.5;
-
-      if (heroNeckNode) {
-        heroNeckOffsetQuaternion.setFromEuler(
-          new THREE.Euler(neckPitchTarget, neckYawTarget, 0, "YXZ"),
-        );
-        heroNeckNode.quaternion
-          .copy(heroNeckBaseQuaternion)
-          .multiply(heroNeckOffsetQuaternion);
-      }
-
-      if (heroHeadNode) {
-        heroHeadOffsetQuaternion.setFromEuler(
-          new THREE.Euler(headPitchTarget, headYawTarget, 0, "YXZ"),
-        );
-        heroHeadNode.quaternion
-          .copy(heroHeadBaseQuaternion)
-          .multiply(heroHeadOffsetQuaternion);
-      }
-    }
-
-    function updateHeroRenderPose() {
-      if (!heroRenderRoot || !heroPoseRoot || !heroBarrelRoot) return;
-
-      const now = performance.now();
-      const speedForwardRatio = THREE.MathUtils.clamp(
-        Math.max(flight.speed, 0) / SUPERSONIC_SPEED,
-        0,
-        1,
-      );
-
-      // Detecta se está em boost
-      const isInBoost = flight.boostUntil > 0 && now < flight.boostUntil;
-      const isSustainSupersonic = flight.speed > SUPERSONIC_SPEED * 0.95 && flight.boostStartedAt > 0;
-      const boostActive = isInBoost || isSustainSupersonic;
-
-      // Calcula inclinação alvo para frente (negativo = barriga pro chão)
-      // Em voo normal: leve inclinação para frente
-      // Em boost: quase horizontal (barriga pro chão)
-      let targetLean = 0;
-      if (boostActive) {
-        // Boost: inclina muito para frente (-1.3 rad ~ 75 graus, barriga pro chão)
-        targetLean = -1.3;
-      } else if (speedForwardRatio > 0.1) {
-        // Voo normal: inclina proporcionalmente à velocidade (até ~40 graus)
-        targetLean = -speedForwardRatio * 0.7;
-      }
-
-      // Suaviza a transição da inclinação (lerp fluido)
-      const leanSpeed = boostActive ? 0.04 : 0.025;  // Mais rápido entrando no boost
-      flight.currentLean += (targetLean - flight.currentLean) * leanSpeed;
-
-      // Pitch visual: combina inclinação de voo + lean forward suavizado
-      const visualPitch = THREE.MathUtils.clamp(
-        -flight.pitch * 0.3 + flight.currentLean,
-        -1.4,  // Permite mais inclinação para frente no boost
-        0.3,
-      );
-
-      // Bank visual muito reduzido - corpo quase não inclina lateralmente        // Banking logic (from steering)
-      // We SIGNIFICANTLY reduce banking visual for the root to avoid the "\" look
-      const isRolling = flight.barrelRollActive;
-      const bankMult = isRolling ? 0.3 : 1.0;
-      const visualBank = THREE.MathUtils.clamp(
-        -flight.roll * 0.45 * bankMult,
-        -0.5,
-        0.5,
-      );
-
-      heroRenderRoot.position.set(0, 0, 0);
-      // Aplica pitch (inclinação para frente) e bank leve ao corpo
-      heroPoseRoot.quaternion.setFromEuler(
-        new THREE.Euler(visualPitch, 0, visualBank, "YXZ"),
-      );
-      // Barrel roll acontece no eixo forward (Y no espaço local do herói voando)
-      // O herói gira em torno de si mesmo, não em torno de um pivô externo
-      heroBarrelRoot.quaternion.setFromAxisAngle(
-        new THREE.Vector3(0, 1, 0),
-        flight.barrelRollAngle,
-      );
-
-      if (speedForwardRatio > 0.3) {
-        const shakeAmount = (speedForwardRatio - 0.3) * 0.06;
-        heroRenderRoot.position.x += (Math.random() - 0.5) * shakeAmount;
-        heroRenderRoot.position.y += (Math.random() - 0.5) * shakeAmount;
-      }
-
-      // heroPoseRoot.quaternion.setFromEuler(
-      //   new THREE.Euler(visualPitch, 0, visualBank, "YXZ"),
-      // );
-
-      // // 2. LONGITUDINAL BARREL ROLL (Spin around central axis)
-      // heroBarrelRoot.quaternion.setFromAxisAngle(
-      //   new THREE.Vector3(0, 0, 1),
-      //   flight.barrelRollAngle,
-      // );
-
-      // 3. SECUNDARY TORSION (Local shoulders/torso twist)
-      // This is where the main banking visual happens for that "superhero turn"
-      if (heroTorsoNode) {
-        // Add steering bank directly to torso for that trailing feel
-        const steerBank = -flight.roll * 1.5;
-        const torsionTarget = isRolling
-          ? flight.barrelRollDirection * BARREL_ROLL_TORSION
-          : steerBank;
-
-        const currentTorsion = heroTorsoNode.rotation.z;
-        heroTorsoNode.rotation.z = THREE.MathUtils.lerp(
-          currentTorsion,
-          torsionTarget,
-          0.15,
-        );
-      }
-
-      if (heroShoulderNode) {
-        const shoulderTwist = isRolling
-          ? flight.barrelRollDirection * 0.2
-          : 0;
-        heroShoulderNode.rotation.z = THREE.MathUtils.lerp(
-          heroShoulderNode.rotation.z,
-          shoulderTwist,
-          0.12,
-        );
-      }
-    }
-
-    function updateHeroRenderCamera(forceSnap = false) {
-      if (!heroCamera || !heroRenderRoot) return;
-
-      cameraOrbit.yaw += (cameraOrbit.targetYaw - cameraOrbit.yaw) * 0.08;
-      cameraOrbit.pitch +=
-        (cameraOrbit.targetPitch - cameraOrbit.pitch) * 0.08;
-
-      const steerX = getSteerInputX();
-      const steerY = getSteerInputY();
-      const speedRatio = THREE.MathUtils.clamp(
-        Math.abs(flight.speed) / SUPERSONIC_SPEED,
-        0,
-        1,
-      );
-
-      // Compensação de pitch para manter herói enquadrado
-      const pitchCompensation = Math.sin(flight.pitch) * 0.4;
-
-      const introCameraProgress = easeOutCubic(introState.progress);
-      const distance = introState.controlsEnabled
-        ? THREE.MathUtils.lerp(CAMERA_FOLLOW_DISTANCE * 0.96, 480, speedRatio)
-        : THREE.MathUtils.lerp(
-          INTRO_CAMERA_START_DISTANCE * 1.2,
-          INTRO_CAMERA_END_DISTANCE * 1.18,
-          introCameraProgress,
-        );
-      const height = introState.controlsEnabled
-        ? THREE.MathUtils.lerp(
-          CAMERA_FOLLOW_HEIGHT + 12,
-          120,
-          Math.pow(speedRatio, 1.5),
-        )
-        : THREE.MathUtils.lerp(
-          INTRO_CAMERA_START_HEIGHT + 12,
-          INTRO_CAMERA_END_HEIGHT + 10,
-          introCameraProgress,
-        );
-
-      // Offset de câmera baseado no steer mas menos agressivo
-      const targetPosition = new THREE.Vector3(
-        steerX * CAMERA_STEER_OFFSET_X * 0.5,
-        height - steerY * CAMERA_STEER_OFFSET_Y * 0.5 + pitchCompensation * 30,
-        distance,
-      );
-
-      if (forceSnap) {
-        heroCamera.position.copy(targetPosition);
-      } else {
-        heroCamera.position.lerp(targetPosition, 0.07);
-      }
-
-      const lookAheadDistance = introState.controlsEnabled
-        ? CAMERA_LOOK_AHEAD + speedRatio * 300
-        : INTRO_CAMERA_LOOK_AHEAD;
-
-      const lookUpOffset = introState.controlsEnabled
-        ? THREE.MathUtils.lerp(100, 180, speedRatio)
-        : 32;
-
-      // Look target compensado para manter herói sempre visível
-      const lookTarget = new THREE.Vector3(
-        steerX * CAMERA_LOOK_STEER_X,
-        lookUpOffset - steerY * CAMERA_LOOK_STEER_Y,
-        -lookAheadDistance, // Look forward in local space
-      );
-
-      heroCamera.up.set(0, 1, 0);
-      heroCamera.lookAt(lookTarget);
-    }
-
-    function updateChaseCamera(snapToTarget = false) {
-      if (!flight.followCamera) return;
-
-      updateCameraBasis();
-
-      // Suavização mais lenta para estabilidade
-      cameraOrbit.yaw += (cameraOrbit.targetYaw - cameraOrbit.yaw) * 0.08;
-      cameraOrbit.pitch +=
-        (cameraOrbit.targetPitch - cameraOrbit.pitch) * 0.08;
-
-      const steerX = getSteerInputX();
-      const steerY = getSteerInputY();
-      const speedRatio = THREE.MathUtils.clamp(
-        Math.abs(flight.speed) / SUPERSONIC_SPEED,
-        0,
-        1,
-      );
-
-      // Compensação de pitch para manter herói enquadrado em mergulhos/subidas
-      const pitchCompensation = Math.sin(flight.pitch) * 0.6;
-
-      const normalFollowDistance = THREE.MathUtils.lerp(
-        CAMERA_FOLLOW_DISTANCE,
-        450,
-        speedRatio,
-      );
-      const normalFollowHeight = THREE.MathUtils.lerp(
-        CAMERA_FOLLOW_HEIGHT,
-        150,
-        speedRatio,
-      );
-      const introCameraProgress = easeOutCubic(introState.progress);
-      const followDistance = introState.controlsEnabled
-        ? normalFollowDistance
-        : THREE.MathUtils.lerp(
-          INTRO_CAMERA_START_DISTANCE,
-          INTRO_CAMERA_END_DISTANCE,
-          introCameraProgress,
-        );
-      const followHeight = introState.controlsEnabled
-        ? normalFollowHeight
-        : THREE.MathUtils.lerp(
-          INTRO_CAMERA_START_HEIGHT,
-          INTRO_CAMERA_END_HEIGHT,
-          introCameraProgress,
-        );
-      const altitudeCameraScale = introState.controlsEnabled
-        ? Math.min(Math.max(0, flight.height - 2000) * 0.0006, 30)
-        : 0;
-
-      // Câmera se posiciona mais baseada no heroUp (estável) e menos no steer
-      // para evitar perder o herói em manobras extremas
-      cameraTargetPosition
-        .copy(heroRoot.position)
-        .addScaledVector(
-          cameraStableUp,
-          followHeight +
-          altitudeCameraScale * 0.5 -
-          steerY * CAMERA_STEER_OFFSET_Y * 0.7 +
-          pitchCompensation * 40,
-        )
-        .addScaledVector(
-          cameraStableForward,
-          -followDistance - altitudeCameraScale,
-        )
-        .addScaledVector(
-          cameraStableRight,
-          steerX * CAMERA_STEER_OFFSET_X * 0.5,
-        );
-
-      if (snapToTarget) {
-        camera.position.copy(cameraTargetPosition);
-      } else {
-        // Lerp mais suave para câmera mais estável
-        camera.position.lerp(cameraTargetPosition, 0.065);
-      }
-
-      const lookAheadDistance = introState.controlsEnabled
-        ? CAMERA_LOOK_AHEAD
-        : INTRO_CAMERA_LOOK_AHEAD;
-      // Look target sempre aponta um pouco acima do herói para mantê-lo visível
-      const lookUpOffset = introState.controlsEnabled ? 90 + pitchCompensation * 60 : 32;
-      cameraLookTarget
-        .copy(heroRoot.position)
-        .addScaledVector(cameraStableForward, lookAheadDistance * 0.7)
-        .addScaledVector(cameraStableRight, steerX * CAMERA_LOOK_STEER_X * 0.6)
-        .addScaledVector(
-          cameraStableUp,
-          lookUpOffset - steerY * CAMERA_LOOK_STEER_Y * 0.5,
-        );
-      camera.up.copy(cameraStableUp);
-      camera.lookAt(cameraLookTarget);
-    }
-
-    function createFlightTrail() {
-      const trail = new THREE.Line(
-        new THREE.BufferGeometry(),
-        new THREE.LineBasicMaterial({
-          color: 0x8ee8ff,
-          transparent: true,
-          opacity: 0.55,
-          depthWrite: false,
-        }),
-      );
-      trail.frustumCulled = false;
-      return trail;
-    }
-
-    function updateFlightTrail() {
-      if (!heroTrail) return;
-
-      trailPositions.unshift(heroRoot.position.clone());
-      if (trailPositions.length > 48) {
-        trailPositions.length = 48;
-      }
-
-      if (trailPositions.length > 1) {
-        heroTrail.geometry.dispose();
-        heroTrail.geometry = new THREE.BufferGeometry().setFromPoints(
-          trailPositions,
-        );
-      }
-    }
-
-    function loadBirdModels() {
-      const loader = new GLTFLoader();
-
-      const loadCandidate = (url) =>
-        new Promise((resolve, reject) => {
-          loader.load(url, resolve, undefined, reject);
-        });
-
-      return Promise.allSettled(
-        BIRD_MODEL_CANDIDATES.map((url) => loadCandidate(url)),
-      ).then((results) => {
-        results.forEach((result, index) => {
-          if (result.status !== "fulfilled") return;
-          const gltf = result.value;
-          birdModels.push({
-            url: BIRD_MODEL_CANDIDATES[index],
-            scene: gltf.scene || gltf.scenes[0],
-            animations: gltf.animations || [],
-          });
-        });
-
-        if (birdModels.length > 0) {
-          birdSpawnAt =
-            performance.now() +
-            randomRange(BIRD_MIN_SPAWN_DELAY_MS, BIRD_MAX_SPAWN_DELAY_MS);
-        } else {
-          birdSpawnAt = performance.now() + 10000;
-          console.warn("No local bird models found.");
+        if (isFlightKey(event.code)) {
+          event.preventDefault();
+          if (!event.repeat) {
+            triggerBoost(event.code);
+          }
+          pressedKeys.add(event.code);
         }
-      });
-    }
 
-    function updateBirds(delta) {
-      const now = performance.now();
-
-      if (!birdActive) {
-        if (birdModels.length > 0 && now >= birdSpawnAt) {
-          spawnBird();
-        }
-        return;
-      }
-
-      if (birdActive.mixer) {
-        birdActive.mixer.update(delta);
-      }
-
-      const ageSeconds = (now - birdActive.bornAt) / 1000;
-      birdActive.root.position
-        .copy(birdActive.startPosition)
-        .addScaledVector(birdActive.velocity, ageSeconds)
-        .addScaledVector(
-          birdActive.startUp,
-          Math.sin(ageSeconds * 3.2 + birdActive.phase) * 0.35,
-        );
-
-      birdLookTarget
-        .copy(birdActive.root.position)
-        .addScaledVector(birdActive.velocity, 1);
-      birdActive.root.lookAt(birdLookTarget);
-      birdActive.root.rotateY(BIRD_MODEL_YAW_OFFSET);
-
-      const distanceFromHero = birdActive.root.position.distanceTo(
-        heroRoot.position,
-      );
-      if (now >= birdActive.dieAt || distanceFromHero > 15000) {
-        birdRoot.remove(birdActive.root);
-        birdActive = null;
-        birdSpawnAt =
-          now + randomRange(BIRD_MIN_SPAWN_DELAY_MS, BIRD_MAX_SPAWN_DELAY_MS);
-      }
-    }
-
-    function spawnBird() {
-      if (!birdModels.length || !heroRoot || !birdRoot) return;
-
-      const template =
-        birdModels[Math.floor(Math.random() * birdModels.length)];
-      const bird = skeletonClone(template.scene);
-      bird.traverse((child) => {
-        if (child.isMesh) {
-          child.castShadow = false;
-          child.receiveShadow = false;
-        }
-      });
-
-      const birdBounds = new THREE.Box3().setFromObject(bird);
-      const birdSize = new THREE.Vector3();
-      birdBounds.getSize(birdSize);
-      const longestEdge = Math.max(birdSize.x, birdSize.y, birdSize.z, 1);
-      const scale = BIRD_TARGET_SIZE / longestEdge;
-      bird.scale.setScalar(scale);
-
-      const side = Math.random() < 0.5 ? -1 : 1;
-      const sideOffset = randomRange(
-        BIRD_SIDE_OFFSET_MIN,
-        BIRD_SIDE_OFFSET_MAX,
-      );
-      const forwardOffset = randomRange(
-        BIRD_FORWARD_OFFSET_MIN,
-        BIRD_FORWARD_OFFSET_MAX,
-      );
-      const heightOffset = randomRange(
-        BIRD_HEIGHT_OFFSET_MIN,
-        BIRD_HEIGHT_OFFSET_MAX,
-      );
-      const speed = randomRange(BIRD_SPEED_MIN, BIRD_SPEED_MAX);
-
-      birdSpawnPosition
-        .copy(heroRoot.position)
-        .addScaledVector(heroRight, side * sideOffset)
-        .addScaledVector(heroForward, forwardOffset)
-        .addScaledVector(heroUp, heightOffset);
-
-      birdSpawnTarget
-        .copy(heroRoot.position)
-        .addScaledVector(heroRight, -side * sideOffset * 1.4)
-        .addScaledVector(heroForward, forwardOffset + 600)
-        .addScaledVector(heroUp, heightOffset + randomRange(-60, 80));
-
-      birdVelocity
-        .copy(birdSpawnTarget)
-        .sub(birdSpawnPosition)
-        .normalize()
-        .multiplyScalar(speed);
-
-      bird.position.copy(birdSpawnPosition);
-      bird.lookAt(birdSpawnTarget);
-      bird.rotateY(BIRD_MODEL_YAW_OFFSET);
-
-      const mixer = template.animations.length
-        ? new THREE.AnimationMixer(bird)
-        : null;
-      if (mixer) {
-        const clip = template.animations[0];
-        mixer.clipAction(clip).play();
-      }
-
-      birdRoot.add(bird);
-      birdActive = {
-        root: bird,
-        mixer,
-        velocity: birdVelocity.clone(),
-        startPosition: birdSpawnPosition.clone(),
-        startUp: heroUp.clone(),
-        bornAt: performance.now(),
-        dieAt: performance.now() + BIRD_LIFETIME_MS,
-        phase: Math.random() * Math.PI * 2,
-      };
-      birdSpawnAt =
-        performance.now() +
-        randomRange(BIRD_MIN_SPAWN_DELAY_MS, BIRD_MAX_SPAWN_DELAY_MS);
-    }
-
-    function randomRange(min, max) {
-      return min + Math.random() * (max - min);
-    }
-
-    function createFallbackHero() {
-      const hero = new THREE.Group();
-
-      const body = new THREE.Mesh(
-        new THREE.CapsuleGeometry(0.4, 1.6, 6, 10),
-        new THREE.MeshStandardMaterial({
-          color: 0xd63b39,
-          metalness: 0.2,
-          roughness: 0.3,
-          emissive: 0x3a0b0b,
-          emissiveIntensity: 0.25,
-        }),
-      );
-      body.rotation.z = Math.PI / 2;
-      hero.add(body);
-
-      const chest = new THREE.Mesh(
-        new THREE.SphereGeometry(0.45, 24, 16),
-        new THREE.MeshStandardMaterial({
-          color: 0xf4f1e8,
-          metalness: 0.1,
-          roughness: 0.28,
-        }),
-      );
-      chest.position.set(0.15, 0, 0.36);
-      hero.add(chest);
-
-      const wingGeo = new THREE.BoxGeometry(1.6, 0.08, 0.38);
-      const wingMat = new THREE.MeshStandardMaterial({
-        color: 0x8de3ff,
-        metalness: 0.25,
-        roughness: 0.45,
-        transparent: true,
-        opacity: 0.72,
-      });
-      const wingLeft = new THREE.Mesh(wingGeo, wingMat);
-      wingLeft.position.set(-0.05, 0, -0.45);
-      wingLeft.rotation.z = 0.18;
-      hero.add(wingLeft);
-
-      const wingRight = new THREE.Mesh(wingGeo, wingMat.clone());
-      wingRight.position.set(-0.05, 0, 0.45);
-      wingRight.rotation.z = -0.18;
-      hero.add(wingRight);
-
-      const cape = new THREE.Mesh(
-        new THREE.PlaneGeometry(1.2, 2.2, 1, 4),
-        new THREE.MeshStandardMaterial({
-          color: 0x132847,
-          transparent: true,
-          opacity: 0.75,
-          side: THREE.DoubleSide,
-        }),
-      );
-      cape.position.set(-0.95, 0, 0);
-      cape.rotation.y = Math.PI / 2;
-      hero.add(cape);
-
-      const neckRig = new THREE.Group();
-      neckRig.position.set(0.55, 0, 0.08);
-      hero.add(neckRig);
-
-      const neck = new THREE.Mesh(
-        new THREE.SphereGeometry(0.18, 16, 12),
-        new THREE.MeshStandardMaterial({
-          color: 0xf2d5c3,
-          metalness: 0.05,
-          roughness: 0.42,
-        }),
-      );
-      neck.position.set(0.12, 0, 0);
-      neckRig.add(neck);
-
-      const headRig = new THREE.Group();
-      headRig.position.set(0.22, 0, 0);
-      neckRig.add(headRig);
-
-      const head = new THREE.Mesh(
-        new THREE.SphereGeometry(0.32, 20, 16),
-        new THREE.MeshStandardMaterial({
-          color: 0xf7e1cf,
-          metalness: 0.04,
-          roughness: 0.35,
-        }),
-      );
-      head.position.set(0.18, 0, 0);
-      headRig.add(head);
-
-      heroNeckNode = neckRig;
-      heroHeadNode = headRig;
-      heroNeckBaseQuaternion.copy(neckRig.quaternion);
-      heroHeadBaseQuaternion.copy(headRig.quaternion);
-
-      hero.rotation.y = HERO_YAW_OFFSET;
-      hero.scale.setScalar(HERO_SCALE);
-      return hero;
-    }
-
-    function addHeroLighting(targetRoot, targetCamera) {
-      const hemi = new THREE.HemisphereLight(0xffffff, 0x223344, 1.9);
-      hemi.position.set(0, 1, 0);
-      targetRoot.add(hemi);
-
-      const keyLight = new THREE.DirectionalLight(0xffffff, 2.8);
-      keyLight.position.set(2.5, 3.4, 4.8);
-      targetRoot.add(keyLight);
-
-      const fillLight = new THREE.DirectionalLight(0x8ee8ff, 1.3);
-      fillLight.position.set(-3.5, 1.4, 2.2);
-      targetRoot.add(fillLight);
-
-      const rimLight = new THREE.DirectionalLight(0xffffff, 1.8);
-      rimLight.position.set(-2.2, 0.8, -3.2);
-      targetRoot.add(rimLight);
-
-      introHeroLight = new THREE.PointLight(0xffffff, 2.2, 900, 2);
-      introHeroLight.position.set(0, 70, 160);
-      targetCamera.add(introHeroLight);
-    }
-
-    function addBirdLighting() {
-      const keyLight = new THREE.PointLight(0xffffff, 1.8, 5500);
-      keyLight.position.set(220, 340, 540);
-      birdRoot.add(keyLight);
-
-      const fillLight = new THREE.PointLight(0xbceeff, 1.1, 4200);
-      fillLight.position.set(-420, 160, -360);
-      birdRoot.add(fillLight);
-    }
-
-    function brightenHeroModel(model) {
-      const maxAnisotropy = renderer.capabilities.getMaxAnisotropy();
-
-      model.traverse((child) => {
-        if (!child.isMesh || !child.material) return;
-
-        const materials = Array.isArray(child.material)
-          ? child.material
-          : [child.material];
-
-        child.material = Array.isArray(child.material)
-          ? materials.map((material) => brightenHeroMaterial(material))
-          : brightenHeroMaterial(child.material);
-
-        const finalMaterials = Array.isArray(child.material)
-          ? child.material
-          : [child.material];
-
-        for (const material of finalMaterials) {
-          if (material.map) {
-            material.map.anisotropy = maxAnisotropy;
-            material.map.needsUpdate = true;
+        if (event.code === "KeyC" && !event.repeat) {
+          flight.followCamera = !flight.followCamera;
+          if (flight.followCamera) {
+            resetCameraOrbit();
           }
         }
-
-        child.castShadow = false;
-        child.receiveShadow = false;
-      });
-    }
-
-    function registerHeroLookRig(model) {
-      heroNeckNode = findNamedNode(model, "NEck_05");
-      heroHeadNode = findNamedNode(model, "Head_06");
-
-      if (heroNeckNode) {
-        heroNeckBaseQuaternion.copy(heroNeckNode.quaternion);
-      }
-      if (heroHeadNode) {
-        heroHeadBaseQuaternion.copy(heroHeadNode.quaternion);
       }
 
-      if (!heroNeckNode && !heroHeadNode) {
-        heroNeckBaseQuaternion.identity();
-        heroHeadBaseQuaternion.identity();
-      }
-    }
-
-    function findNamedNode(model, name) {
-      const lowerName = name.toLowerCase();
-      let found = null;
-      model.traverse((child) => {
-        if (found || !child.name) return;
-        if (child.name.toLowerCase() === lowerName) {
-          found = child;
+      function handleKeyUp(event) {
+        if (isFlightKey(event.code)) {
+          event.preventDefault();
+          pressedKeys.delete(event.code);
         }
-      });
-      return found;
-    }
+      }
 
-    function brightenHeroMaterial(material) {
-      const nextMaterial = material.clone();
+      function handlePointerMove(event) {
+        startWindAudio();
 
-      nextMaterial.toneMapped = true;
-      nextMaterial.needsUpdate = true;
+        if (!flight.followCamera || !introState.controlsEnabled) return;
 
-      if ("roughness" in nextMaterial) {
-        nextMaterial.roughness = Math.min(
-          nextMaterial.roughness ?? 0.65,
-          0.75,
+        const dx = event.movementX ?? 0;
+        const dy = event.movementY ?? 0;
+
+        steeringState.targetX = THREE.MathUtils.clamp(
+          steeringState.targetX + dx * STEER_CURSOR_SENSITIVITY_X,
+          -STEER_CURSOR_MAX_X,
+          STEER_CURSOR_MAX_X,
         );
+        steeringState.targetY = THREE.MathUtils.clamp(
+          steeringState.targetY + dy * STEER_CURSOR_SENSITIVITY_Y,
+          -STEER_CURSOR_MAX_Y,
+          STEER_CURSOR_MAX_Y,
+        );
+        steeringState.lastMoveAt = performance.now();
       }
 
-      if ("metalness" in nextMaterial) {
-        nextMaterial.metalness = Math.min(nextMaterial.metalness ?? 0, 0.05);
+      function startWindAudio() {
+        if (windAudioStarted) return;
+
+        windAudio
+          .play()
+          .then(() => {
+            windAudioStarted = true;
+          })
+          .catch(() => {
+            // Autoplay can still be blocked until the browser grants audio.
+          });
       }
 
-      if ("emissive" in nextMaterial) {
-        nextMaterial.emissive.set(0x000000);
-        nextMaterial.emissiveIntensity = 0;
+      function resetCameraOrbit() {
+        cameraOrbit.yaw = 0;
+        cameraOrbit.pitch = 0;
+        cameraOrbit.targetYaw = 0;
+        cameraOrbit.targetPitch = 0;
+        steeringState.targetX = 0;
+        steeringState.targetY = 0;
+        steeringState.x = 0;
+        steeringState.y = 0;
+        steeringState.lastMoveAt = 0;
       }
 
-      return nextMaterial;
-    }
+      function startIntroFlight() {
+        if (introState.active || introState.controlsEnabled) return;
 
-    function loadHeroModel() {
-      const loader = new GLTFLoader();
-      const tryLoad = (index) => {
-        if (index >= HERO_MODEL_CANDIDATES.length) {
-          heroModel = createFallbackHero();
-          heroBarrelRoot.add(heroModel);
-          markHeroReady();
-          console.warn(
-            "No local hero model found. Using fallback procedural hero.",
-          );
+        startWindAudio();
+        startOverlay.classList.add("hidden");
+        introState.active = true;
+        introState.elapsed = 0;
+        flight.boostUntil = 0;
+        flight.climbBoostUntil = 0;
+        flight.speed = 3200;
+        resetCameraOrbit();
+        updateHeroFrame();
+        updateChaseCamera(true);
+        requestMouseCapture();
+      }
+
+      function handleStartOverlayClick() {
+        if (introState.controlsEnabled) {
+          requestMouseCapture();
           return;
         }
 
-        const url = HERO_MODEL_CANDIDATES[index];
-        loader.load(
-          url,
-          (gltf) => {
-            heroModel = gltf.scene || gltf.scenes[0];
-            heroModel.scale.setScalar(HERO_SCALE);
-            brightenHeroModel(heroModel);
-            heroModel.rotation.y = HERO_YAW_OFFSET;
-            heroBarrelRoot.add(heroModel);
-            registerHeroLookRig(heroModel);
+        startIntroFlight();
+      }
 
-            if (gltf.animations && gltf.animations.length > 0) {
-              heroMixer = new THREE.AnimationMixer(heroModel);
-              heroMixer.clipAction(gltf.animations[0]).play();
-            }
+      function handleCanvasClick() {
+        if (!introState.controlsEnabled) return;
+        if (document.pointerLockElement === renderer?.domElement) return;
 
-            markHeroReady();
-            console.log(`Hero model loaded from ${url}`);
-          },
-          undefined,
-          () => tryLoad(index + 1),
+        requestMouseCapture();
+      }
+
+      function requestMouseCapture() {
+        const element = renderer?.domElement;
+        if (!element?.requestPointerLock) return;
+        if (document.pointerLockElement === element) return;
+
+        try {
+          const result = element.requestPointerLock();
+          if (result && typeof result.catch === "function") {
+            result.catch(() => {
+              // Pointer lock can still be denied by browser policy.
+            });
+          }
+        } catch {
+          // Keep the demo working even if pointer lock is not available.
+        }
+      }
+
+      function handlePointerLockChange() {
+        const element = renderer?.domElement;
+        introState.mouseCaptured = document.pointerLockElement === element;
+
+        if (startOverlayTitle) {
+          startOverlayTitle.textContent = introState.controlsEnabled
+            ? "Clique em qualquer canto para recapturar o mouse"
+            : "Clique em qualquer canto para iniciar";
+        }
+
+        if (introState.controlsEnabled) {
+          startOverlay.classList.toggle("hidden", introState.mouseCaptured);
+        }
+      }
+
+      function updateIntroFlight(delta) {
+        if (!introState.active) return;
+
+        introState.elapsed += delta;
+        const progress = THREE.MathUtils.clamp(
+          introState.elapsed / INTRO_DURATION_SECONDS,
+          0,
+          1,
         );
-      };
+        introState.progress = progress;
+        const easedProgress = easeOutCubic(progress);
 
-      tryLoad(0);
-    }
-  </script>
-</body>
+        flight.height = THREE.MathUtils.lerp(
+          INTRO_START_HEIGHT,
+          INTRO_TARGET_HEIGHT,
+          easedProgress,
+        );
+        flight.speed = THREE.MathUtils.lerp(3200, 180, easedProgress);
+        flight.pitch = THREE.MathUtils.lerp(
+          -24 * (Math.PI / 180),
+          -8 * (Math.PI / 180),
+          easedProgress,
+        );
+        flight.roll *= 1 - Math.min(delta * 6, 1);
 
+        const traveledMeters = flight.speed * delta;
+        const northMeters = Math.cos(flight.heading) * traveledMeters;
+        const eastMeters = Math.sin(flight.heading) * traveledMeters;
+        const latRadians = flight.lat * (Math.PI / 180);
+        flight.lat += northMeters / METERS_PER_DEGREE;
+        flight.lon +=
+          eastMeters /
+          (METERS_PER_DEGREE * Math.max(Math.cos(latRadians), 0.15));
+
+        if (progress >= 1) {
+          introState.active = false;
+          introState.controlsEnabled = true;
+          introState.progress = 1;
+          flight.height = INTRO_TARGET_HEIGHT;
+          flight.speed = 180;
+          flight.pitch = -8 * (Math.PI / 180);
+          flight.roll = 0;
+        }
+      }
+
+      function updateFpsReadout(time) {
+        fpsState.frames += 1;
+
+        if (fpsState.lastSampleTime === 0) {
+          fpsState.lastSampleTime = time;
+          return;
+        }
+
+        const elapsed = time - fpsState.lastSampleTime;
+        if (elapsed < 500) return;
+
+        const fps = Math.round((fpsState.frames * 1000) / elapsed);
+        fpsReadout.textContent = `FPS ${fps}`;
+        fpsState.frames = 0;
+        fpsState.lastSampleTime = time;
+      }
+
+      function easeOutCubic(value) {
+        return 1 - Math.pow(1 - value, 3);
+      }
+
+      function normalizeAngle(angle) {
+        return Math.atan2(Math.sin(angle), Math.cos(angle));
+      }
+
+      function dampAngle(current, target, lambda, delta) {
+        const difference = normalizeAngle(target - current);
+        return normalizeAngle(
+          current + difference * (1 - Math.exp(-lambda * delta)),
+        );
+      }
+
+      function applyDeadzone(value, deadzone) {
+        const magnitude = Math.abs(value);
+        if (magnitude <= deadzone) return 0;
+        const normalized = (magnitude - deadzone) / (1 - deadzone);
+        return Math.sign(value) * THREE.MathUtils.clamp(normalized, 0, 1);
+      }
+
+      function updateSteeringState(delta) {
+        const recenterAlpha = 1 - Math.exp(-STEER_CURSOR_RECENTER_RATE * delta);
+        steeringState.targetX += (0 - steeringState.targetX) * recenterAlpha;
+        steeringState.targetY += (0 - steeringState.targetY) * recenterAlpha;
+
+        const responseAlpha = 1 - Math.exp(-STEER_CURSOR_RESPONSE * delta);
+        steeringState.x +=
+          (steeringState.targetX - steeringState.x) * responseAlpha;
+        steeringState.y +=
+          (steeringState.targetY - steeringState.y) * responseAlpha;
+
+        cameraOrbit.targetYaw = THREE.MathUtils.clamp(
+          -steeringState.x * 0.38,
+          -0.38,
+          0.38,
+        );
+        cameraOrbit.targetPitch = THREE.MathUtils.clamp(
+          steeringState.y * 0.32,
+          -0.32,
+          0.32,
+        );
+      }
+
+      function getSteerInputX() {
+        return applyDeadzone(steeringState.x, STEER_DEADZONE_X);
+      }
+
+      function getSteerInputY() {
+        return applyDeadzone(steeringState.y, STEER_DEADZONE_Y);
+      }
+
+      function isFlightKey(code) {
+        return (
+          code === "KeyW" ||
+          code === "KeyA" ||
+          code === "KeyS" ||
+          code === "KeyD" ||
+          code === "Space" ||
+          code === "ShiftLeft" ||
+          code === "ShiftRight"
+        );
+      }
+
+      function triggerBoost(code) {
+        if (code !== "KeyW" && code !== "Space") return;
+
+        const now = performance.now();
+        const previousTap = lastTapTimes.get(code) || 0;
+        if (now - previousTap <= DOUBLE_TAP_WINDOW_MS) {
+          if (code === "KeyW") {
+            flight.boostUntil = now + BOOST_DURATION_MS;
+            flight.boostStartedAt = now;
+          }
+          if (code === "Space") {
+            flight.climbBoostUntil = now + BOOST_DURATION_MS;
+            flight.climbBoostStartedAt = now;
+          }
+        }
+        lastTapTimes.set(code, now);
+      }
+
+      function updateFlightControls(delta) {
+        if (!introState.controlsEnabled) return;
+
+        updateSteeringState(delta);
+
+        const now = performance.now();
+        const forwardHeld = pressedKeys.has("KeyW");
+        const reverseHeld = pressedKeys.has("KeyS");
+        const upwardHeld = pressedKeys.has("Space");
+        const downwardHeld =
+          pressedKeys.has("ShiftLeft") || pressedKeys.has("ShiftRight");
+        const forwardInput = Number(forwardHeld) - Number(reverseHeld);
+        const verticalInput = Number(upwardHeld) - Number(downwardHeld);
+        const rollInput =
+          Number(pressedKeys.has("KeyD")) - Number(pressedKeys.has("KeyA"));
+        const steerX = getSteerInputX();
+        const steerY = getSteerInputY();
+        const sustainSupersonic = flight.height >= SUPERSONIC_LOCK_ALTITUDE;
+
+        const timedBoostActive =
+          flight.boostUntil > 0 && now < flight.boostUntil;
+        const timedClimbBoostActive =
+          flight.climbBoostUntil > 0 && now < flight.climbBoostUntil;
+        const boostActive =
+          timedBoostActive ||
+          (sustainSupersonic && forwardHeld && flight.boostStartedAt > 0);
+        const climbBoostActive =
+          timedClimbBoostActive ||
+          (sustainSupersonic && upwardHeld && flight.climbBoostStartedAt > 0);
+
+        if (!boostActive) {
+          flight.boostUntil = 0;
+          if (!sustainSupersonic) {
+            flight.boostStartedAt = 0;
+          }
+        }
+        if (!climbBoostActive) {
+          flight.climbBoostUntil = 0;
+          if (!sustainSupersonic) {
+            flight.climbBoostStartedAt = 0;
+          }
+        }
+
+        const boostStartedAt = flight.boostStartedAt || 0;
+        const climbBoostStartedAt = flight.climbBoostStartedAt || 0;
+        const boostAgeSeconds =
+          boostActive && boostStartedAt > 0 ? (now - boostStartedAt) / 1000 : 0;
+        const climbBoostAgeSeconds =
+          climbBoostActive && climbBoostStartedAt > 0
+            ? (now - climbBoostStartedAt) / 1000
+            : 0;
+
+        const supersonicSpeedBonus = boostActive
+          ? Math.min(
+              boostAgeSeconds * SUPERSONIC_SPEED_RAMP_PER_SECOND,
+              SUPERSONIC_SPEED_RAMP_MAX,
+            )
+          : 0;
+        const supersonicClimbSpeedBonus = climbBoostActive
+          ? Math.min(
+              climbBoostAgeSeconds * SUPERSONIC_SPEED_RAMP_PER_SECOND,
+              SUPERSONIC_SPEED_RAMP_MAX,
+            )
+          : 0;
+        const maxForwardSpeed = boostActive
+          ? SUPERSONIC_SPEED + supersonicSpeedBonus
+          : FLIGHT_MAX_SPEED;
+        const climbAssistSpeed = climbBoostActive
+          ? SUPERSONIC_CLIMB_SPEED + supersonicClimbSpeedBonus
+          : FLIGHT_CLIMB_SPEED;
+
+        const speedTarget = forwardInput * maxForwardSpeed;
+        const speedDamping = 1 - Math.exp(-delta * (boostActive ? 3.4 : 4.2));
+        flight.speed += (speedTarget - flight.speed) * speedDamping;
+
+        if (!boostActive && !climbBoostActive) {
+          flight.speed = THREE.MathUtils.clamp(
+            flight.speed,
+            -FLIGHT_MAX_SPEED,
+            FLIGHT_MAX_SPEED,
+          );
+        }
+
+        const speedRatio = THREE.MathUtils.clamp(
+          Math.abs(flight.speed) / Math.max(FLIGHT_MAX_SPEED, 1),
+          0,
+          1,
+        );
+        const steeringAuthority = forwardHeld
+          ? 1
+          : THREE.MathUtils.lerp(HERO_GLIDE_TURN_FACTOR, 1, speedRatio);
+
+        // Slightly reduced turn rate at extreme dive to avoid nausea
+        const divePenalty = THREE.MathUtils.lerp(
+          1,
+          0.7,
+          THREE.MathUtils.clamp(-flight.pitch * 0.8, 0, 1),
+        );
+        const turnRate =
+          HERO_TURN_RATE *
+          THREE.MathUtils.lerp(0.55, 1.25, speedRatio) *
+          (boostActive ? 0.75 : 1.0) *
+          divePenalty;
+
+        flight.heading = normalizeAngle(
+          flight.heading + steerX * turnRate * steeringAuthority * delta,
+        );
+
+        const targetPitch = THREE.MathUtils.clamp(
+          (steerY >= 0
+            ? -steerY * HERO_PITCH_RANGE_DOWN
+            : -steerY * HERO_PITCH_RANGE_UP) +
+            verticalInput * 0.42,
+          -HERO_PITCH_RANGE_DOWN,
+          HERO_PITCH_RANGE_UP,
+        );
+        const pitchResponseScale = targetPitch < flight.pitch ? 1.4 : 1.0;
+        const pitchResponse = forwardHeld
+          ? HERO_PITCH_RESPONSE * (boostActive ? 0.85 : 1) * pitchResponseScale
+          : HERO_AUTO_LEVEL_RESPONSE;
+        flight.pitch +=
+          (targetPitch - flight.pitch) * (1 - Math.exp(-pitchResponse * delta));
+
+        const bankTarget = THREE.MathUtils.clamp(
+          steerX * HERO_VISUAL_BANK_FROM_STEER * (1 + speedRatio * 0.6),
+          -1.3,
+          1.3,
+        );
+        flight.roll +=
+          (bankTarget - flight.roll) *
+          (1 - Math.exp(-HERO_BANK_RESPONSE * delta));
+
+        if (rollInput !== 0) {
+          flight.barrelRollAngle = normalizeAngle(
+            flight.barrelRollAngle + rollInput * BARREL_ROLL_SPEED * delta,
+          );
+        } else {
+          flight.barrelRollAngle = dampAngle(
+            flight.barrelRollAngle,
+            0,
+            BARREL_ROLL_RETURN_RATE,
+            delta,
+          );
+        }
+
+        const traveledMeters = flight.speed * delta;
+        const horizontalMeters = Math.cos(flight.pitch) * traveledMeters;
+        const verticalMeters = Math.sin(flight.pitch) * traveledMeters;
+        const northMeters = Math.cos(flight.heading) * horizontalMeters;
+        const eastMeters = Math.sin(flight.heading) * horizontalMeters;
+        const latRadians = flight.lat * (Math.PI / 180);
+        flight.lat += northMeters / METERS_PER_DEGREE;
+        flight.lon +=
+          eastMeters /
+          (METERS_PER_DEGREE * Math.max(Math.cos(latRadians), 0.15));
+
+        flight.height = THREE.MathUtils.clamp(
+          flight.height +
+            verticalMeters +
+            verticalInput * MANUAL_CLIMB_ASSIST_SPEED * delta +
+            verticalInput * climbAssistSpeed * delta * 0.08,
+          FLIGHT_MIN_HEIGHT,
+          FLIGHT_MAX_HEIGHT,
+        );
+      }
+
+      function updateFlightReadout() {
+        const now = performance.now();
+        const sustainBoost =
+          flight.height >= SUPERSONIC_LOCK_ALTITUDE &&
+          pressedKeys.has("KeyW") &&
+          flight.boostStartedAt > 0;
+        const sustainClimbBoost =
+          flight.height >= SUPERSONIC_LOCK_ALTITUDE &&
+          pressedKeys.has("Space") &&
+          flight.climbBoostStartedAt > 0;
+        const boostLabel =
+          now < flight.boostUntil ||
+          now < flight.climbBoostUntil ||
+          sustainBoost ||
+          sustainClimbBoost
+            ? " | BOOST"
+            : "";
+        flightReadout.textContent = `Speed ${Math.round(
+          Math.abs(flight.speed),
+        )} m/s | Alt ${Math.round(flight.height)} m | AGL ${Math.round(
+          getFlightAgl(),
+        )} m${boostLabel}`;
+      }
+
+      function updateCompass() {
+        if (!compassNeedle) return;
+
+        const headingDegrees =
+          (THREE.MathUtils.radToDeg(flight.heading) + 360) % 360;
+        compassNeedle.style.transform = `translate(-50%, -100%) rotate(${headingDegrees}deg)`;
+      }
+
+      function updateCityReadout() {
+        if (!cityReadout) return;
+
+        cityReadout.textContent = `Cidade: ${activeCityPreset.label} (?city=${activeCityKey}) — Troque com tk / sp / ny`;
+      }
+
+      function getFlightAgl() {
+        return Math.max(0, flight.height - flight.groundHeight);
+      }
+
+      function updateHeroFrame() {
+        tiles.ellipsoid.getObjectFrame(
+          flight.lat * (Math.PI / 180),
+          flight.lon * (Math.PI / 180),
+          flight.height,
+          flight.heading,
+          flight.pitch,
+          flight.roll,
+          heroFrameMatrix,
+          CAMERA_FRAME,
+        );
+        heroFrameMatrix.decompose(
+          heroRoot.position,
+          heroRoot.quaternion,
+          heroRoot.scale,
+        );
+        heroForward.set(0, 0, -1).applyQuaternion(heroRoot.quaternion);
+        heroUp.set(0, 1, 0).applyQuaternion(heroRoot.quaternion);
+        heroRight.set(1, 0, 0).applyQuaternion(heroRoot.quaternion);
+      }
+
+      function updateCameraBasis() {
+        cameraStableUp.copy(heroRoot.position).normalize();
+        if (cameraStableUp.lengthSq() < 0.5) {
+          cameraStableUp.copy(heroUp).normalize();
+        }
+
+        cameraStableForward.copy(heroForward);
+        cameraStableForward.projectOnPlane(cameraStableUp);
+        if (cameraStableForward.lengthSq() < 0.0001) {
+          cameraStableForward.crossVectors(cameraStableUp, heroRight);
+        }
+        cameraStableForward.normalize();
+        cameraStableRight
+          .crossVectors(cameraStableForward, cameraStableUp)
+          .normalize();
+      }
+
+      function updateHeroHeadPose() {
+        const steerX = getSteerInputX();
+
+        // Usa o currentLean já suavizado do flight state
+        // Como currentLean é negativo (barriga pro chão), a cabeça precisa
+        // compensar levantando (valor positivo) para continuar olhando para frente
+        const headPitchTarget = THREE.MathUtils.clamp(
+          -flight.currentLean * 0.65 + Math.max(-flight.pitch, 0) * 0.1,
+          -0.2,
+          0.95, // Permite levantar bastante a cabeça no boost
+        );
+        const neckPitchTarget = headPitchTarget * 0.5;
+
+        // Yaw da cabeça segue mais o mouse lateral
+        const headYawTarget = THREE.MathUtils.clamp(
+          -steerX * 0.28 - flight.roll * 0.06,
+          -0.35,
+          0.35,
+        );
+        const neckYawTarget = headYawTarget * 0.5;
+
+        if (heroNeckNode) {
+          heroNeckOffsetQuaternion.setFromEuler(
+            new THREE.Euler(neckPitchTarget, neckYawTarget, 0, "YXZ"),
+          );
+          heroNeckNode.quaternion
+            .copy(heroNeckBaseQuaternion)
+            .multiply(heroNeckOffsetQuaternion);
+        }
+
+        if (heroHeadNode) {
+          heroHeadOffsetQuaternion.setFromEuler(
+            new THREE.Euler(headPitchTarget, headYawTarget, 0, "YXZ"),
+          );
+          heroHeadNode.quaternion
+            .copy(heroHeadBaseQuaternion)
+            .multiply(heroHeadOffsetQuaternion);
+        }
+      }
+
+      function updateHeroRenderPose() {
+        if (!heroRenderRoot || !heroPoseRoot || !heroBarrelRoot) return;
+
+        const now = performance.now();
+        const speedForwardRatio = THREE.MathUtils.clamp(
+          Math.max(flight.speed, 0) / SUPERSONIC_SPEED,
+          0,
+          1,
+        );
+
+        // Detecta se está em boost
+        const isInBoost = flight.boostUntil > 0 && now < flight.boostUntil;
+        const isSustainSupersonic =
+          flight.speed > SUPERSONIC_SPEED * 0.95 && flight.boostStartedAt > 0;
+        const boostActive = isInBoost || isSustainSupersonic;
+
+        // Calcula inclinação alvo para frente (negativo = barriga pro chão)
+        // Em voo normal: leve inclinação para frente
+        // Em boost: quase horizontal (barriga pro chão)
+        let targetLean = 0;
+        if (boostActive) {
+          // Boost: inclina muito para frente (-1.3 rad ~ 75 graus, barriga pro chão)
+          targetLean = -1.3;
+        } else if (speedForwardRatio > 0.1) {
+          // Voo normal: inclina proporcionalmente à velocidade (até ~40 graus)
+          targetLean = -speedForwardRatio * 0.7;
+        }
+
+        // Suaviza a transição da inclinação (lerp fluido)
+        const leanSpeed = boostActive ? 0.04 : 0.025; // Mais rápido entrando no boost
+        flight.currentLean += (targetLean - flight.currentLean) * leanSpeed;
+
+        // Pitch visual: combina inclinação de voo + lean forward suavizado
+        const visualPitch = THREE.MathUtils.clamp(
+          -flight.pitch * 0.3 + flight.currentLean,
+          -1.4, // Permite mais inclinação para frente no boost
+          0.3,
+        );
+
+        // Bank visual muito reduzido - corpo quase não inclina lateralmente        // Banking logic (from steering)
+        // We SIGNIFICANTLY reduce banking visual for the root to avoid the "\" look
+        const isRolling = flight.barrelRollActive;
+        const bankMult = isRolling ? 0.3 : 1.0;
+        const visualBank = THREE.MathUtils.clamp(
+          -flight.roll * 0.45 * bankMult,
+          -0.5,
+          0.5,
+        );
+
+        heroRenderRoot.position.set(0, 0, 0);
+        // Aplica pitch (inclinação para frente) e bank leve ao corpo
+        heroPoseRoot.quaternion.setFromEuler(
+          new THREE.Euler(visualPitch, 0, visualBank, "YXZ"),
+        );
+        // Barrel roll acontece no eixo forward (Y no espaço local do herói voando)
+        // O herói gira em torno de si mesmo, não em torno de um pivô externo
+        heroBarrelRoot.quaternion.setFromAxisAngle(
+          new THREE.Vector3(0, 1, 0),
+          flight.barrelRollAngle,
+        );
+
+        if (speedForwardRatio > 0.3) {
+          const shakeAmount = (speedForwardRatio - 0.3) * 0.06;
+          heroRenderRoot.position.x += (Math.random() - 0.5) * shakeAmount;
+          heroRenderRoot.position.y += (Math.random() - 0.5) * shakeAmount;
+        }
+
+        // heroPoseRoot.quaternion.setFromEuler(
+        //   new THREE.Euler(visualPitch, 0, visualBank, "YXZ"),
+        // );
+
+        // // 2. LONGITUDINAL BARREL ROLL (Spin around central axis)
+        // heroBarrelRoot.quaternion.setFromAxisAngle(
+        //   new THREE.Vector3(0, 0, 1),
+        //   flight.barrelRollAngle,
+        // );
+
+        // 3. SECUNDARY TORSION (Local shoulders/torso twist)
+        // This is where the main banking visual happens for that "superhero turn"
+        if (heroTorsoNode) {
+          // Add steering bank directly to torso for that trailing feel
+          const steerBank = -flight.roll * 1.5;
+          const torsionTarget = isRolling
+            ? flight.barrelRollDirection * BARREL_ROLL_TORSION
+            : steerBank;
+
+          const currentTorsion = heroTorsoNode.rotation.z;
+          heroTorsoNode.rotation.z = THREE.MathUtils.lerp(
+            currentTorsion,
+            torsionTarget,
+            0.15,
+          );
+        }
+
+        if (heroShoulderNode) {
+          const shoulderTwist = isRolling
+            ? flight.barrelRollDirection * 0.2
+            : 0;
+          heroShoulderNode.rotation.z = THREE.MathUtils.lerp(
+            heroShoulderNode.rotation.z,
+            shoulderTwist,
+            0.12,
+          );
+        }
+      }
+
+      function updateHeroRenderCamera(forceSnap = false) {
+        if (!heroCamera || !heroRenderRoot) return;
+
+        cameraOrbit.yaw += (cameraOrbit.targetYaw - cameraOrbit.yaw) * 0.08;
+        cameraOrbit.pitch +=
+          (cameraOrbit.targetPitch - cameraOrbit.pitch) * 0.08;
+
+        const steerX = getSteerInputX();
+        const steerY = getSteerInputY();
+        const speedRatio = THREE.MathUtils.clamp(
+          Math.abs(flight.speed) / SUPERSONIC_SPEED,
+          0,
+          1,
+        );
+
+        // Compensação de pitch para manter herói enquadrado
+        const pitchCompensation = Math.sin(flight.pitch) * 0.4;
+
+        const introCameraProgress = easeOutCubic(introState.progress);
+        const distance = introState.controlsEnabled
+          ? THREE.MathUtils.lerp(CAMERA_FOLLOW_DISTANCE * 0.96, 480, speedRatio)
+          : THREE.MathUtils.lerp(
+              INTRO_CAMERA_START_DISTANCE * 1.2,
+              INTRO_CAMERA_END_DISTANCE * 1.18,
+              introCameraProgress,
+            );
+        const height = introState.controlsEnabled
+          ? THREE.MathUtils.lerp(
+              CAMERA_FOLLOW_HEIGHT + 12,
+              120,
+              Math.pow(speedRatio, 1.5),
+            )
+          : THREE.MathUtils.lerp(
+              INTRO_CAMERA_START_HEIGHT + 12,
+              INTRO_CAMERA_END_HEIGHT + 10,
+              introCameraProgress,
+            );
+
+        // Offset de câmera baseado no steer mas menos agressivo
+        const targetPosition = new THREE.Vector3(
+          steerX * CAMERA_STEER_OFFSET_X * 0.5,
+          height -
+            steerY * CAMERA_STEER_OFFSET_Y * 0.5 +
+            pitchCompensation * 30,
+          distance,
+        );
+
+        if (forceSnap) {
+          heroCamera.position.copy(targetPosition);
+        } else {
+          heroCamera.position.lerp(targetPosition, 0.07);
+        }
+
+        const lookAheadDistance = introState.controlsEnabled
+          ? CAMERA_LOOK_AHEAD + speedRatio * 300
+          : INTRO_CAMERA_LOOK_AHEAD;
+
+        const lookUpOffset = introState.controlsEnabled
+          ? THREE.MathUtils.lerp(100, 180, speedRatio)
+          : 32;
+
+        // Look target compensado para manter herói sempre visível
+        const lookTarget = new THREE.Vector3(
+          steerX * CAMERA_LOOK_STEER_X,
+          lookUpOffset - steerY * CAMERA_LOOK_STEER_Y,
+          -lookAheadDistance, // Look forward in local space
+        );
+
+        heroCamera.up.set(0, 1, 0);
+        heroCamera.lookAt(lookTarget);
+      }
+
+      function updateChaseCamera(snapToTarget = false) {
+        if (!flight.followCamera) return;
+
+        updateCameraBasis();
+
+        // Suavização mais lenta para estabilidade
+        cameraOrbit.yaw += (cameraOrbit.targetYaw - cameraOrbit.yaw) * 0.08;
+        cameraOrbit.pitch +=
+          (cameraOrbit.targetPitch - cameraOrbit.pitch) * 0.08;
+
+        const steerX = getSteerInputX();
+        const steerY = getSteerInputY();
+        const speedRatio = THREE.MathUtils.clamp(
+          Math.abs(flight.speed) / SUPERSONIC_SPEED,
+          0,
+          1,
+        );
+
+        // Compensação de pitch para manter herói enquadrado em mergulhos/subidas
+        const pitchCompensation = Math.sin(flight.pitch) * 0.6;
+
+        const normalFollowDistance = THREE.MathUtils.lerp(
+          CAMERA_FOLLOW_DISTANCE,
+          450,
+          speedRatio,
+        );
+        const normalFollowHeight = THREE.MathUtils.lerp(
+          CAMERA_FOLLOW_HEIGHT,
+          150,
+          speedRatio,
+        );
+        const introCameraProgress = easeOutCubic(introState.progress);
+        const followDistance = introState.controlsEnabled
+          ? normalFollowDistance
+          : THREE.MathUtils.lerp(
+              INTRO_CAMERA_START_DISTANCE,
+              INTRO_CAMERA_END_DISTANCE,
+              introCameraProgress,
+            );
+        const followHeight = introState.controlsEnabled
+          ? normalFollowHeight
+          : THREE.MathUtils.lerp(
+              INTRO_CAMERA_START_HEIGHT,
+              INTRO_CAMERA_END_HEIGHT,
+              introCameraProgress,
+            );
+        const altitudeCameraScale = introState.controlsEnabled
+          ? Math.min(Math.max(0, flight.height - 2000) * 0.0006, 30)
+          : 0;
+
+        // Câmera se posiciona mais baseada no heroUp (estável) e menos no steer
+        // para evitar perder o herói em manobras extremas
+        cameraTargetPosition
+          .copy(heroRoot.position)
+          .addScaledVector(
+            cameraStableUp,
+            followHeight +
+              altitudeCameraScale * 0.5 -
+              steerY * CAMERA_STEER_OFFSET_Y * 0.7 +
+              pitchCompensation * 40,
+          )
+          .addScaledVector(
+            cameraStableForward,
+            -followDistance - altitudeCameraScale,
+          )
+          .addScaledVector(
+            cameraStableRight,
+            steerX * CAMERA_STEER_OFFSET_X * 0.5,
+          );
+
+        if (snapToTarget) {
+          camera.position.copy(cameraTargetPosition);
+        } else {
+          // Lerp mais suave para câmera mais estável
+          camera.position.lerp(cameraTargetPosition, 0.065);
+        }
+
+        const lookAheadDistance = introState.controlsEnabled
+          ? CAMERA_LOOK_AHEAD
+          : INTRO_CAMERA_LOOK_AHEAD;
+        // Look target sempre aponta um pouco acima do herói para mantê-lo visível
+        const lookUpOffset = introState.controlsEnabled
+          ? 90 + pitchCompensation * 60
+          : 32;
+        cameraLookTarget
+          .copy(heroRoot.position)
+          .addScaledVector(cameraStableForward, lookAheadDistance * 0.7)
+          .addScaledVector(
+            cameraStableRight,
+            steerX * CAMERA_LOOK_STEER_X * 0.6,
+          )
+          .addScaledVector(
+            cameraStableUp,
+            lookUpOffset - steerY * CAMERA_LOOK_STEER_Y * 0.5,
+          );
+        camera.up.copy(cameraStableUp);
+        camera.lookAt(cameraLookTarget);
+      }
+
+      function createFlightTrail() {
+        const trail = new THREE.Line(
+          new THREE.BufferGeometry(),
+          new THREE.LineBasicMaterial({
+            color: 0x8ee8ff,
+            transparent: true,
+            opacity: 0.55,
+            depthWrite: false,
+          }),
+        );
+        trail.frustumCulled = false;
+        return trail;
+      }
+
+      function updateFlightTrail() {
+        if (!heroTrail) return;
+
+        trailPositions.unshift(heroRoot.position.clone());
+        if (trailPositions.length > 48) {
+          trailPositions.length = 48;
+        }
+
+        if (trailPositions.length > 1) {
+          heroTrail.geometry.dispose();
+          heroTrail.geometry = new THREE.BufferGeometry().setFromPoints(
+            trailPositions,
+          );
+        }
+      }
+
+      function loadBirdModels() {
+        const loader = new GLTFLoader();
+
+        const loadCandidate = (url) =>
+          new Promise((resolve, reject) => {
+            loader.load(url, resolve, undefined, reject);
+          });
+
+        return Promise.allSettled(
+          BIRD_MODEL_CANDIDATES.map((url) => loadCandidate(url)),
+        ).then((results) => {
+          results.forEach((result, index) => {
+            if (result.status !== "fulfilled") return;
+            const gltf = result.value;
+            birdModels.push({
+              url: BIRD_MODEL_CANDIDATES[index],
+              scene: gltf.scene || gltf.scenes[0],
+              animations: gltf.animations || [],
+            });
+          });
+
+          if (birdModels.length > 0) {
+            birdSpawnAt =
+              performance.now() +
+              randomRange(BIRD_MIN_SPAWN_DELAY_MS, BIRD_MAX_SPAWN_DELAY_MS);
+          } else {
+            birdSpawnAt = performance.now() + 10000;
+            console.warn("No local bird models found.");
+          }
+        });
+      }
+
+      function updateBirds(delta) {
+        const now = performance.now();
+
+        if (!birdActive) {
+          if (birdModels.length > 0 && now >= birdSpawnAt) {
+            spawnBird();
+          }
+          return;
+        }
+
+        if (birdActive.mixer) {
+          birdActive.mixer.update(delta);
+        }
+
+        const ageSeconds = (now - birdActive.bornAt) / 1000;
+        birdActive.root.position
+          .copy(birdActive.startPosition)
+          .addScaledVector(birdActive.velocity, ageSeconds)
+          .addScaledVector(
+            birdActive.startUp,
+            Math.sin(ageSeconds * 3.2 + birdActive.phase) * 0.35,
+          );
+
+        birdLookTarget
+          .copy(birdActive.root.position)
+          .addScaledVector(birdActive.velocity, 1);
+        birdActive.root.lookAt(birdLookTarget);
+        birdActive.root.rotateY(BIRD_MODEL_YAW_OFFSET);
+
+        const distanceFromHero = birdActive.root.position.distanceTo(
+          heroRoot.position,
+        );
+        if (now >= birdActive.dieAt || distanceFromHero > 15000) {
+          birdRoot.remove(birdActive.root);
+          birdActive = null;
+          birdSpawnAt =
+            now + randomRange(BIRD_MIN_SPAWN_DELAY_MS, BIRD_MAX_SPAWN_DELAY_MS);
+        }
+      }
+
+      function spawnBird() {
+        if (!birdModels.length || !heroRoot || !birdRoot) return;
+
+        const template =
+          birdModels[Math.floor(Math.random() * birdModels.length)];
+        const bird = skeletonClone(template.scene);
+        bird.traverse((child) => {
+          if (child.isMesh) {
+            child.castShadow = false;
+            child.receiveShadow = false;
+          }
+        });
+
+        const birdBounds = new THREE.Box3().setFromObject(bird);
+        const birdSize = new THREE.Vector3();
+        birdBounds.getSize(birdSize);
+        const longestEdge = Math.max(birdSize.x, birdSize.y, birdSize.z, 1);
+        const scale = BIRD_TARGET_SIZE / longestEdge;
+        bird.scale.setScalar(scale);
+
+        const side = Math.random() < 0.5 ? -1 : 1;
+        const sideOffset = randomRange(
+          BIRD_SIDE_OFFSET_MIN,
+          BIRD_SIDE_OFFSET_MAX,
+        );
+        const forwardOffset = randomRange(
+          BIRD_FORWARD_OFFSET_MIN,
+          BIRD_FORWARD_OFFSET_MAX,
+        );
+        const heightOffset = randomRange(
+          BIRD_HEIGHT_OFFSET_MIN,
+          BIRD_HEIGHT_OFFSET_MAX,
+        );
+        const speed = randomRange(BIRD_SPEED_MIN, BIRD_SPEED_MAX);
+
+        birdSpawnPosition
+          .copy(heroRoot.position)
+          .addScaledVector(heroRight, side * sideOffset)
+          .addScaledVector(heroForward, forwardOffset)
+          .addScaledVector(heroUp, heightOffset);
+
+        birdSpawnTarget
+          .copy(heroRoot.position)
+          .addScaledVector(heroRight, -side * sideOffset * 1.4)
+          .addScaledVector(heroForward, forwardOffset + 600)
+          .addScaledVector(heroUp, heightOffset + randomRange(-60, 80));
+
+        birdVelocity
+          .copy(birdSpawnTarget)
+          .sub(birdSpawnPosition)
+          .normalize()
+          .multiplyScalar(speed);
+
+        bird.position.copy(birdSpawnPosition);
+        bird.lookAt(birdSpawnTarget);
+        bird.rotateY(BIRD_MODEL_YAW_OFFSET);
+
+        const mixer = template.animations.length
+          ? new THREE.AnimationMixer(bird)
+          : null;
+        if (mixer) {
+          const clip = template.animations[0];
+          mixer.clipAction(clip).play();
+        }
+
+        birdRoot.add(bird);
+        birdActive = {
+          root: bird,
+          mixer,
+          velocity: birdVelocity.clone(),
+          startPosition: birdSpawnPosition.clone(),
+          startUp: heroUp.clone(),
+          bornAt: performance.now(),
+          dieAt: performance.now() + BIRD_LIFETIME_MS,
+          phase: Math.random() * Math.PI * 2,
+        };
+        birdSpawnAt =
+          performance.now() +
+          randomRange(BIRD_MIN_SPAWN_DELAY_MS, BIRD_MAX_SPAWN_DELAY_MS);
+      }
+
+      function randomRange(min, max) {
+        return min + Math.random() * (max - min);
+      }
+
+      function createFallbackHero() {
+        const hero = new THREE.Group();
+
+        const body = new THREE.Mesh(
+          new THREE.CapsuleGeometry(0.4, 1.6, 6, 10),
+          new THREE.MeshStandardMaterial({
+            color: 0xd63b39,
+            metalness: 0.2,
+            roughness: 0.3,
+            emissive: 0x3a0b0b,
+            emissiveIntensity: 0.25,
+          }),
+        );
+        body.rotation.z = Math.PI / 2;
+        hero.add(body);
+
+        const chest = new THREE.Mesh(
+          new THREE.SphereGeometry(0.45, 24, 16),
+          new THREE.MeshStandardMaterial({
+            color: 0xf4f1e8,
+            metalness: 0.1,
+            roughness: 0.28,
+          }),
+        );
+        chest.position.set(0.15, 0, 0.36);
+        hero.add(chest);
+
+        const wingGeo = new THREE.BoxGeometry(1.6, 0.08, 0.38);
+        const wingMat = new THREE.MeshStandardMaterial({
+          color: 0x8de3ff,
+          metalness: 0.25,
+          roughness: 0.45,
+          transparent: true,
+          opacity: 0.72,
+        });
+        const wingLeft = new THREE.Mesh(wingGeo, wingMat);
+        wingLeft.position.set(-0.05, 0, -0.45);
+        wingLeft.rotation.z = 0.18;
+        hero.add(wingLeft);
+
+        const wingRight = new THREE.Mesh(wingGeo, wingMat.clone());
+        wingRight.position.set(-0.05, 0, 0.45);
+        wingRight.rotation.z = -0.18;
+        hero.add(wingRight);
+
+        const cape = new THREE.Mesh(
+          new THREE.PlaneGeometry(1.2, 2.2, 1, 4),
+          new THREE.MeshStandardMaterial({
+            color: 0x132847,
+            transparent: true,
+            opacity: 0.75,
+            side: THREE.DoubleSide,
+          }),
+        );
+        cape.position.set(-0.95, 0, 0);
+        cape.rotation.y = Math.PI / 2;
+        hero.add(cape);
+
+        const neckRig = new THREE.Group();
+        neckRig.position.set(0.55, 0, 0.08);
+        hero.add(neckRig);
+
+        const neck = new THREE.Mesh(
+          new THREE.SphereGeometry(0.18, 16, 12),
+          new THREE.MeshStandardMaterial({
+            color: 0xf2d5c3,
+            metalness: 0.05,
+            roughness: 0.42,
+          }),
+        );
+        neck.position.set(0.12, 0, 0);
+        neckRig.add(neck);
+
+        const headRig = new THREE.Group();
+        headRig.position.set(0.22, 0, 0);
+        neckRig.add(headRig);
+
+        const head = new THREE.Mesh(
+          new THREE.SphereGeometry(0.32, 20, 16),
+          new THREE.MeshStandardMaterial({
+            color: 0xf7e1cf,
+            metalness: 0.04,
+            roughness: 0.35,
+          }),
+        );
+        head.position.set(0.18, 0, 0);
+        headRig.add(head);
+
+        heroNeckNode = neckRig;
+        heroHeadNode = headRig;
+        heroNeckBaseQuaternion.copy(neckRig.quaternion);
+        heroHeadBaseQuaternion.copy(headRig.quaternion);
+
+        hero.rotation.y = HERO_YAW_OFFSET;
+        hero.scale.setScalar(HERO_SCALE);
+        return hero;
+      }
+
+      function addHeroLighting(targetRoot, targetCamera) {
+        const hemi = new THREE.HemisphereLight(0xffffff, 0x223344, 1.9);
+        hemi.position.set(0, 1, 0);
+        targetRoot.add(hemi);
+
+        const keyLight = new THREE.DirectionalLight(0xffffff, 2.8);
+        keyLight.position.set(2.5, 3.4, 4.8);
+        targetRoot.add(keyLight);
+
+        const fillLight = new THREE.DirectionalLight(0x8ee8ff, 1.3);
+        fillLight.position.set(-3.5, 1.4, 2.2);
+        targetRoot.add(fillLight);
+
+        const rimLight = new THREE.DirectionalLight(0xffffff, 1.8);
+        rimLight.position.set(-2.2, 0.8, -3.2);
+        targetRoot.add(rimLight);
+
+        introHeroLight = new THREE.PointLight(0xffffff, 2.2, 900, 2);
+        introHeroLight.position.set(0, 70, 160);
+        targetCamera.add(introHeroLight);
+      }
+
+      function addBirdLighting() {
+        const keyLight = new THREE.PointLight(0xffffff, 1.8, 5500);
+        keyLight.position.set(220, 340, 540);
+        birdRoot.add(keyLight);
+
+        const fillLight = new THREE.PointLight(0xbceeff, 1.1, 4200);
+        fillLight.position.set(-420, 160, -360);
+        birdRoot.add(fillLight);
+      }
+
+      function brightenHeroModel(model) {
+        const maxAnisotropy = renderer.capabilities.getMaxAnisotropy();
+
+        model.traverse((child) => {
+          if (!child.isMesh || !child.material) return;
+
+          const materials = Array.isArray(child.material)
+            ? child.material
+            : [child.material];
+
+          child.material = Array.isArray(child.material)
+            ? materials.map((material) => brightenHeroMaterial(material))
+            : brightenHeroMaterial(child.material);
+
+          const finalMaterials = Array.isArray(child.material)
+            ? child.material
+            : [child.material];
+
+          for (const material of finalMaterials) {
+            if (material.map) {
+              material.map.anisotropy = maxAnisotropy;
+              material.map.needsUpdate = true;
+            }
+          }
+
+          child.castShadow = false;
+          child.receiveShadow = false;
+        });
+      }
+
+      function registerHeroLookRig(model) {
+        heroNeckNode = findNamedNode(model, "NEck_05");
+        heroHeadNode = findNamedNode(model, "Head_06");
+
+        if (heroNeckNode) {
+          heroNeckBaseQuaternion.copy(heroNeckNode.quaternion);
+        }
+        if (heroHeadNode) {
+          heroHeadBaseQuaternion.copy(heroHeadNode.quaternion);
+        }
+
+        if (!heroNeckNode && !heroHeadNode) {
+          heroNeckBaseQuaternion.identity();
+          heroHeadBaseQuaternion.identity();
+        }
+      }
+
+      function findNamedNode(model, name) {
+        const lowerName = name.toLowerCase();
+        let found = null;
+        model.traverse((child) => {
+          if (found || !child.name) return;
+          if (child.name.toLowerCase() === lowerName) {
+            found = child;
+          }
+        });
+        return found;
+      }
+
+      function brightenHeroMaterial(material) {
+        const nextMaterial = material.clone();
+
+        nextMaterial.toneMapped = true;
+        nextMaterial.needsUpdate = true;
+
+        if ("roughness" in nextMaterial) {
+          nextMaterial.roughness = Math.min(
+            nextMaterial.roughness ?? 0.65,
+            0.75,
+          );
+        }
+
+        if ("metalness" in nextMaterial) {
+          nextMaterial.metalness = Math.min(nextMaterial.metalness ?? 0, 0.05);
+        }
+
+        if ("emissive" in nextMaterial) {
+          nextMaterial.emissive.set(0x000000);
+          nextMaterial.emissiveIntensity = 0;
+        }
+
+        return nextMaterial;
+      }
+
+      function loadHeroModel() {
+        const loader = new GLTFLoader();
+        const tryLoad = (index) => {
+          if (index >= HERO_MODEL_CANDIDATES.length) {
+            heroModel = createFallbackHero();
+            heroBarrelRoot.add(heroModel);
+            markHeroReady();
+            console.warn(
+              "No local hero model found. Using fallback procedural hero.",
+            );
+            return;
+          }
+
+          const url = HERO_MODEL_CANDIDATES[index];
+          loader.load(
+            url,
+            (gltf) => {
+              heroModel = gltf.scene || gltf.scenes[0];
+              heroModel.scale.setScalar(HERO_SCALE);
+              brightenHeroModel(heroModel);
+              heroModel.rotation.y = HERO_YAW_OFFSET;
+              heroBarrelRoot.add(heroModel);
+              registerHeroLookRig(heroModel);
+
+              if (gltf.animations && gltf.animations.length > 0) {
+                heroMixer = new THREE.AnimationMixer(heroModel);
+                heroMixer.clipAction(gltf.animations[0]).play();
+              }
+
+              markHeroReady();
+              console.log(`Hero model loaded from ${url}`);
+            },
+            undefined,
+            () => tryLoad(index + 1),
+          );
+        };
+
+        tryLoad(0);
+      }
+    </script>
+  </body>
 </html>
