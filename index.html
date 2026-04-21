@@ -505,10 +505,18 @@
         const key = resolveCityPresetKey(searchParams.get("city"));
         return CITY_PRESETS[key] ?? CITY_PRESETS[DEFAULT_CITY_KEY];
       }
+      function getInitialAppMode() {
+        const searchParams = new URLSearchParams(window.location.search);
+        const normalized = String(searchParams.get("mode") ?? "")
+          .trim()
+          .toLowerCase();
+        return normalized === "hero-only" ? "hero-only" : "world";
+      }
       const activeCityKey = resolveCityPresetKey(
         new URLSearchParams(window.location.search).get("city"),
       );
       const activeCityPreset = getInitialCityPreset();
+      const activeAppMode = getInitialAppMode();
       const HERO_TOKYO_LAT = CITY_PRESETS.tk.lat;
       const HERO_TOKYO_LON = CITY_PRESETS.tk.lon;
       const HERO_TOKYO_HEIGHT = CITY_PRESETS.tk.height;
@@ -613,6 +621,7 @@
       };
 
       let camera, scene, renderer;
+      let heroScene, heroCamera, heroRenderer;
       let tiles, controls;
       let clouds, aerialPerspective;
       const cityReadout = document.getElementById("city-readout");
@@ -623,7 +632,7 @@
       const compassNeedle = document.getElementById("compass-needle");
       const startOverlay = document.getElementById("start-overlay");
       const startOverlayTitle = startOverlay.querySelector("h1");
-      let heroRoot, heroModel, heroMixer, heroTrail;
+      let heroRoot, heroRenderRoot, heroModel, heroMixer, heroTrail;
       let birdRoot,
         birdActive = null;
       let birdSpawnAt = 0;
@@ -648,7 +657,7 @@
         camera = new THREE.PerspectiveCamera(
           75,
           window.innerWidth / window.innerHeight,
-          10,
+          50,
           1e6,
         );
 
@@ -657,14 +666,28 @@
 
         // renderer
         renderer = new THREE.WebGLRenderer({
+          antialias: true,
+          logarithmicDepthBuffer: true,
           outputBufferType: THREE.HalfFloatType,
         });
-        renderer.setPixelRatio(window.devicePixelRatio);
+
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.toneMapping = THREE.AgXToneMapping;
-        renderer.toneMappingExposure = 10;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.0;
         document.body.appendChild(renderer.domElement);
         document.title = `Invencível voando sobre ${activeCityPreset.label} 🌍`;
+
+        initHeroRenderScene();
+
+        if (activeAppMode === "hero-only") {
+          renderer.domElement.style.display = "none";
+          await initHeroOnlyMode();
+          heroRenderer.setAnimationLoop(animateHeroOnly);
+          window.addEventListener("resize", onWindowResize);
+          onWindowResize();
+          return;
+        }
 
         // loader
         const dracoLoader = new DRACOLoader();
@@ -707,7 +730,6 @@
         scene.add(tiles.group);
 
         heroRoot = new THREE.Group();
-        addHeroLighting();
         scene.add(heroRoot);
         updateHeroFrame();
         heroTrail = createFlightTrail();
@@ -930,7 +952,15 @@
 
         renderer.setSize(window.innerWidth, window.innerHeight);
 
-        tiles.setResolutionFromRenderer(camera, renderer);
+        if (heroCamera && heroRenderer) {
+          heroCamera.aspect = window.innerWidth / window.innerHeight;
+          heroCamera.updateProjectionMatrix();
+          heroRenderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        if (tiles) {
+          tiles.setResolutionFromRenderer(camera, renderer);
+        }
       }
 
       function animate(time) {
@@ -946,8 +976,10 @@
 
         updateHeroFrame();
         updateHeroHeadPose();
+        updateHeroRenderPose();
+        updateHeroRenderCamera();
         if (introHeroLight) {
-          introHeroLight.intensity = introState.controlsEnabled ? 0.3 : 2.0;
+          introHeroLight.intensity = introState.controlsEnabled ? 0.35 : 2.2;
         }
         updateBirds(_deltaTime);
         updateFlightTrail();
@@ -961,6 +993,61 @@
         updateLoadingBadge(time);
 
         renderer.render(scene, camera);
+        heroRenderer.render(heroScene, heroCamera);
+      }
+
+      function animateHeroOnly(time) {
+        _deltaTime = _prevTime === 0 ? 0 : (time - _prevTime) / 1000;
+        _prevTime = time;
+
+        updateFpsReadout(time);
+        if (heroMixer) {
+          heroMixer.update(_deltaTime);
+        }
+
+        updateHeroRenderPose();
+        updateHeroRenderCamera(true);
+        heroRenderer.render(heroScene, heroCamera);
+      }
+
+      async function initHeroOnlyMode() {
+        loadingBadge.textContent = "Carregando heroi...";
+        startOverlay.classList.add("hidden");
+        heroRoot = new THREE.Group();
+        introState.controlsEnabled = false;
+        loadHeroModel();
+      }
+
+      function initHeroRenderScene() {
+        heroScene = new THREE.Scene();
+        heroRenderRoot = new THREE.Group();
+        heroScene.add(heroRenderRoot);
+
+        heroCamera = new THREE.PerspectiveCamera(
+          50,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          4000,
+        );
+        heroScene.add(heroCamera);
+
+        heroRenderer = new THREE.WebGLRenderer({
+          antialias: true,
+          alpha: true,
+        });
+        heroRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        heroRenderer.setSize(window.innerWidth, window.innerHeight);
+        heroRenderer.outputColorSpace = THREE.SRGBColorSpace;
+        heroRenderer.toneMapping = THREE.ACESFilmicToneMapping;
+        heroRenderer.toneMappingExposure = 1.0;
+        heroRenderer.domElement.style.position = "fixed";
+        heroRenderer.domElement.style.inset = "0";
+        heroRenderer.domElement.style.zIndex = "2";
+        heroRenderer.domElement.style.pointerEvents = "none";
+        heroRenderer.domElement.style.background = "transparent";
+        document.body.appendChild(heroRenderer.domElement);
+
+        addHeroLighting(heroRenderRoot, heroCamera);
       }
 
       function markLoadingActivity() {
@@ -970,6 +1057,12 @@
           loadingBadge.classList.remove("hidden");
           loadingBadge.textContent = "Carregando mundo...";
         }
+      }
+
+      function markHeroReady() {
+        if (activeAppMode !== "hero-only") return;
+        loadingState.ready = true;
+        loadingBadge.classList.add("hidden");
       }
 
       function updateLoadingBadge(time) {
@@ -1419,6 +1512,96 @@
         }
       }
 
+      function updateHeroRenderPose() {
+        if (!heroRenderRoot) return;
+
+        heroRenderRoot.position.set(0, 0, 0);
+        heroRenderRoot.quaternion.setFromEuler(
+          new THREE.Euler(flight.pitch * 0.9, 0, -flight.roll * 0.92, "YXZ"),
+        );
+        heroRenderRoot.rotateY(HERO_YAW_OFFSET);
+      }
+
+      function updateHeroRenderCamera(forceSnap = false) {
+        if (!heroCamera || !heroRenderRoot) return;
+
+        cameraOrbit.yaw += (cameraOrbit.targetYaw - cameraOrbit.yaw) * 0.14;
+        cameraOrbit.pitch +=
+          (cameraOrbit.targetPitch - cameraOrbit.pitch) * 0.14;
+
+        const speedRatio = THREE.MathUtils.clamp(
+          Math.abs(flight.speed) / SUPERSONIC_SPEED,
+          0,
+          1,
+        );
+        const followDistance = THREE.MathUtils.lerp(
+          CAMERA_FOLLOW_DISTANCE,
+          360,
+          speedRatio,
+        );
+        const followHeight = THREE.MathUtils.lerp(
+          CAMERA_FOLLOW_HEIGHT,
+          120,
+          speedRatio,
+        );
+        const introCameraProgress = easeOutCubic(introState.progress);
+        const introDistance = THREE.MathUtils.lerp(
+          130,
+          175,
+          introCameraProgress,
+        );
+        const introHeight = THREE.MathUtils.lerp(54, 64, introCameraProgress);
+        const distance = introState.controlsEnabled
+          ? followDistance
+          : introDistance;
+        const height = introState.controlsEnabled ? followHeight : introHeight;
+
+        const forward = new THREE.Vector3(0, 0, -1).applyQuaternion(
+          heroRenderRoot.quaternion,
+        );
+        forward.y = 0;
+        if (forward.lengthSq() < 1e-5) {
+          forward.set(0, 0, -1);
+        }
+        forward.normalize();
+
+        const up = new THREE.Vector3(0, 1, 0);
+        const right = new THREE.Vector3().crossVectors(forward, up).normalize();
+        const orbitOffset = new THREE.Vector3(
+          0,
+          height,
+          distance,
+        ).applyQuaternion(
+          new THREE.Quaternion().setFromEuler(
+            new THREE.Euler(cameraOrbit.pitch, cameraOrbit.yaw, 0, "YXZ"),
+          ),
+        );
+
+        const targetPosition = new THREE.Vector3()
+          .copy(heroRenderRoot.position)
+          .addScaledVector(right, orbitOffset.x)
+          .addScaledVector(up, orbitOffset.y)
+          .addScaledVector(forward, -orbitOffset.z);
+
+        if (forceSnap) {
+          heroCamera.position.copy(targetPosition);
+        } else {
+          heroCamera.position.lerp(targetPosition, 0.14);
+        }
+
+        const lookAhead = introState.controlsEnabled
+          ? CAMERA_LOOK_AHEAD
+          : INTRO_CAMERA_LOOK_AHEAD;
+        const lookUp = introState.controlsEnabled ? 110 : 42;
+        const lookTarget = new THREE.Vector3()
+          .copy(heroRenderRoot.position)
+          .addScaledVector(forward, lookAhead)
+          .addScaledVector(up, lookUp);
+
+        heroCamera.up.copy(up);
+        heroCamera.lookAt(lookTarget);
+      }
+
       function updateChaseCamera(snapToTarget = false) {
         if (!flight.followCamera) return;
 
@@ -1784,21 +1967,26 @@
         return hero;
       }
 
-      function addHeroLighting() {
-        const keyLight = new THREE.PointLight(0xffffff, 4, 9000);
-        keyLight.position.set(240, 360, 520);
-        heroRoot.add(keyLight);
+      function addHeroLighting(targetRoot, targetCamera) {
+        const hemi = new THREE.HemisphereLight(0xffffff, 0x223344, 1.9);
+        hemi.position.set(0, 1, 0);
+        targetRoot.add(hemi);
 
-        introHeroLight = new THREE.PointLight(0xffffff, 2.0, 1200, 2);
-        camera.add(introHeroLight);
+        const keyLight = new THREE.DirectionalLight(0xffffff, 2.8);
+        keyLight.position.set(2.5, 3.4, 4.8);
+        targetRoot.add(keyLight);
 
-        const fillLight = new THREE.PointLight(0x8ee8ff, 2.2, 6500);
-        fillLight.position.set(-420, 160, -360);
-        heroRoot.add(fillLight);
+        const fillLight = new THREE.DirectionalLight(0x8ee8ff, 1.3);
+        fillLight.position.set(-3.5, 1.4, 2.2);
+        targetRoot.add(fillLight);
 
-        const rimLight = new THREE.DirectionalLight(0xffffff, 2.6);
-        rimLight.position.set(-1, 0.4, -0.3);
-        heroRoot.add(rimLight);
+        const rimLight = new THREE.DirectionalLight(0xffffff, 1.8);
+        rimLight.position.set(-2.2, 0.8, -3.2);
+        targetRoot.add(rimLight);
+
+        introHeroLight = new THREE.PointLight(0xffffff, 2.2, 900, 2);
+        introHeroLight.position.set(0, 70, 160);
+        targetCamera.add(introHeroLight);
       }
 
       function addBirdLighting() {
@@ -1812,15 +2000,30 @@
       }
 
       function brightenHeroModel(model) {
+        const maxAnisotropy = renderer.capabilities.getMaxAnisotropy();
+
         model.traverse((child) => {
           if (!child.isMesh || !child.material) return;
 
           const materials = Array.isArray(child.material)
             ? child.material
             : [child.material];
+
           child.material = Array.isArray(child.material)
             ? materials.map((material) => brightenHeroMaterial(material))
             : brightenHeroMaterial(child.material);
+
+          const finalMaterials = Array.isArray(child.material)
+            ? child.material
+            : [child.material];
+
+          for (const material of finalMaterials) {
+            if (material.map) {
+              material.map.anisotropy = maxAnisotropy;
+              material.map.needsUpdate = true;
+            }
+          }
+
           child.castShadow = false;
           child.receiveShadow = false;
         });
@@ -1857,33 +2060,24 @@
 
       function brightenHeroMaterial(material) {
         const nextMaterial = material.clone();
-        nextMaterial.toneMapped = false;
+
+        nextMaterial.toneMapped = true;
         nextMaterial.needsUpdate = true;
 
-        if ("color" in nextMaterial && nextMaterial.color) {
-          nextMaterial.color = nextMaterial.color
-            .clone()
-            .offsetHSL(0, HERO_SATURATION_BOOST, 0);
-        }
         if ("roughness" in nextMaterial) {
           nextMaterial.roughness = Math.min(
             nextMaterial.roughness ?? 0.65,
-            0.62,
+            0.75,
           );
         }
+
         if ("metalness" in nextMaterial) {
-          nextMaterial.metalness = Math.min(nextMaterial.metalness ?? 0, 0.08);
+          nextMaterial.metalness = Math.min(nextMaterial.metalness ?? 0, 0.05);
         }
-        if ("envMapIntensity" in nextMaterial) {
-          nextMaterial.envMapIntensity = 1.8;
-        }
+
         if ("emissive" in nextMaterial) {
-          const baseColor = nextMaterial.color || new THREE.Color(0xffffff);
-          nextMaterial.emissive = baseColor.clone().multiplyScalar(0.18);
-          nextMaterial.emissiveIntensity = Math.max(
-            nextMaterial.emissiveIntensity || 0,
-            0.38,
-          );
+          nextMaterial.emissive.set(0x000000);
+          nextMaterial.emissiveIntensity = 0;
         }
 
         return nextMaterial;
@@ -1894,7 +2088,8 @@
         const tryLoad = (index) => {
           if (index >= HERO_MODEL_CANDIDATES.length) {
             heroModel = createFallbackHero();
-            heroRoot.add(heroModel);
+            heroRenderRoot.add(heroModel);
+            markHeroReady();
             console.warn(
               "No local hero model found. Using fallback procedural hero.",
             );
@@ -1909,7 +2104,7 @@
               heroModel.scale.setScalar(HERO_SCALE);
               brightenHeroModel(heroModel);
               heroModel.rotation.y = HERO_YAW_OFFSET;
-              heroRoot.add(heroModel);
+              heroRenderRoot.add(heroModel);
               registerHeroLookRig(heroModel);
 
               if (gltf.animations && gltf.animations.length > 0) {
@@ -1917,6 +2112,7 @@
                 heroMixer.clipAction(gltf.animations[0]).play();
               }
 
+              markHeroReady();
               console.log(`Hero model loaded from ${url}`);
             },
             undefined,
