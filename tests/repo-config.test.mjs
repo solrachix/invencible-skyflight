@@ -7,7 +7,10 @@ const config = JSON.parse(
 
 assert.equal(config.project_name, "Invencible Skyflight");
 assert.equal(config.type, "web");
-assert.equal(config.template_url, "./assets/screenshots/flight-sao-paulo.jpeg");
+assert.equal(
+  config.template_url,
+  "https://raw.githubusercontent.com/solrachix/invencible-skyflight/master/assets/screenshots/flight-sao-paulo.jpeg",
+);
 assert.equal(
   config.site_url,
   "https://solrachix.github.io/invencible-skyflight/?city=tk",
