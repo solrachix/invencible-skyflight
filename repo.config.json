@@ -1,0 +1,19 @@
+{
+  "project_name": "Invencible Skyflight",
+  "type": "web",
+  "template_url": "./assets/screenshots/flight-sao-paulo.jpeg",
+  "logo_url": null,
+  "description_pt": "Experimento em Three.js com voo sobre cidades reais, tiles 3D fotorealistas, nuvens, atmosfera e controles de voo.",
+  "site_url": "https://solrachix.github.io/invencible-skyflight/?city=tk",
+  "links": [
+    {
+      "label": "Site",
+      "url": "https://solrachix.github.io/invencible-skyflight/?city=tk"
+    },
+    {
+      "label": "GitHub",
+      "url": "https://github.com/solrachix/invencible-skyflight"
+    }
+  ],
+  "readme_path": "README.md"
+}
